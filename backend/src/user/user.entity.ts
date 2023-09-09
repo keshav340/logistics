@@ -19,6 +19,10 @@ export class User {
   @Field(() => UserType)
   userType: UserType;
 
+  @Column({ type: 'json', nullable: true })
+  @Field(() => [String], { nullable: true })
+  subTypes: string[];
+
   @BeforeInsert()
   generateBillingCode() {
     this.billingCodeofCompany = generateBillingCode();

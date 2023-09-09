@@ -1,9 +1,9 @@
 // user.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import { CustomerInput, VendorInput, OverseasAgentInput } from './user.input';
 
 @Injectable()
 export class UserService {
@@ -12,43 +12,41 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(user: User): Promise<User> {
-    const { userType, ...userData } = user;
-
-    // Based on the userType, customize the user creation logic
-    let newUser: User;
-
-    switch (userType) {
-      case userType.ADMIN:
-        // Create an admin user
-        newUser = this.userRepository.create({
-          userType,
-          ...userData,
-          // Add admin-specific fields here
-        });
-        break;
-      case userType.VENDOR:
-        /
-        newUser = this.userRepository.create({
-          userType,
-          ...userData,
-          // Add vendor-specific fields here
-        });
-        break;
-      case userType.CUSTOMER:
-        
-        newUser = this.userRepository.create({
-          userType,
-          ...userData,
-          // Add customer-specific fields here
-        });
-        break;
-      default:
-        throw new Error(`Unsupported userType: ${userType}`);
-    }
-
-    return this.userRepository.save(newUser);
+  async registerCustomer(input: CustomerInput): Promise<User> {
+    
+    const customer = this.userRepository.create({
+      ...input.commonData,
+      userType: input.commonData.userType,
+      subTypes: input.commonData.subTypes,
+      // Add other fields specific to customers
+      companyName: input.companyName,
+    });
+    return await this.userRepository.save(customer);
   }
 
-  
+  async registerVendor(input: VendorInput): Promise<User> {
+    // Implement vendor registration logic here
+    // Create a new vendor entity and save it to the database
+    const vendor = this.userRepository.create({
+      ...input.commonData,
+      userType: input.commonData.userType,
+      subTypes: input.commonData.subTypes,
+      // Add other fields specific to vendors
+      companyName: input.companyName,
+    });
+    return await this.userRepository.save(vendor);
+  }
+
+  async registerAgent(input: OverseasAgentInput): Promise<User> {
+    
+    const agent = this.userRepository.create({
+      ...input.commonData,
+      userType: input.commonData.userType,
+      subTypes: input.commonData.subTypes,
+      // Add other fields specific to agents
+      companyName: input.companyName,
+    });
+    return await this.userRepository.save(agent);
+  }
 }
+
