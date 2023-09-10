@@ -8,7 +8,7 @@ export enum UserType {
   
   export enum CustomerSubType {
     MANUFACTURER = 'MANUFACTURER / OEM',
-    MERCHANT_TRADER = 'MERCHANT / TRADER',
+    MERCHANT_TRADER = 'MERCHANT / TRADER', 
     MANUFACTURER_EXPORTER = 'MANUFACTURER EXPORTER',
     MERCHANT_EXPORTER = 'MERCHANT EXPORTER',
     // Add other sub-types for customers

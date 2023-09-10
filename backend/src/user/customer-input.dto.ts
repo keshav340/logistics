@@ -5,9 +5,13 @@ import { CommonUserInput } from '../common/common-user.input';
 @InputType()
 export class CustomerInput {
   @Field()
-  companyName: string;
+  company_registration_no:string
+  @Field()
+  company_pan_no :string
+  @Field()
+  gst_no :string
 
-  // Add other fields specific to customers here
+ 
 
   @Field(() => CommonUserInput)
   commonData: CommonUserInput;
