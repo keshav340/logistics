@@ -1,14 +1,17 @@
 // overseas-agent/overseas-agent.input.ts
 import { InputType, Field } from '@nestjs/graphql';
-import { CommonUserInput } from '../common/common-user.input';
-
+import { CommonUserInput } from 'src/user/user-input.dto'
+import { OverseasAgentSubType } from 'src/enums/user.enums';
 @InputType()
 export class OverseasAgentInput {
   @Field()
-  companyName: string;
+  zip_code: string;
+  @Field()
+  Business_License_no: string;
+  @Field()
+  Company_tax_id_no: string;
+  // @Field(() =>OverseasAgentSubType, { nullable: true,defaultValue: [] })
+  // subTypes?: OverseasAgentSubType;
 
-  // Add other fields specific to overseas agents here
-
-  @Field(() => CommonUserInput)
-  commonData: CommonUserInput;
+ 
 }

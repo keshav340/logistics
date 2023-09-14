@@ -29,7 +29,7 @@ export enum MajorTradeLine {
  Bulgaria = 'Bulgaria',
  Burkina_Faso = 'Burkina Faso',
  Burundi = 'Burundi',
- Côted_Ivoire = ' Côte dIvoire',
+ 
  India = 'India',
 
 

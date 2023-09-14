@@ -1,7 +1,7 @@
 // vendor/vendor.input.ts
 import { InputType, Field } from '@nestjs/graphql';
-import { CommonUserInput } from '../common/common-user.input';
-
+import { CommonUserInput } from 'src/user/user-input.dto'
+import { VendorSubType } from 'src/enums/user.enums';
 @InputType()
 export class VendorInput {
     @Field()
@@ -10,9 +10,8 @@ export class VendorInput {
     company_pan_no :string
     @Field()
     gst_no :string
+    //@Field(() => VendorSubType, { nullable: true })
+    //subTypes?: [VendorSubType];
   
-  // Add other fields specific to vendors here
-
-  @Field(() => CommonUserInput)
-  commonData: CommonUserInput;
+ 
 }

@@ -6,8 +6,10 @@ import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { MyResolver } from './app.resolver';
+import { UsersModule } from './user/user.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
 @Module({
-  imports: [
+  imports: [WarehouseModule,UsersModule,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       playground: true,

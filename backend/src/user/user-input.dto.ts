@@ -1,15 +1,19 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { UserType, SubUserType, } from 'src/enums/user.enums';
+import { UserType } from 'src/enums/user.enums';
 import { CompanyType } from 'src/enums/company.enums';
 import { IndustryType } from 'src/enums/industry.enums';
 import { AnnualTurnover } from 'src/enums/annualturnover.enums';
+import { CustomerInput } from './customer-input.dto';
+import { VendorInput } from './vendor-input.dto';
+import { OverseasAgentInput } from './overseas-agent.input.dto';
+
 @InputType()
-export class CommonUserInput {
+export class CommonUserInput { 
   @Field(() => UserType)
   userType: UserType;
 
-  @Field(() => [SubUserType], { nullable: true })
-  subTypes?: SubUserType[];
+  //@Field(() => [SubUserType], { nullable: true })
+  //subTypes?: SubUserType[];
 
   @Field(() => CompanyType)
   companyType: CompanyType;
@@ -52,4 +56,11 @@ export class CommonUserInput {
 
   @Field()
   Website_Adress: string;
+ @Field(() => CustomerInput, { nullable: true }) 
+  customerData?: CustomerInput;
+  @Field(() => VendorInput, { nullable: true })
+  vendorData?: VendorInput;
+  @Field(() => OverseasAgentInput, { nullable: true })
+  agentData?: OverseasAgentInput;
+
 }

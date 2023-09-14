@@ -90,6 +90,13 @@ export class User {
   @Field()
   @Column()
   zip_code : string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Field(() => Date)
+  created_at: Date;
+  @Column({ type: 'varchar', length: 255 })
+  @Field()
+  created_by: string;
+
 }
 
 function generateBillingCode() {

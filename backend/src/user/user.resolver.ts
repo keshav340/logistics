@@ -1,27 +1,24 @@
-// user.resolver.ts
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
+import { CommonUserInput } from './user-input.dto';
 import { User } from './user.entity';
-import { UserInput, CustomerInput, VendorInput, OverseasAgentInput } from './user.input';
 
-@Resolver(() => User)
+@Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Mutation(() => User)
-  async registerUser(@Args('input') input: UserInput): Promise<User> {
-    switch (input.userType) {
-      case UserType.CUSTOMER:
-        const customerInput: CustomerInput = input as CustomerInput;
-        return this.userService.registerCustomer(customerInput);
-      case UserType.VENDOR:
-        const vendorInput: VendorInput = input as VendorInput;
-        return this.userService.registerVendor(vendorInput);
-      case UserType.OVERSEAS_AGENT:
-        const agentInput: OverseasAgentInput = input as OverseasAgentInput;
-        return this.userService.registerAgent(agentInput);
-      default:
-        throw new Error('Invalid user type');
-    }
+  @Mutation(returns => User) // Specify the return type
+  async registerCustomer(@Args('input') input: CommonUserInput): Promise<User> {
+    return this.userService.registerCustomer(input);
+  }
+
+  @Mutation(returns => User) // Specify the return type
+  async registerVendor(@Args('input') input: CommonUserInput): Promise<User> {
+    return this.userService.registerVendor(input);
+  }
+
+  @Mutation(returns => User) // Specify the return type
+  async registerAgent(@Args('input') input: CommonUserInput): Promise<User> {
+    return this.userService.registerAgent(input);
   }
 }

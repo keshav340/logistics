@@ -2,6 +2,185 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  billingCodeofCompany: String!
+  userType: UserType!
+  subTypes: [String!]
+  companyType: CompanyType!
+  industryType: IndustryType!
+  CompanyName: String!
+  Address: String!
+  State: String!
+  City: String!
+  Country: String!
+  Company_Registration_Number: String!
+  company_pan_no: String!
+  annualTurnover: AnnualTurnover!
+  GST_no: String!
+  FirstName: String!
+  LastName: String!
+  Designation: String!
+  Mobile_no: String!
+  Email_id: String!
+  Website_Adress: String!
+  majorTradeLines: [MajorTradeLine!]
+  Business_License_no: String!
+  Company_tax_id_no: String!
+  zip_code: String!
+  created_at: DateTime!
+  created_by: String!
+}
+
+"""The type of user"""
+enum UserType {
+  CUSTOMER
+  VENDOR
+  OVERSEAS_AGENT
+}
+
+"""The type of company"""
+enum CompanyType {
+  Partnership
+  private_limited
+  public_limited
+  limited_liability_partnership
+  Non_profit_cooperation
+  Inc
+  Cooperation
+  LLC
+}
+
+"""The type of industry"""
+enum IndustryType {
+  Apparels_and_garments
+  Building_and_Construction
+  Electronic_and_Electical
+  Drugs_and_pharms
+  Industrial_Machines
+  Industrial_suppplies
+  Food_and_Beverages
+  Hospital_and_Medicalsupplies
+}
+
+"""Annual Turnover Ranges"""
+enum AnnualTurnover {
+  UP_TO_10000
+  FROM_10000_TO_50000
+  FROM_50000_TO_100000
+  FROM_100000_TO_500000
+  FROM_500000_TO_1000000
+  FROM_1000000_TO_1500000
+  FROM_1500000_TO_2500000
+  FROM_2500000_TO_5000000
+  FROM_5000000_TO_10000000
+  ABOVE_10000000
+}
+
+"""The major trade line options"""
+enum MajorTradeLine {
+  Afghanisthan
+  Albania
+  Algeria
+  Andoora
+  Angola
+  Antigua_and_Barbuda
+  Argentina
+  Armenia
+  Australia
+  Austria
+  Azzerbaijan
+  Bahamas
+  Bahrain
+  Bangladesh
+  Barbados
+  Belarus
+  Belgium
+  Belize
+  Benin
+  Bhutan
+  Bolivia
+  Bosnia_and_Herzegovina
+  Botswana
+  Brazil
+  Brunei
+  Bulgaria
+  Burkina_Faso
+  Burundi
+  India
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Warehouse {
+  id: ID!
+  address: String!
+  state: String!
+  city: String!
+  pinCode: String!
+  country: String!
+}
+
 type Query {
   hello: String!
+  getWarehouses: [Warehouse!]!
+  getWarehouse(id: ID!): Warehouse!
+}
+
+type Mutation {
+  createWarehouse(input: WarehouseInput!): Warehouse!
+  updateWarehouse(id: ID!, input: WarehouseInput!): Warehouse!
+  deleteWarehouse(id: ID!): Warehouse!
+  registerCustomer(input: CommonUserInput!): User!
+  registerVendor(input: CommonUserInput!): User!
+  registerAgent(input: CommonUserInput!): User!
+}
+
+input WarehouseInput {
+  address: String!
+  state: String!
+  city: String!
+  pinCode: String!
+  country: String!
+}
+
+input CommonUserInput {
+  userType: UserType!
+  companyType: CompanyType!
+  industryType: IndustryType!
+  CompanyName: String!
+  Address: String!
+  State: String!
+  City: String!
+  Country: String!
+  annualTurnover: AnnualTurnover!
+  FirstName: String!
+  LastName: String!
+  Designation: String!
+  Mobile_no: String!
+  Email_id: String!
+  Website_Adress: String!
+  customerData: CustomerInput
+  vendorData: VendorInput
+  agentData: OverseasAgentInput
+}
+
+input CustomerInput {
+  company_registration_no: String!
+  company_pan_no: String!
+  gst_no: String!
+}
+
+input VendorInput {
+  company_registration_no: String!
+  company_pan_no: String!
+  gst_no: String!
+}
+
+input OverseasAgentInput {
+  zip_code: String!
+  Business_License_no: String!
+  Company_tax_id_no: String!
 }
