@@ -4,7 +4,7 @@
 
 type User {
   id: ID!
-  userType: UserType!
+  userType: UserType
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
   overseasAgentSubType: OverseasAgentSubType
@@ -43,6 +43,8 @@ enum OverseasAgentSubType {
 type Query {
   hello: String!
   listInitialRegistrations: [User!]!
+  listAllOtps: [String!]!
+  getOtpByEmail(email: String!): String
 }
 
 type Mutation {

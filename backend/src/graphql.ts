@@ -49,7 +49,7 @@ export interface Password {
 
 export interface User {
     id: string;
-    userType: UserType;
+    userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
@@ -62,6 +62,8 @@ export interface User {
 export interface IQuery {
     hello(): string | Promise<string>;
     listInitialRegistrations(): User[] | Promise<User[]>;
+    listAllOtps(): string[] | Promise<string[]>;
+    getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
 }
 
 export interface IMutation {

@@ -48,6 +48,17 @@ async sendOTP(
     return this.userService.listInitialRegistrations(); // Implement this method in UserService
   }
 
+  @Query(() => [String])
+  async listAllOtps(): Promise<string[]> {
+    return this.userService.listAllOtps();
+  }
+  @Query(() => String, { nullable: true }) // Allow null as a valid response
+  async getOtpByEmail(@Args('email') email: string): Promise<string | null> {
+    const otp = await this.userService.getOtpByEmail(email);
+    return otp;
+  }
+  
+
   
   
 }

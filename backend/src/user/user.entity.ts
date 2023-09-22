@@ -8,8 +8,8 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'enum', enum: UserType })
-  @Field(() => UserType)
+  @Column({ type: 'enum', enum: UserType,nullable: true })
+  @Field(() => UserType,{nullable:true})
   userType: UserType;
 
   @Column({ type: 'enum', enum: CustomerSubType, nullable: true })

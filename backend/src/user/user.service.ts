@@ -34,19 +34,23 @@ export class UserService {
 
   async sendotp(email: string): Promise<void> {
     const generateOTP = await this.generateOTP(4);
-    
+
     try {
-      const response = await mailchimpClient.messages.send({ 
+      const response = await mailchimpClient.messages.send({
         message: {
           to: [{ email }],
-          from_name: "Developer",
-          from_email: "keshav.sharma@xpressword.com",
-          subject: "OTP verification",
-          text: `Your OTP for verification is: ${generateOTP}`
-        }
+          from_name: 'Developer',
+          from_email: 'keshav.sharma@xpressword.com',
+          subject: 'OTP verification',
+          text: `Your OTP for verification is: ${generateOTP}`,
+        },
       });
-      await this.cacheManager.set(`email_${email}`, generateOTP, 3000);
-      
+      const newUser = new User();
+     newUser.email = email;
+     newUser.otp = generateOTP;
+     newUser.otp_veified = false;
+     await this.userRepository.save(newUser);
+
       
     } catch (error) {
       throw new Error(`Mailchimp send OTP error: ${error.message}`);
@@ -54,9 +58,14 @@ export class UserService {
   }
 
   async initialregisteration(input: SelectUserTypeAndSubtypeInput, emailinput: EmailInput): Promise<User> {
-    const user = new User();
+    const given = emailinput.email;
+    const user = await this.userRepository.findOne({ where:{email: given }});
     user.userType = input.userType;
-    user.email = emailinput.email;
+    const usergivenotp = emailinput.otp;
+    if (!user || user.otp !== emailinput.otp) {
+      throw new Error('Invalid OTP. Please verify OTP correctly.');
+    }
+    
   
     switch (input.userType) {
       case UserType.CUSTOMER:
@@ -72,9 +81,8 @@ export class UserService {
         throw new Error('Invalid user type');
     }
   
-    const usergivenotp = emailinput.otp;
-    const given_email = emailinput.email;
-    const storedOTP = await this.cacheManager.get(`email_${given_email}`);
+    
+    
     // if (!storedOTP || storedOTP !== usergivenotp) {
     //   console.log(storedOTP);
     //   throw new Error('Invalid OTP. Please verify OTP correctly.');
@@ -116,6 +124,25 @@ export class UserService {
     return await this.userRepository.find({
       where: { otp_veified: true }, // Filter by OTP verification status
     });
+  }
+  async listAllOtps(): Promise<string[]> {
+    // Fetch all OTPs from the database
+    const users = await this.userRepository.find();
+    const otps = users.map((user) => user.otp).filter((otp) => otp !== null);
+
+    return otps;
+  }
+  async getOtpByEmail(email: string): Promise<string | null> {
+    // Find the user by email
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    // If the user exists and has an OTP, return the OTP
+    if (user && user.otp) {
+      return user.otp;
+    }
+
+    // Return null if the user or OTP doesn't exist
+    return null;
   }
 
   // Helper functions for in-memory cache
