@@ -3,32 +3,15 @@
 # ------------------------------------------------------
 
 type User {
-  billingCodeofCompany: String!
+  id: ID!
   userType: UserType!
-  subTypes: [String!]
-  companyType: CompanyType!
-  industryType: IndustryType!
-  CompanyName: String!
-  Address: String!
-  State: String!
-  City: String!
-  Country: String!
-  Company_Registration_Number: String!
-  company_pan_no: String!
-  annualTurnover: AnnualTurnover!
-  GST_no: String!
-  FirstName: String!
-  LastName: String!
-  Designation: String!
-  Mobile_no: String!
-  Email_id: String!
-  Website_Adress: String!
-  majorTradeLines: [MajorTradeLine!]
-  Business_License_no: String!
-  Company_tax_id_no: String!
-  zip_code: String!
-  created_at: DateTime!
-  created_by: String!
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
+  email: String
+  otp: String
+  otp_veified: Boolean
+  password: String
 }
 
 """The type of user"""
@@ -38,149 +21,50 @@ enum UserType {
   OVERSEAS_AGENT
 }
 
-"""The type of company"""
-enum CompanyType {
-  Partnership
-  private_limited
-  public_limited
-  limited_liability_partnership
-  Non_profit_cooperation
-  Inc
-  Cooperation
-  LLC
+"""The subtype of a customer"""
+enum CustomerSubType {
+  MANUFACTURER
+  MERCHANT_TRADER
+  MANUFACTURER_EXPORTER
+  MERCHANT_EXPORTER
 }
 
-"""The type of industry"""
-enum IndustryType {
-  Apparels_and_garments
-  Building_and_Construction
-  Electronic_and_Electical
-  Drugs_and_pharms
-  Industrial_Machines
-  Industrial_suppplies
-  Food_and_Beverages
-  Hospital_and_Medicalsupplies
+"""The subtype of a vendor"""
+enum VendorSubType {
+  WAREHOUSE_COMPANY
+  COLD_STORAGE_COMPANY
 }
 
-"""Annual Turnover Ranges"""
-enum AnnualTurnover {
-  UP_TO_10000
-  FROM_10000_TO_50000
-  FROM_50000_TO_100000
-  FROM_100000_TO_500000
-  FROM_500000_TO_1000000
-  FROM_1000000_TO_1500000
-  FROM_1500000_TO_2500000
-  FROM_2500000_TO_5000000
-  FROM_5000000_TO_10000000
-  ABOVE_10000000
-}
-
-"""The major trade line options"""
-enum MajorTradeLine {
-  Afghanisthan
-  Albania
-  Algeria
-  Andoora
-  Angola
-  Antigua_and_Barbuda
-  Argentina
-  Armenia
-  Australia
-  Austria
-  Azzerbaijan
-  Bahamas
-  Bahrain
-  Bangladesh
-  Barbados
-  Belarus
-  Belgium
-  Belize
-  Benin
-  Bhutan
-  Bolivia
-  Bosnia_and_Herzegovina
-  Botswana
-  Brazil
-  Brunei
-  Bulgaria
-  Burkina_Faso
-  Burundi
-  India
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Warehouse {
-  id: ID!
-  address: String!
-  state: String!
-  city: String!
-  pinCode: String!
-  country: String!
+"""The subtype of an overseas agent"""
+enum OverseasAgentSubType {
+  FOREIGN_AGENT
 }
 
 type Query {
   hello: String!
-  getWarehouses: [Warehouse!]!
-  getWarehouse(id: ID!): Warehouse!
+  listInitialRegistrations: [User!]!
 }
 
 type Mutation {
-  createWarehouse(input: WarehouseInput!): Warehouse!
-  updateWarehouse(id: ID!, input: WarehouseInput!): Warehouse!
-  deleteWarehouse(id: ID!): Warehouse!
-  registerCustomer(input: CommonUserInput!): User!
-  registerVendor(input: CommonUserInput!): User!
-  registerAgent(input: CommonUserInput!): User!
+  acceptEmail(emailInput: EmailInput!): User!
+  sendOTP(email: String!): String!
+  initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
+  savePassword(passwordInput: Password!, userId: Float!): User!
 }
 
-input WarehouseInput {
-  address: String!
-  state: String!
-  city: String!
-  pinCode: String!
-  country: String!
+input EmailInput {
+  email: String!
+  otp: String!
 }
 
-input CommonUserInput {
-  userType: UserType!
-  companyType: CompanyType!
-  industryType: IndustryType!
-  CompanyName: String!
-  Address: String!
-  State: String!
-  City: String!
-  Country: String!
-  annualTurnover: AnnualTurnover!
-  FirstName: String!
-  LastName: String!
-  Designation: String!
-  Mobile_no: String!
-  Email_id: String!
-  Website_Adress: String!
-  customerData: CustomerInput
-  vendorData: VendorInput
-  agentData: OverseasAgentInput
+input SelectUserTypeAndSubtypeInput {
+  userType: UserType
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
 }
 
-input CustomerInput {
-  company_registration_no: String!
-  company_pan_no: String!
-  gst_no: String!
-}
-
-input VendorInput {
-  company_registration_no: String!
-  company_pan_no: String!
-  gst_no: String!
-}
-
-input OverseasAgentInput {
-  zip_code: String!
-  Business_License_no: String!
-  Company_tax_id_no: String!
+input Password {
+  password: String!
+  confirmPassword: String!
 }

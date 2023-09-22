@@ -1,111 +1,42 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { UserType } from 'src/enums/user.enums';
-import { CompanyType } from 'src/enums/company.enums';
-import { IndustryType } from 'src/enums/industry.enums';
-import { AnnualTurnover } from 'src/enums/annualturnover.enums';
-import { MajorTradeLine } from 'src/enums/majortradelines.enums';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectType, Field, Int,ID } from '@nestjs/graphql'; // Import the necessary decorators
+import { CustomerSubType, UserType, VendorSubType, OverseasAgentSubType } from 'src/enums/user.enums';
 @Entity()
-@ObjectType()
+@ObjectType() // Decorate your class with @ObjectType()
 export class User {
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  @Field()
-  billingCodeofCompany: string;
 
   @Column({ type: 'enum', enum: UserType })
   @Field(() => UserType)
   userType: UserType;
 
-  @Column({ type: 'json', nullable: true })
-  @Field(() => [String], { nullable: true })
-  subTypes: string[];
+  @Column({ type: 'enum', enum: CustomerSubType, nullable: true })
+  @Field(() => CustomerSubType, { nullable: true }) // Decorate the field with @Field() and the correct type
+  customerSubType: CustomerSubType | null;
 
-  @BeforeInsert()
-  generateBillingCode() {
-    this.billingCodeofCompany = generateBillingCode();
-  }
-  @Column({ type: 'enum', enum: CompanyType })
-  @Field(() => CompanyType)
-  companyType: CompanyType;
-  @Column({type:'enum',enum:IndustryType})
-  @Field(() => IndustryType)
-  industryType:IndustryType;
-  @Column()
-  @Field()
-  CompanyName:string;
-  @Column()
-  @Field()
-  Address:string;
-  @Column()
-  @Field()
-  State:string;
-  @Column()
-  @Field()
-  City:string;
-  @Column()
-  @Field()
-  Country:string;
-  @Column()
-  @Field()
-  Company_Registration_Number:string;
-  @Column()
-  @Field()
-  company_pan_no:string;
-  @Column({type:'enum',enum:AnnualTurnover})
-  @Field(() => AnnualTurnover)
-  annualTurnover:AnnualTurnover;
-  @Column()
-  @Field()
-  GST_no:string;
-  @Column()
-  @Field()
-  FirstName:string;
-  @Column()
-  @Field()
-  LastName:string;
-  @Column()
-  @Field()
-  Designation:string;
-  @Column()
-  @Field()
-  Mobile_no:string;
-  @Column()
-  @Field()
-  Email_id:string;
-  @Column()
-  @Field()
-  Website_Adress:string;
-  @Field(() => [MajorTradeLine], { nullable: true })
-  @Column('text', { array: true, default: null, nullable: true })
-  majorTradeLines: MajorTradeLine[];
-  @Field()
-  @Column()
-  Business_License_no : string;
-  @Field( )
-  @Column()
-  Company_tax_id_no : string;
-  @Field()
-  @Column()
-  zip_code : string;
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  @Field(() => Date)
-  created_at: Date;
-  @Column({ type: 'varchar', length: 255 })
-  @Field()
-  created_by: string;
+  @Column({ type: 'enum', enum: VendorSubType, nullable: true })
+  @Field(() => VendorSubType, { nullable: true }) // Decorate the field with @Field() and the correct type
+  vendorSubType: VendorSubType | null;
 
+  @Column({ type: 'enum', enum: OverseasAgentSubType, nullable: true })
+  @Field(() => OverseasAgentSubType, { nullable: true }) // Decorate the field with @Field() and the correct type
+  overseasAgentSubType: OverseasAgentSubType | null;
+  @Column({nullable:true})
+  @Field({nullable:true})
+  email: string;
+  @Column({nullable:true})
+  @Field({nullable:true})
+  otp: string;
+  @Column({nullable:true})
+  @Field({nullable:true})
+  otp_veified: boolean;
+  @Column({nullable:true})
+  @Field({nullable:true})
+  password: string;
+
+  // ... Other fields ...
 }
 
-function generateBillingCode() {
- 
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const codeLength = 10;
-  let result = '';
-  for (let i = 0; i < codeLength; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
+
