@@ -9,6 +9,7 @@ import { User } from './user.entity';
 import { UseGuards, HttpException, HttpStatus, } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -76,7 +77,7 @@ async sendOTP(
    // const hashedPassword = await bcrypt.hash(password, 10);
 
 
-    if (user && user.password === password) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       
       const ctx = { user };
       let payload ={

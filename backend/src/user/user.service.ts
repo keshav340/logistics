@@ -111,7 +111,7 @@ export class UserService {
     }
     if (user.otp_veified == true) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = password;
+      user.password = hashedPassword;
     } else {
       throw new Error('OTP is not verified');
     }

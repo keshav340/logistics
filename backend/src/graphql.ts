@@ -49,7 +49,7 @@ export interface Password {
 
 export interface User {
     id: string;
-    userType: UserType;
+    userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
