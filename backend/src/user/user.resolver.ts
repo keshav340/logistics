@@ -8,7 +8,7 @@ import { EmailInput } from './inputdto/email.input';
 import { User } from './user.entity';
 import { UseGuards, HttpException, HttpStatus, } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-
+import * as jwt from 'jsonwebtoken';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -79,7 +79,14 @@ async sendOTP(
     if (user && user.password === password) {
       
       const ctx = { user };
-      return 'User authenticated successfully';
+      let payload ={
+        email: user.email,
+        id: user.id,
+        userType: user.userType,
+        customerSubType: user.customerSubType,
+
+      };
+      return jwt.sign(payload, 'secret', { expiresIn: '1h' });
     } else {
       throw new HttpException('Unauthenticated', HttpStatus.UNAUTHORIZED);
     }
