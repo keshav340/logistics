@@ -10,7 +10,7 @@ export class User {
 
   @Column({ type: 'enum', enum: UserType, })
   @Field(() => UserType)
-  userType: UserType;
+  userType: UserType | null;
 
   @Column({ type: 'enum', enum: CustomerSubType, nullable: true })
   @Field(() => CustomerSubType, { nullable: true }) // Decorate the field with @Field() and the correct type

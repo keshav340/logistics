@@ -7,7 +7,8 @@ import { UserType } from 'src/enums/user.enums';
 import { EmailService } from 'src/email/email.service';
 import { SelectUserTypeAndSubtypeInput } from './inputdto/selectusertypesubtype.input';
 import { Password } from './inputdto/password.input';
-const mailchimpClient = require("@mailchimp/mailchimp_transactional")("md-XQIQjSZT1BiLRjhCCM_kxQ");
+const sgMail = require('@sendgrid/mail')
+
 import * as bcrypt from 'bcrypt';
 import { OtpService } from './otp.service';
 
@@ -29,41 +30,44 @@ export class UserService {
     user.email = input.email;
     return await this.userRepository.save(user);
   }
-
   async sendotp(email: string): Promise<void> {
+    console.log(email, typeof(email));
     const generateOTP = await this.generateOTP(4);
-
+    sgMail.setApiKey("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")
+    let sendemail = email;
+  
     try {
-      const response = await mailchimpClient.messages.send({
-        message: {
-          to: [{ email }],
-          from_name: 'Developer',
-          from_email: 'keshav.sharma@xpressword.com',
-          subject: 'OTP verification',
-          text: `Your OTP for verification is: ${generateOTP}`,
-        },
+      const response = await sgMail.send({
+        to: 'keshav2sep99@gmail.com',
+        from: 'keshav.sharma@xpressword.com',
+        subject: 'OTP verification',
+        text: `Your OTP for verification is: ${generateOTP}`,
+        html: `Your OTP for verification is: ${generateOTP}`,
       });
+      // Don't set userType here
       const newUser = new User();
-     newUser.email = email;
-     newUser.otp = generateOTP;
-     newUser.otp_veified = false;
-     await this.userRepository.save(newUser);
-
-      
+      newUser.email = email;
+      newUser.otp = generateOTP;
+      newUser.otp_veified = false;
+      //newUser.userType = UserType.CUSTOMER;
+      await this.userRepository.save(newUser);
     } catch (error) {
-      throw new Error(`Mailchimp send OTP error: ${error.message}`);
+      console.log(typeof(email));
+      console.log(error);
     }
   }
-
+  
   async initialregisteration(input: SelectUserTypeAndSubtypeInput, emailinput: EmailInput): Promise<User> {
     const given = emailinput.email;
-    const user = await this.userRepository.findOne({ where:{email: given }});
+    const user = await this.userRepository.findOne({ where: { email: given } });
+    if (!user) {
+      throw new Error('User not found'); // You can customize this error message
+    }
     user.userType = input.userType;
     const usergivenotp = emailinput.otp;
-    // if (!user || user.otp !== emailinput.otp) {
-    //   throw new Error('Invalid OTP. Please verify OTP correctly.');
-    // }
-    
+    if (!user || user.otp !== emailinput.otp) {
+      throw new Error('Invalid OTP. Please verify OTP correctly.');
+    }
   
     switch (input.userType) {
       case UserType.CUSTOMER:
@@ -79,19 +83,14 @@ export class UserService {
         throw new Error('Invalid user type');
     }
   
-    
-    
-    // if (!storedOTP || storedOTP !== usergivenotp) {
-    //   console.log(storedOTP);
-    //   throw new Error('Invalid OTP. Please verify OTP correctly.');
-    // }
     user.otp_veified = true;
     await this.userRepository.save(user);
-    
-;
+  
     return user;
   }
+  
 
+  
   async savePassword(input: Password, userId: number): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     const password = input.password;
@@ -101,7 +100,7 @@ export class UserService {
     }
     if (user.otp_veified == true) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
+      user.password = password;
     } else {
       throw new Error('OTP is not verified');
     }

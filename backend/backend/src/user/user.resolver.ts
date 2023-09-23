@@ -73,6 +73,8 @@ async sendOTP(
     @Args('password') password: string,
   ): Promise<string> {
     const user = await this.userService.findUserByEmail(email);
+   // const hashedPassword = await bcrypt.hash(password, 10);
+
 
     if (user && user.password === password) {
       
