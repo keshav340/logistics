@@ -8,9 +8,11 @@ import { EmailService } from 'src/email/email.service';
 import { SelectUserTypeAndSubtypeInput } from './inputdto/selectusertypesubtype.input';
 import { Password } from './inputdto/password.input';
 const sgMail = require('@sendgrid/mail')
-
+import axios from 'axios';
 import * as bcrypt from 'bcrypt';
 import { OtpService } from './otp.service';
+import { finalreg } from './inputdto/finalreg.input';
+import { updateUsertype } from './inputdto/updateusertype.input';
 
 @Injectable()
 export class UserService {
@@ -99,6 +101,58 @@ export class UserService {
   
     return user;
   }
+
+  async finalreg(input:finalreg,userId:number,userinput:updateUsertype):Promise<User>{
+    try{
+      const user = await this.userRepository.findOne({where:{id:userId}});
+      if (!user) {
+        throw new Error('User not found');
+      }
+      user.userType = userinput.userType;
+
+      user.companyType = input.companyType;
+      user.industryType = input.industryType;
+      user.state = input.state;
+      user.city = input.city;
+      user.country = input.country;
+      user.company_reg_no = input.company_reg_no;
+      user.annualTurnover = input.annualTurnover;
+      user.gst_no = input.gst_no;
+      user.first_name = input.first_name;
+      user.last_name = input.last_name;
+      user.Designation = input.Designation;
+      user.mobile = input.mobile;
+      user.website = input.website;
+      user.isapproved = false;
+      await this.userRepository.save(user);
+      return user;
+    
+    }
+    catch(error){
+      throw new Error(error);
+    }
+    
+  }
+ async fetchdata(gstinp:string)
+ {
+  
+  try {
+   const  apiurl = `https://gst-return-status.p.rapidapi.com/free/gstin/${gstinp}`;
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-RapidAPI-Key': '5304f85846mshf2582d3224f9f7fp1f76cdjsn855053fb983a',
+      'X-RapidAPI-Host': 'gst-return-status.p.rapidapi.com'
+    }
+    const response = await axios.get(apiurl, { headers });
+    return response.data; 
+  } catch (error) {
+    throw new Error('Failed to fetch GST data');
+  }
+
+ }
+
+
+  
   
 
   
@@ -149,7 +203,7 @@ export class UserService {
       return user.otp;
     }
 
-    // Return null if the user or OTP doesn't exist
+  
     return null;
   }
   async findUserByEmail(email: string): Promise<User> {
@@ -157,7 +211,7 @@ export class UserService {
     return user;
   }
 
-  // Helper functions for in-memory cache
+
  
 
  

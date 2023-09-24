@@ -30,6 +30,41 @@ export enum OverseasAgentSubType {
     FOREIGN_AGENT = "FOREIGN_AGENT"
 }
 
+export enum CompanyType {
+    Partnership = "Partnership",
+    private_limited = "private_limited",
+    public_limited = "public_limited",
+    limited_liability_partnership = "limited_liability_partnership",
+    Non_profit_cooperation = "Non_profit_cooperation",
+    Inc = "Inc",
+    Cooperation = "Cooperation",
+    LLC = "LLC"
+}
+
+export enum IndustryType {
+    Apparels_and_garments = "Apparels_and_garments",
+    Building_and_Construction = "Building_and_Construction",
+    Electronic_and_Electical = "Electronic_and_Electical",
+    Drugs_and_pharms = "Drugs_and_pharms",
+    Industrial_Machines = "Industrial_Machines",
+    Industrial_suppplies = "Industrial_suppplies",
+    Food_and_Beverages = "Food_and_Beverages",
+    Hospital_and_Medicalsupplies = "Hospital_and_Medicalsupplies"
+}
+
+export enum AnnualTurnover {
+    UP_TO_10000 = "UP_TO_10000",
+    FROM_10000_TO_50000 = "FROM_10000_TO_50000",
+    FROM_50000_TO_100000 = "FROM_50000_TO_100000",
+    FROM_100000_TO_500000 = "FROM_100000_TO_500000",
+    FROM_500000_TO_1000000 = "FROM_500000_TO_1000000",
+    FROM_1000000_TO_1500000 = "FROM_1000000_TO_1500000",
+    FROM_1500000_TO_2500000 = "FROM_1500000_TO_2500000",
+    FROM_2500000_TO_5000000 = "FROM_2500000_TO_5000000",
+    FROM_5000000_TO_10000000 = "FROM_5000000_TO_10000000",
+    ABOVE_10000000 = "ABOVE_10000000"
+}
+
 export interface EmailInput {
     email: string;
     otp: string;
@@ -49,6 +84,7 @@ export interface Password {
 
 export interface User {
     id: string;
+    BillingCode?: Nullable<string>;
     userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
@@ -57,6 +93,24 @@ export interface User {
     otp?: Nullable<string>;
     otp_veified?: Nullable<boolean>;
     password?: Nullable<string>;
+    companyType?: Nullable<CompanyType>;
+    industryType?: Nullable<IndustryType>;
+    companyName?: Nullable<string>;
+    state?: Nullable<string>;
+    pincode?: Nullable<string>;
+    Adress?: Nullable<string>;
+    city?: Nullable<string>;
+    country?: Nullable<string>;
+    company_reg_no?: Nullable<string>;
+    company_pan_no?: Nullable<string>;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    Designation?: Nullable<string>;
+    mobile?: Nullable<string>;
+    website?: Nullable<string>;
+    annualTurnover?: Nullable<AnnualTurnover>;
+    gst_no?: Nullable<string>;
+    isapproved?: Nullable<boolean>;
 }
 
 export interface IQuery {

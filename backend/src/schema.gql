@@ -4,6 +4,7 @@
 
 type User {
   id: ID!
+  BillingCode: String
   userType: UserType
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
@@ -12,6 +13,24 @@ type User {
   otp: String
   otp_veified: Boolean
   password: String
+  companyType: CompanyType
+  industryType: IndustryType
+  companyName: String
+  state: String
+  pincode: String
+  Adress: String
+  city: String
+  country: String
+  company_reg_no: String
+  company_pan_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  isapproved: Boolean
 }
 
 """The type of user"""
@@ -38,6 +57,44 @@ enum VendorSubType {
 """The subtype of an overseas agent"""
 enum OverseasAgentSubType {
   FOREIGN_AGENT
+}
+
+"""The type of company"""
+enum CompanyType {
+  Partnership
+  private_limited
+  public_limited
+  limited_liability_partnership
+  Non_profit_cooperation
+  Inc
+  Cooperation
+  LLC
+}
+
+"""The type of industry"""
+enum IndustryType {
+  Apparels_and_garments
+  Building_and_Construction
+  Electronic_and_Electical
+  Drugs_and_pharms
+  Industrial_Machines
+  Industrial_suppplies
+  Food_and_Beverages
+  Hospital_and_Medicalsupplies
+}
+
+"""Annual Turnover Ranges"""
+enum AnnualTurnover {
+  UP_TO_10000
+  FROM_10000_TO_50000
+  FROM_50000_TO_100000
+  FROM_100000_TO_500000
+  FROM_500000_TO_1000000
+  FROM_1000000_TO_1500000
+  FROM_1500000_TO_2500000
+  FROM_2500000_TO_5000000
+  FROM_5000000_TO_10000000
+  ABOVE_10000000
 }
 
 type Query {
