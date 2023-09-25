@@ -65,24 +65,44 @@ export enum AnnualTurnover {
     ABOVE_10000000 = "ABOVE_10000000"
 }
 
-export interface EmailInput {
+export class EmailInput {
     email: string;
     otp: string;
 }
 
-export interface SelectUserTypeAndSubtypeInput {
+export class SelectUserTypeAndSubtypeInput {
     userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
-export interface Password {
+export class Password {
     password: string;
     confirmPassword: string;
 }
 
-export interface User {
+export class Finalreg {
+    companyType?: Nullable<CompanyType>;
+    industryType?: Nullable<IndustryType>;
+    state?: Nullable<string>;
+    city?: Nullable<string>;
+    country?: Nullable<string>;
+    company_reg_no?: Nullable<string>;
+    annualTurnover?: Nullable<AnnualTurnover>;
+    gst_no?: Nullable<string>;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    Designation?: Nullable<string>;
+    mobile?: Nullable<string>;
+    website?: Nullable<string>;
+}
+
+export class UpdateUsertype {
+    userType?: Nullable<UserType>;
+}
+
+export class User {
     id: string;
     BillingCode?: Nullable<string>;
     userType?: Nullable<UserType>;
@@ -111,21 +131,36 @@ export interface User {
     annualTurnover?: Nullable<AnnualTurnover>;
     gst_no?: Nullable<string>;
     isapproved?: Nullable<boolean>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+    finalregapproved?: Nullable<boolean>;
 }
 
-export interface IQuery {
-    hello(): string | Promise<string>;
-    listInitialRegistrations(): User[] | Promise<User[]>;
-    listAllOtps(): string[] | Promise<string[]>;
-    getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
+export abstract class IQuery {
+    abstract hello(): string | Promise<string>;
+
+    abstract listInitialRegistrations(): User[] | Promise<User[]>;
+
+    abstract waitingforapproval(): User[] | Promise<User[]>;
+
+    abstract listAllOtps(): string[] | Promise<string[]>;
+
+    abstract getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
 }
 
-export interface IMutation {
-    acceptEmail(emailInput: EmailInput): User | Promise<User>;
-    sendOTP(email: string): string | Promise<string>;
-    initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
-    savePassword(passwordInput: Password, userId: number): User | Promise<User>;
-    login(email: string, password: string): string | Promise<string>;
+export abstract class IMutation {
+    abstract acceptEmail(emailInput: EmailInput): User | Promise<User>;
+
+    abstract sendOTP(email: string): string | Promise<string>;
+
+    abstract initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
+
+    abstract savePassword(passwordInput: Password, userId: number): User | Promise<User>;
+
+    abstract login(email: string, password: string): string | Promise<string>;
+
+    abstract finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

@@ -11,8 +11,8 @@ const sgMail = require('@sendgrid/mail')
 import axios from 'axios';
 import * as bcrypt from 'bcrypt';
 import { OtpService } from './otp.service';
-import { finalreg } from './inputdto/finalreg.input';
-import { updateUsertype } from './inputdto/updateusertype.input';
+import { Finalreg } from './inputdto/finalreg.input';
+import { UpdateUsertype } from './inputdto/updateusertype.input';
 
 @Injectable()
 export class UserService {
@@ -102,11 +102,11 @@ export class UserService {
     return user;
   }
 
-  async finalreg(input:finalreg,userId:number,userinput:updateUsertype):Promise<User>{
+  async finalreg(input:Finalreg,userId:number,userinput:UpdateUsertype):Promise<User>{
     try{
       const user = await this.userRepository.findOne({where:{id:userId}});
-      if (!user) {
-        throw new Error('User not found');
+      if (!user || !user.otp_veified) {
+        throw new Error('User not found or OTP not verified');
       }
       user.userType = userinput.userType;
 
@@ -124,6 +124,7 @@ export class UserService {
       user.mobile = input.mobile;
       user.website = input.website;
       user.isapproved = false;
+      user.finalregapproved = true;
       await this.userRepository.save(user);
       return user;
     
@@ -185,6 +186,12 @@ export class UserService {
     // Use the TypeORM repository to fetch the initial registration records
     return await this.userRepository.find({
       where: { otp_veified: true }, // Filter by OTP verification status
+    });
+  }
+  async listapprovedusers(): Promise<User[]> {
+    // Use the TypeORM repository to fetch the initial registration records
+    return await this.userRepository.find({
+      where: { isapproved:false }, // Filter by OTP verification status
     });
   }
   async listAllOtps(): Promise<string[]> {

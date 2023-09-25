@@ -10,6 +10,8 @@ import { UseGuards, HttpException, HttpStatus, } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
+import { Finalreg } from './inputdto/finalreg.input';
+import { UpdateUsertype } from './inputdto/updateusertype.input';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -30,6 +32,8 @@ async sendOTP(
 }
 
 
+
+
   @Mutation(() => User)
   async initialRegistration(
     @Args('userInput') userInput: SelectUserTypeAndSubtypeInput,
@@ -45,10 +49,16 @@ async sendOTP(
   ): Promise<User> {
     return this.userService.savePassword(passwordInput, userId);
   }
+ 
+
 
   @Query(() => [User]) // Define a query to list initial registrations
   async listInitialRegistrations(): Promise<User[]> {
     return this.userService.listInitialRegistrations(); // Implement this method in UserService
+  }
+  @Query(() => [User]) 
+  async waitingforapproval(): Promise<User[]> {
+    return this.userService.listapprovedusers();
   }
 
   @Query(() => [String])
@@ -94,6 +104,14 @@ async sendOTP(
   }
   
   
+  @Mutation(() => User)
+  async finalreg(
+    @Args('input') input: Finalreg, // Correct the casing here
+    @Args('userId') userId: number,
+    @Args('userInput') userInput: UpdateUsertype, // Correct the casing here
+  ): Promise<User> {
+    return this.userService.finalreg(input, userId, userInput);
+  }
   
 
   

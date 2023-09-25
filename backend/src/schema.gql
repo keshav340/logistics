@@ -31,6 +31,9 @@ type User {
   annualTurnover: AnnualTurnover
   gst_no: String
   isapproved: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  finalregapproved: Boolean
 }
 
 """The type of user"""
@@ -97,9 +100,15 @@ enum AnnualTurnover {
   ABOVE_10000000
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   hello: String!
   listInitialRegistrations: [User!]!
+  waitingforapproval: [User!]!
   listAllOtps: [String!]!
   getOtpByEmail(email: String!): String
 }
@@ -110,6 +119,7 @@ type Mutation {
   initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
   savePassword(passwordInput: Password!, userId: Float!): User!
   login(email: String!, password: String!): String!
+  finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
 }
 
 input EmailInput {
@@ -127,4 +137,24 @@ input SelectUserTypeAndSubtypeInput {
 input Password {
   password: String!
   confirmPassword: String!
+}
+
+input Finalreg {
+  companyType: CompanyType
+  industryType: IndustryType
+  state: String
+  city: String
+  country: String
+  company_reg_no: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+}
+
+input UpdateUsertype {
+  userType: UserType
 }

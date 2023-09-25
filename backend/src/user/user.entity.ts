@@ -96,6 +96,16 @@ gst_no: string;
 @Column({nullable:true})
 @Field({nullable:true})
 isapproved: boolean;
+@Column({nullable:true})
+@Field({nullable:true})
+createdAt: Date;
+@Column({nullable:true})
+@Field({nullable:true})
+updatedAt: Date;
+@Column({nullable:true})
+@Field({nullable:true})
+finalregapproved: boolean;
+
 
 
 
