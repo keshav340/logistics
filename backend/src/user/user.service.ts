@@ -233,13 +233,22 @@ export class UserService {
 
     
   }
-  async approveUser(userId: number,input:UpdateapprovedUsertype): Promise<User> {
+  async approveUser(userId: number,input:UpdateapprovedUsertype,input1:SelectUserTypeAndSubtypeInput,input2:EmailInput,input3:Password): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: false} });
       if (!user) {
         throw new Error('User not found');
       }
       user.userType = input.userType;
+      user.customerSubType = input1.customerSubType;
+      user.vendorSubType = input1.vendorSubType;
+      user.overseasAgentSubType = input1.overseasAgentSubType;
+      user.email = input2.email;
+      const password = input3.password;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user.password = hashedPassword;
+
+
       user.annualTurnover = input.annualTurnover;
       user.companyType = input.companyType;
       user.industryType = input.industryType;
@@ -254,6 +263,7 @@ export class UserService {
       user.Designation = input.Designation;
       user.mobile = input.mobile;
       user.website = input.website;
+
       user.isapproved = true;
       await this.userRepository.save(user);
 

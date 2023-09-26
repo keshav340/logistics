@@ -129,8 +129,11 @@ async sendOTP(
   async approveUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
     @Args('input') input: UpdateapprovedUsertype,
+    @Args('input1') input1: SelectUserTypeAndSubtypeInput,
+    @Args('input2') input2: EmailInput,
+    @Args('input3') input3: Password,
   ): Promise<User> {
-    return this.userService.approveUser(userId, input);
+    return this.userService.approveUser(userId, input,input1,input2,input3);
   }
 
 
