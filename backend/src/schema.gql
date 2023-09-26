@@ -111,6 +111,7 @@ type Query {
   waitingforapproval: [User!]!
   listAllOtps: [String!]!
   getOtpByEmail(email: String!): String
+  listNonApprovedUsers(userType: String!): [User!]!
 }
 
 type Mutation {
@@ -120,6 +121,7 @@ type Mutation {
   savePassword(passwordInput: Password!, userId: Float!): User!
   login(email: String!, password: String!): String!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
+  approveUser(userId: Int!): User!
 }
 
 input EmailInput {

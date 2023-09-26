@@ -12,6 +12,8 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { Finalreg } from './inputdto/finalreg.input';
 import { UpdateUsertype } from './inputdto/updateusertype.input';
+import { UserType } from 'src/enums/user.enums';
+import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -112,7 +114,25 @@ async sendOTP(
   ): Promise<User> {
     return this.userService.finalreg(input, userId, userInput);
   }
+
+  @Query(() => [User])
+  async listNonApprovedUsers(
+    @Args('userType') userType: UserType,
+   
+    
+  ): Promise<User[]> {
+    return this.userService.filterlistNonApprovedUsersbyUserType(userType);
+  }
   
+  @Mutation(() => User)
+  async approveUser(@Args({ name: 'userId', type: () => Int }) userId: number) {
+    try {
+      const approvedUser = await this.userService.approveUser(userId);
+      return approvedUser;
+    } catch (error) {
+      throw new Error('Failed to approve user: ' + error.message);
+    }
+  }
 
   
   

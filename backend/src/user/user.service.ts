@@ -13,7 +13,7 @@ import * as bcrypt from 'bcrypt';
 import { OtpService } from './otp.service';
 import { Finalreg } from './inputdto/finalreg.input';
 import { UpdateUsertype } from './inputdto/updateusertype.input';
-
+import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -216,6 +216,36 @@ export class UserService {
   async findUserByEmail(email: string): Promise<User> {
     let user = await this.userRepository.findOne({ where: { email } });
     return user;
+  }
+
+  async filterlistNonApprovedUsersbyUserType(userType: UserType): Promise<User[]> {
+    return this.userRepository.find({
+      where: {
+        isapproved: false,
+        userType,
+       
+
+        
+      },
+    });
+
+
+    
+  }
+  async approveUser(userId: number): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      user.isapproved = true;
+      await this.userRepository.save(user);
+
+      return user;
+    } catch (error) {
+      throw new Error('Failed to approve user: ' + error.message);
+    }
   }
 
 

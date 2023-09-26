@@ -146,6 +146,8 @@ export abstract class IQuery {
     abstract listAllOtps(): string[] | Promise<string[]>;
 
     abstract getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
+
+    abstract listNonApprovedUsers(userType: string): User[] | Promise<User[]>;
 }
 
 export abstract class IMutation {
@@ -160,6 +162,8 @@ export abstract class IMutation {
     abstract login(email: string, password: string): string | Promise<string>;
 
     abstract finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
+
+    abstract approveUser(userId: number): User | Promise<User>;
 }
 
 export type DateTime = any;
