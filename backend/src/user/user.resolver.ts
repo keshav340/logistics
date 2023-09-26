@@ -14,6 +14,7 @@ import { Finalreg } from './inputdto/finalreg.input';
 import { UpdateUsertype } from './inputdto/updateusertype.input';
 import { UserType } from 'src/enums/user.enums';
 import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
+import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -125,14 +126,13 @@ async sendOTP(
   }
   
   @Mutation(() => User)
-  async approveUser(@Args({ name: 'userId', type: () => Int }) userId: number) {
-    try {
-      const approvedUser = await this.userService.approveUser(userId);
-      return approvedUser;
-    } catch (error) {
-      throw new Error('Failed to approve user: ' + error.message);
-    }
+  async approveUser(
+    @Args({ name: 'userId', type: () => Int }) userId: number,
+    @Args('input') input: UpdateapprovedUsertype,
+  ): Promise<User> {
+    return this.userService.approveUser(userId, input);
   }
+
 
   
   

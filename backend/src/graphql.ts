@@ -102,6 +102,23 @@ export class UpdateUsertype {
     userType?: Nullable<UserType>;
 }
 
+export class UpdateapprovedUsertype {
+    userType?: Nullable<UserType>;
+    companyType?: Nullable<CompanyType>;
+    industryType?: Nullable<IndustryType>;
+    state?: Nullable<string>;
+    city?: Nullable<string>;
+    country?: Nullable<string>;
+    company_reg_no?: Nullable<string>;
+    annualTurnover?: Nullable<AnnualTurnover>;
+    gst_no?: Nullable<string>;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    Designation?: Nullable<string>;
+    mobile?: Nullable<string>;
+    website?: Nullable<string>;
+}
+
 export class User {
     id: string;
     BillingCode?: Nullable<string>;
@@ -163,7 +180,7 @@ export abstract class IMutation {
 
     abstract finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
 
-    abstract approveUser(userId: number): User | Promise<User>;
+    abstract approveUser(userId: number, input: UpdateapprovedUsertype): User | Promise<User>;
 }
 
 export type DateTime = any;

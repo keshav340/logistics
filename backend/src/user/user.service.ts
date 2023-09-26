@@ -14,6 +14,7 @@ import { OtpService } from './otp.service';
 import { Finalreg } from './inputdto/finalreg.input';
 import { UpdateUsertype } from './inputdto/updateusertype.input';
 import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
+import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -232,13 +233,27 @@ export class UserService {
 
     
   }
-  async approveUser(userId: number): Promise<User> {
+  async approveUser(userId: number,input:UpdateapprovedUsertype): Promise<User> {
     try {
-      const user = await this.userRepository.findOne({ where: { id: userId } });
+      const user = await this.userRepository.findOne({ where: { id: userId,isapproved: false} });
       if (!user) {
         throw new Error('User not found');
       }
-
+      user.userType = input.userType;
+      user.annualTurnover = input.annualTurnover;
+      user.companyType = input.companyType;
+      user.industryType = input.industryType;
+      user.state = input.state;
+      user.city = input.city;
+      user.country = input.country;
+      user.company_reg_no = input.company_reg_no;
+      user.annualTurnover = input.annualTurnover;
+      user.gst_no = input.gst_no;
+      user.first_name = input.first_name;
+      user.last_name = input.last_name;
+      user.Designation = input.Designation;
+      user.mobile = input.mobile;
+      user.website = input.website;
       user.isapproved = true;
       await this.userRepository.save(user);
 
