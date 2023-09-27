@@ -15,6 +15,7 @@ import { UpdateUsertype } from './inputdto/updateusertype.input';
 import { UserType } from 'src/enums/user.enums';
 import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
 import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
+import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -90,7 +91,7 @@ async sendOTP(
    // const hashedPassword = await bcrypt.hash(password, 10);
 
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && user.isapproved==true && (await bcrypt.compare(password, user.password))) {
       
       const ctx = { user };
       let payload ={
@@ -125,15 +126,15 @@ async sendOTP(
     return this.userService.filterlistNonApprovedUsersbyUserType(userType);
   }
   
-  @Mutation(() => User)
+   @Mutation(() => User)
   async approveUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
     @Args('input') input: UpdateapprovedUsertype,
     @Args('input1') input1: SelectUserTypeAndSubtypeInput,
-    @Args('input2') input2: EmailInput,
-    @Args('input3') input3: Password,
-  ): Promise<User> {
-    return this.userService.approveUser(userId, input,input1,input2,input3);
+    @Args('input2') input2:Updateemailpasswordapproved,
+    
+   ): Promise<User> {
+     return this.userService.approveUser(userId, input,input1,input2);
   }
 
 

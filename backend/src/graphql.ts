@@ -65,24 +65,24 @@ export enum AnnualTurnover {
     ABOVE_10000000 = "ABOVE_10000000"
 }
 
-export class EmailInput {
+export interface EmailInput {
     email: string;
     otp: string;
 }
 
-export class SelectUserTypeAndSubtypeInput {
+export interface SelectUserTypeAndSubtypeInput {
     userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
-export class Password {
+export interface Password {
     password: string;
     confirmPassword: string;
 }
 
-export class Finalreg {
+export interface Finalreg {
     companyType?: Nullable<CompanyType>;
     industryType?: Nullable<IndustryType>;
     state?: Nullable<string>;
@@ -98,12 +98,11 @@ export class Finalreg {
     website?: Nullable<string>;
 }
 
-export class UpdateUsertype {
+export interface UpdateUsertype {
     userType?: Nullable<UserType>;
 }
 
-export class UpdateapprovedUsertype {
-    userType?: Nullable<UserType>;
+export interface UpdateapprovedUsertype {
     companyType?: Nullable<CompanyType>;
     industryType?: Nullable<IndustryType>;
     state?: Nullable<string>;
@@ -119,7 +118,12 @@ export class UpdateapprovedUsertype {
     website?: Nullable<string>;
 }
 
-export class User {
+export interface Updateemailpasswordapproved {
+    email: string;
+    password: string;
+}
+
+export interface User {
     id: string;
     BillingCode?: Nullable<string>;
     userType?: Nullable<UserType>;
@@ -153,34 +157,23 @@ export class User {
     finalregapproved?: Nullable<boolean>;
 }
 
-export abstract class IQuery {
-    abstract hello(): string | Promise<string>;
-
-    abstract listInitialRegistrations(): User[] | Promise<User[]>;
-
-    abstract waitingforapproval(): User[] | Promise<User[]>;
-
-    abstract listAllOtps(): string[] | Promise<string[]>;
-
-    abstract getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
-
-    abstract listNonApprovedUsers(userType: string): User[] | Promise<User[]>;
+export interface IQuery {
+    hello(): string | Promise<string>;
+    listInitialRegistrations(): User[] | Promise<User[]>;
+    waitingforapproval(): User[] | Promise<User[]>;
+    listAllOtps(): string[] | Promise<string[]>;
+    getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
+    listNonApprovedUsers(userType: string): User[] | Promise<User[]>;
 }
 
-export abstract class IMutation {
-    abstract acceptEmail(emailInput: EmailInput): User | Promise<User>;
-
-    abstract sendOTP(email: string): string | Promise<string>;
-
-    abstract initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
-
-    abstract savePassword(passwordInput: Password, userId: number): User | Promise<User>;
-
-    abstract login(email: string, password: string): string | Promise<string>;
-
-    abstract finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
-
-    abstract approveUser(userId: number, input: UpdateapprovedUsertype, input1: SelectUserTypeAndSubtypeInput, input2: EmailInput, input3: Password): User | Promise<User>;
+export interface IMutation {
+    acceptEmail(emailInput: EmailInput): User | Promise<User>;
+    sendOTP(email: string): string | Promise<string>;
+    initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
+    savePassword(passwordInput: Password, userId: number): User | Promise<User>;
+    login(email: string, password: string): string | Promise<string>;
+    finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
+    approveUser(userId: number, input: UpdateapprovedUsertype, input1: SelectUserTypeAndSubtypeInput, input2: Updateemailpasswordapproved): User | Promise<User>;
 }
 
 export type DateTime = any;

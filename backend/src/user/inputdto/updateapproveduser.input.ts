@@ -6,8 +6,7 @@ import { AnnualTurnover } from "src/enums/annualturnover.enums";
 
 @InputType()
 export class UpdateapprovedUsertype { // Use the correct casing here (UpdateUsertype)
-  @Field(() => UserType, { nullable: true })
-  userType: UserType;
+  
   @Field(() => CompanyType, { nullable: true })
   companyType: CompanyType | null;
   

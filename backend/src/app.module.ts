@@ -10,6 +10,7 @@ import { UsersModule } from './user/user.module';
 import { MailModule } from './email/email.module';
 import { AuthModule } from './auth/auth.modules';
 import { UserService } from './user/user.service';
+import { Interface } from 'readline';
 
 @Module({
   imports: [UsersModule,AuthModule,
@@ -22,7 +23,7 @@ import { UserService } from './user/user.service';
       autoSchemaFile: 'src/schema.gql', // Set the file name here
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
-        outputAs: 'class', 
+       
       },
     }),
     TypeOrmModule.forRoot({
