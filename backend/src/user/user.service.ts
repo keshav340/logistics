@@ -220,12 +220,14 @@ export class UserService {
     return user;
   }
 
-  async filterlistNonApprovedUsersbyUserType(userType: UserType): Promise<User[]> {
+  async filterlistNonApprovedUsersbyUserType(userType: UserType,customerSubType:CustomerSubType,vendorSubType:VendorSubType,overseasAgentSubType:OverseasAgentSubType): Promise<User[]> {
     return this.userRepository.find({
       where: {
         isapproved: false,
         userType,
-       
+        customerSubType,
+        vendorSubType,
+        overseasAgentSubType,
 
         
       },

@@ -120,10 +120,13 @@ async sendOTP(
   @Query(() => [User])
   async listNonApprovedUsers(
     @Args('userType') userType: UserType,
+    @Args('CustomerSubType',{nullable:true}) CustomerSubType: CustomerSubType,
+    @Args('VendorSubType',{nullable:true}) VendorSubType: VendorSubType,
+    @Args('OverseasAgentSubType',{nullable:true}) OverseasAgentSubType: OverseasAgentSubType
    
     
   ): Promise<User[]> {
-    return this.userService.filterlistNonApprovedUsersbyUserType(userType);
+    return this.userService.filterlistNonApprovedUsersbyUserType(userType,CustomerSubType,VendorSubType,OverseasAgentSubType);
   }
   
    @Mutation(() => User)

@@ -163,7 +163,7 @@ export interface IQuery {
     waitingforapproval(): User[] | Promise<User[]>;
     listAllOtps(): string[] | Promise<string[]>;
     getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
-    listNonApprovedUsers(userType: string): User[] | Promise<User[]>;
+    listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
 }
 
 export interface IMutation {
