@@ -17,6 +17,7 @@ import { UserService } from './user/user.service';
 
     GraphQLModule.forRoot({
       driver: ApolloDriver,
+     
       playground: true,
       autoSchemaFile: 'src/schema.gql', // Set the file name here
       definitions: {

@@ -180,7 +180,7 @@ export abstract class IMutation {
 
     abstract finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
 
-    abstract approveUser(userId: number, input: UpdateapprovedUsertype): User | Promise<User>;
+    abstract approveUser(userId: number, input: UpdateapprovedUsertype, input1: SelectUserTypeAndSubtypeInput, input2: EmailInput, input3: Password): User | Promise<User>;
 }
 
 export type DateTime = any;

@@ -121,7 +121,7 @@ type Mutation {
   savePassword(passwordInput: Password!, userId: Float!): User!
   login(email: String!, password: String!): String!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
-  approveUser(userId: Int!, input: UpdateapprovedUsertype!): User!
+  approveUser(userId: Int!, input: UpdateapprovedUsertype!, input1: SelectUserTypeAndSubtypeInput!, input2: EmailInput!, input3: Password!): User!
 }
 
 input EmailInput {
