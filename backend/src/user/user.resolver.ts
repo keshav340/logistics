@@ -16,6 +16,7 @@ import { UserType } from 'src/enums/user.enums';
 import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
 import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
+import { Updateapproved } from './inputdto/approved.input'; 
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -132,12 +133,11 @@ async sendOTP(
    @Mutation(() => User)
   async approveUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
-    @Args('input') input: UpdateapprovedUsertype,
-    @Args('input1') input1: SelectUserTypeAndSubtypeInput,
-    @Args('input2') input2:Updateemailpasswordapproved,
+    @Args('input') input: Updateapproved,
+   
     
    ): Promise<User> {
-     return this.userService.approveUser(userId, input,input1,input2);
+     return this.userService.approveUser(userId, input);
   }
 
 

@@ -102,7 +102,7 @@ export interface UpdateUsertype {
     userType?: Nullable<UserType>;
 }
 
-export interface UpdateapprovedUsertype {
+export interface Updateapproved {
     companyType?: Nullable<CompanyType>;
     industryType?: Nullable<IndustryType>;
     state?: Nullable<string>;
@@ -116,11 +116,12 @@ export interface UpdateapprovedUsertype {
     Designation?: Nullable<string>;
     mobile?: Nullable<string>;
     website?: Nullable<string>;
-}
-
-export interface Updateemailpasswordapproved {
     email: string;
     password: string;
+    userType?: Nullable<UserType>;
+    customerSubType?: Nullable<CustomerSubType>;
+    vendorSubType?: Nullable<VendorSubType>;
+    overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
 export interface User {
@@ -173,7 +174,7 @@ export interface IMutation {
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     login(email: string, password: string): string | Promise<string>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
-    approveUser(userId: number, input: UpdateapprovedUsertype, input1: SelectUserTypeAndSubtypeInput, input2: Updateemailpasswordapproved): User | Promise<User>;
+    approveUser(userId: number, input: Updateapproved): User | Promise<User>;
 }
 
 export type DateTime = any;

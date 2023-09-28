@@ -16,6 +16,7 @@ import { UpdateUsertype } from './inputdto/updateusertype.input';
 import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/user.enums';
 import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
+import { Updateapproved } from './inputdto/approved.input';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -236,18 +237,18 @@ export class UserService {
 
     
   }
-  async approveUser(userId: number,input:UpdateapprovedUsertype,input1:SelectUserTypeAndSubtypeInput,input2:Updateemailpasswordapproved): Promise<User> {
+  async approveUser(userId: number,input:Updateapproved): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: false} });
       if (!user) {
         throw new Error('User not found');
       }
-      user.userType = input1.userType;
-      user.customerSubType = input1.customerSubType;
-      user.vendorSubType = input1.vendorSubType;
-      user.overseasAgentSubType = input1.overseasAgentSubType;
-      user.email = input2.email;
-      const password = input2.password;
+      user.userType = input.userType;
+      user.customerSubType = input.customerSubType;
+      user.vendorSubType = input.vendorSubType;
+      user.overseasAgentSubType = input.overseasAgentSubType;
+      user.email = input.email;
+      const password = input.password;
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
 
