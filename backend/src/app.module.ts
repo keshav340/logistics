@@ -11,9 +11,10 @@ import { MailModule } from './email/email.module';
 import { AuthModule } from './auth/auth.modules';
 import { UserService } from './user/user.service';
 import { Interface } from 'readline';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule,AuthModule,
+  imports: [UsersModule,AuthModule,ConfigModule.forRoot(),
     
 
     GraphQLModule.forRoot({
@@ -27,12 +28,12 @@ import { Interface } from 'readline';
       },
     }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin',
-      database: 'logistic',
+      type: "postgres",
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT, 10),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,
