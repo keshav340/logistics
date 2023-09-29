@@ -15,15 +15,25 @@ export class Updateapproved { // Use the correct casing here (UpdateUsertype)
   
   @Field({ nullable: true })
   state: string;
+  @Field({ nullable: true })
+  pincode: string;
+  @Field({ nullable: true })
+  Address: string;
   
   @Field({ nullable: true })
   city: string;
   
   @Field({ nullable: true })
   country: string;
+
   
   @Field({ nullable: true })
   company_reg_no: string;
+  @Field({ nullable: true })
+  company_name: string;
+  @Field({ nullable: true })
+  company_pan_no: string;
+  
   
   @Field(() => AnnualTurnover, { nullable: true })
   annualTurnover: AnnualTurnover | null;

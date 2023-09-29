@@ -148,10 +148,14 @@ input Password {
 input Finalreg {
   companyType: CompanyType
   industryType: IndustryType
+  companyName: String
   state: String
   city: String
   country: String
+  pincode: String
+  Address: String
   company_reg_no: String
+  company_pan_no: String
   annualTurnover: AnnualTurnover
   gst_no: String
   first_name: String
@@ -169,9 +173,13 @@ input Updateapproved {
   companyType: CompanyType
   industryType: IndustryType
   state: String
+  pincode: String
+  Address: String
   city: String
   country: String
   company_reg_no: String
+  company_name: String
+  company_pan_no: String
   annualTurnover: AnnualTurnover
   gst_no: String
   first_name: String

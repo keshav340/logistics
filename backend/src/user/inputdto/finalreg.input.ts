@@ -11,6 +11,9 @@ export class Finalreg {
   
   @Field(() => IndustryType, { nullable: true })
   industryType: IndustryType | null;
+  @Field({ nullable: true })
+  companyName: string;
+
   
   @Field({ nullable: true })
   state: string;
@@ -20,9 +23,16 @@ export class Finalreg {
   
   @Field({ nullable: true })
   country: string;
+  @Field({ nullable: true })
+  pincode: string;
+  @Field({ nullable: true } )
+  Address: string;
+
   
   @Field({ nullable: true })
   company_reg_no: string;
+  @Field({ nullable: true })
+  company_pan_no: string;
   
   @Field(() => AnnualTurnover, { nullable: true })
   annualTurnover: AnnualTurnover | null;

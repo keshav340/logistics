@@ -85,10 +85,14 @@ export interface Password {
 export interface Finalreg {
     companyType?: Nullable<CompanyType>;
     industryType?: Nullable<IndustryType>;
+    companyName?: Nullable<string>;
     state?: Nullable<string>;
     city?: Nullable<string>;
     country?: Nullable<string>;
+    pincode?: Nullable<string>;
+    Address?: Nullable<string>;
     company_reg_no?: Nullable<string>;
+    company_pan_no?: Nullable<string>;
     annualTurnover?: Nullable<AnnualTurnover>;
     gst_no?: Nullable<string>;
     first_name?: Nullable<string>;
@@ -106,9 +110,13 @@ export interface Updateapproved {
     companyType?: Nullable<CompanyType>;
     industryType?: Nullable<IndustryType>;
     state?: Nullable<string>;
+    pincode?: Nullable<string>;
+    Address?: Nullable<string>;
     city?: Nullable<string>;
     country?: Nullable<string>;
     company_reg_no?: Nullable<string>;
+    company_name?: Nullable<string>;
+    company_pan_no?: Nullable<string>;
     annualTurnover?: Nullable<AnnualTurnover>;
     gst_no?: Nullable<string>;
     first_name?: Nullable<string>;

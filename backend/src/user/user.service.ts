@@ -112,13 +112,17 @@ export class UserService {
         throw new Error('User not found or OTP not verified');
       }
       user.userType = userinput.userType;
+      user.BillingCode = this.generateBillingCode();
 
       user.companyType = input.companyType;
       user.industryType = input.industryType;
       user.state = input.state;
       user.city = input.city;
       user.country = input.country;
+      user.pincode = input.pincode;
+      user.Adress = input.Address;
       user.company_reg_no = input.company_reg_no;
+      user.company_pan_no = input.company_pan_no;
       user.annualTurnover = input.annualTurnover;
       user.gst_no = input.gst_no;
       user.first_name = input.first_name;
@@ -248,11 +252,14 @@ export class UserService {
       user.vendorSubType = input.vendorSubType;
       user.overseasAgentSubType = input.overseasAgentSubType;
       user.email = input.email;
+      user.Adress = input.Address
+      user.companyName = input.company_name
+      user.company_pan_no = input.company_pan_no
+      user.company_reg_no = input.company_reg_no
       const password = input.password;
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
-
-
+      user.BillingCode = this.generateBillingCode();
       user.annualTurnover = input.annualTurnover;
       user.companyType = input.companyType;
       user.industryType = input.industryType;
@@ -275,6 +282,16 @@ export class UserService {
     } catch (error) {
       throw new Error('Failed to approve user: ' + error.message);
     }
+
+    
+  }
+
+  generateBillingCode(): string {
+   
+    const prefix = 'BILL';
+    const randomNumber = Math.floor(Math.random() * 10000); // Generate a random 4-digit number
+    const billingCode = `${prefix}-${randomNumber}`;
+    return billingCode;
   }
 
 
