@@ -13,8 +13,9 @@ import { UserService } from './user/user.service';
 import { Interface } from 'readline';
 import { ConfigModule } from '@nestjs/config';
 
+
 @Module({
-  imports: [UsersModule,AuthModule,ConfigModule.forRoot(),
+  imports: [UsersModule,AuthModule,ConfigModule.forRoot(),AuthModule,
     
 
     GraphQLModule.forRoot({
@@ -31,8 +32,8 @@ import { ConfigModule } from '@nestjs/config';
       type: "postgres",
       host: process.env.DATABASE_HOST,
       port: parseInt(process.env.DATABASE_PORT, 10),
-      username: process.env.DATABASE_USERNAME,
-      password: process.env.DATABASE_PASSWORD,
+      username: "postgres",
+      password: "admin",
       database: process.env.DATABASE_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,

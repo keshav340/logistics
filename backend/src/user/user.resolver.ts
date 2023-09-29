@@ -83,30 +83,30 @@ async sendOTP(
   // ): string {
   //   return "User Authenticated Sucessfully";
   // }
-  @Mutation(() => String)
-  async login(
-    @Args('email') email: string,
-    @Args('password') password: string,
-  ): Promise<string> {
-    const user = await this.userService.findUserByEmail(email);
+ // @Mutation(() => String)
+  //async login(
+   // @Args('email') email: string,
+   // @Args('password') password: string,
+ // ): Promise<string> {
+  //  const user = await this.userService.findUserByEmail(email);
    // const hashedPassword = await bcrypt.hash(password, 10);
 
 
-    if (user && user.isapproved==true && (await bcrypt.compare(password, user.password))) {
+   // if (user && user.isapproved==true && (await bcrypt.compare(password, user.password))) {
       
-      const ctx = { user };
-      let payload ={
-        email: user.email,
-        id: user.id,
-        userType: user.userType,
-        customerSubType: user.customerSubType,
+   //   const ctx = { user };
+   //   let payload ={
+   //     email: user.email,
+   //     id: user.id,
+   //     userType: user.userType,
+  //      customerSubType: user.customerSubType,
 
-      };
-      return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' });
-    } else {
-      throw new HttpException('Unauthenticated', HttpStatus.UNAUTHORIZED);
-    }
-  }
+    //  };
+    //  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' });
+  //  } else {
+   //   throw new HttpException('Unauthenticated', HttpStatus.UNAUTHORIZED);
+  //  }
+  //}
   
   
   @Mutation(() => User)

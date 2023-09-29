@@ -105,6 +105,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type LoginResponse {
+  access_token: String!
+}
+
 type Query {
   hello: String!
   listInitialRegistrations: [User!]!
@@ -119,9 +123,9 @@ type Mutation {
   sendOTP(email: String!): String!
   initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
   savePassword(passwordInput: Password!, userId: Float!): User!
-  login(email: String!, password: String!): String!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
 }
 
 input EmailInput {
@@ -181,4 +185,9 @@ input Updateapproved {
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
   overseasAgentSubType: OverseasAgentSubType
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
 }

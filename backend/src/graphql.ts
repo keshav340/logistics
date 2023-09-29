@@ -124,6 +124,11 @@ export interface Updateapproved {
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
+export interface LoginUserInput {
+    email: string;
+    password: string;
+}
+
 export interface User {
     id: string;
     BillingCode?: Nullable<string>;
@@ -158,6 +163,10 @@ export interface User {
     finalregapproved?: Nullable<boolean>;
 }
 
+export interface LoginResponse {
+    access_token: string;
+}
+
 export interface IQuery {
     hello(): string | Promise<string>;
     listInitialRegistrations(): User[] | Promise<User[]>;
@@ -172,9 +181,9 @@ export interface IMutation {
     sendOTP(email: string): string | Promise<string>;
     initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
-    login(email: string, password: string): string | Promise<string>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
+    login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 }
 
 export type DateTime = any;
