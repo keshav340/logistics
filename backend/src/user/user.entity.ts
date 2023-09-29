@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn,Unique} from 'typeorm';
 import { ObjectType, Field, Int,ID } from '@nestjs/graphql'; // Import the necessary decorators
 import { CustomerSubType, UserType, VendorSubType, OverseasAgentSubType } from 'src/enums/user.enums';
 import { CompanyType } from 'src/enums/company.enums';
@@ -6,6 +6,7 @@ import { IndustryType } from 'src/enums/industry.enums';
 import { AnnualTurnover } from 'src/enums/annualturnover.enums';
  
 @Entity()
+@Unique(['email']) 
 @ObjectType() // Decorate your class with @ObjectType()
 export class User {
   @Field(() => ID)
