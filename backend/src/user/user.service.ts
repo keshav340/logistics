@@ -17,6 +17,7 @@ import { CustomerSubType, OverseasAgentSubType, VendorSubType } from 'src/enums/
 import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
 import { Updateapproved } from './inputdto/approved.input';
+import { ApprovedUser } from 'src/enums/approved.enums';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -111,6 +112,9 @@ export class UserService {
       if (!user || !user.otp_veified) {
         throw new Error('User not found or OTP not verified');
       }
+      const email = user.email;
+      sgMail.setApiKey("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")
+      const body = "You have been registered with us.We are verifying your data.We will mail you once the process completes."
       user.userType = userinput.userType;
       user.BillingCode = this.generateBillingCode();
 
@@ -130,9 +134,18 @@ export class UserService {
       user.Designation = input.Designation;
       user.mobile = input.mobile;
       user.website = input.website;
-      user.isapproved = false;
+      user.isapproved =ApprovedUser.Approval_pending;
       user.finalregapproved = true;
       await this.userRepository.save(user);
+      const response = await sgMail.send({
+        to: email,
+        from: 'keshav.sharma@xpressword.com',
+        subject: 'OTP verification',
+        text: `Your OTP for verification is: ${body}`,
+        html: `Your OTP for verification is: ${body}`,
+      });
+
+
       return user;
     
     }
@@ -198,7 +211,13 @@ export class UserService {
   async listapprovedusers(): Promise<User[]> {
     // Use the TypeORM repository to fetch the initial registration records
     return await this.userRepository.find({
-      where: { isapproved:false }, // Filter by OTP verification status
+      where: { isapproved:ApprovedUser.Approved_users }, // Filter by OTP verification status
+    });
+  }
+  async listrejectedusers(): Promise<User[]> {
+    // Use the TypeORM repository to fetch the initial registration records
+    return await this.userRepository.find({
+      where: { isapproved:ApprovedUser.Rejected_users }, // Filter by OTP verification status
     });
   }
   async listAllOtps(): Promise<string[]> {
@@ -228,7 +247,7 @@ export class UserService {
   async filterlistNonApprovedUsersbyUserType(userType: UserType,customerSubType:CustomerSubType,vendorSubType:VendorSubType,overseasAgentSubType:OverseasAgentSubType): Promise<User[]> {
     return this.userRepository.find({
       where: {
-        isapproved: false,
+        isapproved: ApprovedUser.Approval_pending,
         userType,
         customerSubType,
         vendorSubType,
@@ -241,9 +260,33 @@ export class UserService {
 
     
   }
+  
+
+async rejectUser(userId: number): Promise<User> {
+  try {
+    const user = await this.userRepository.findOne({
+      where: { id: userId, isapproved: ApprovedUser.Approval_pending },
+    });
+
+    if (!user) {
+      throw new Error('User not found or already approved/rejected');
+    }
+
+    
+    user.isapproved = ApprovedUser.Rejected_users;
+
+    await this.userRepository.save(user);
+
+    return user;
+  } catch (error) {
+    throw new Error('Failed to reject user: ' + error.message);
+  }
+}
+  
+  
   async approveUser(userId: number,input:Updateapproved): Promise<User> {
     try {
-      const user = await this.userRepository.findOne({ where: { id: userId,isapproved: false} });
+      const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Approval_pending} });
       if (!user) {
         throw new Error('User not found');
       }
@@ -275,7 +318,7 @@ export class UserService {
       user.mobile = input.mobile;
       user.website = input.website;
 
-      user.isapproved = true;
+      user.isapproved = ApprovedUser.Approved_users;
       await this.userRepository.save(user);
 
       return user;
@@ -289,7 +332,7 @@ export class UserService {
   generateBillingCode(): string {
    
     const prefix = 'BILL';
-    const randomNumber = Math.floor(Math.random() * 10000); // Generate a random 4-digit number
+    const randomNumber = Math.floor(Math.random() * 10000); 
     const billingCode = `${prefix}-${randomNumber}`;
     return billingCode;
   }

@@ -65,6 +65,12 @@ export enum AnnualTurnover {
     ABOVE_10000000 = "ABOVE_10000000"
 }
 
+export enum Approved_users {
+    Approval_pending = "Approval_pending",
+    Approved_users = "Approved_users",
+    Rejected_users = "Rejected_users"
+}
+
 export interface EmailInput {
     email: string;
     otp: string;
@@ -132,11 +138,6 @@ export interface Updateapproved {
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
-export interface LoginUserInput {
-    email: string;
-    password: string;
-}
-
 export interface User {
     id: string;
     BillingCode?: Nullable<string>;
@@ -165,20 +166,17 @@ export interface User {
     website?: Nullable<string>;
     annualTurnover?: Nullable<AnnualTurnover>;
     gst_no?: Nullable<string>;
-    isapproved?: Nullable<boolean>;
+    isapproved?: Nullable<Approved_users>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     finalregapproved?: Nullable<boolean>;
 }
 
-export interface LoginResponse {
-    access_token: string;
-}
-
 export interface IQuery {
     hello(): string | Promise<string>;
     listInitialRegistrations(): User[] | Promise<User[]>;
-    waitingforapproval(): User[] | Promise<User[]>;
+    listapprovealuser(): User[] | Promise<User[]>;
+    listrejecteduser(): User[] | Promise<User[]>;
     listAllOtps(): string[] | Promise<string[]>;
     getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
     listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
@@ -191,7 +189,7 @@ export interface IMutation {
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
-    login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+    rejectUser(userId: number): User | Promise<User>;
 }
 
 export type DateTime = any;

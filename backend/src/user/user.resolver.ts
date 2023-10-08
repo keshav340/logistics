@@ -62,9 +62,14 @@ async sendOTP(
     return this.userService.listInitialRegistrations(); // Implement this method in UserService
   }
   @Query(() => [User]) 
-  async waitingforapproval(): Promise<User[]> {
+  async listapprovealuser(): Promise<User[]> {
     return this.userService.listapprovedusers();
   }
+  @Query(() => [User]) 
+  async listrejecteduser(): Promise<User[]> {
+    return this.userService.listrejectedusers();
+  }
+
 
   @Query(() => [String])
   async listAllOtps(): Promise<string[]> {
@@ -130,6 +135,7 @@ async sendOTP(
     return this.userService.filterlistNonApprovedUsersbyUserType(userType,CustomerSubType,VendorSubType,OverseasAgentSubType);
   }
   
+  
    @Mutation(() => User)
   async approveUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
@@ -138,6 +144,15 @@ async sendOTP(
     
    ): Promise<User> {
      return this.userService.approveUser(userId, input);
+  }
+  @Mutation(() => User)
+  async rejectUser(
+    @Args({ name: 'userId', type: () => Int }) userId: number,
+   
+   
+    
+   ): Promise<User> {
+     return this.userService.rejectUser(userId);
   }
 
 

@@ -8,32 +8,29 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { MyResolver } from './app.resolver';
 import { UsersModule } from './user/user.module';
 import { MailModule } from './email/email.module';
-import { AuthModule } from './auth/auth.modules';
-import { UserService } from './user/user.service';
-import { Interface } from 'readline';
-import { ConfigModule } from '@nestjs/config';
 
+import { UserService } from './user/user.service';
 
 @Module({
-  imports: [UsersModule,AuthModule,ConfigModule.forRoot(),AuthModule,
+  imports: [UsersModule,
+   
     
+  
 
     GraphQLModule.forRoot({
       driver: ApolloDriver,
-     
       playground: true,
       autoSchemaFile: 'src/schema.gql', // Set the file name here
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
-       
       },
     }),
     TypeOrmModule.forRoot({
-      type: "postgres",
-      host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT, 10),
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
       username: process.env.DATABASE_USERNAME,
-      password:process.env.DATABASE_PASSWORD,
+      password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,

@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/user.entity';
 import { LoginResponse } from './dto/login-response.input';
 import { LoginUserInput } from './dto/login-user.input';
+import { ApprovedUser } from 'src/enums/approved.enums';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findUserByEmail(email);
 
-    if (user && user.isapproved === true) {
+    if (user && user.isapproved == ApprovedUser.Approved_users) {
       const validPassword = await bcrypt.compare(password, user.password);
 
       if (validPassword) {

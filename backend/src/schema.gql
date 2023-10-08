@@ -30,7 +30,7 @@ type User {
   website: String
   annualTurnover: AnnualTurnover
   gst_no: String
-  isapproved: Boolean
+  isapproved: Approved_users
   createdAt: DateTime
   updatedAt: DateTime
   finalregapproved: Boolean
@@ -100,19 +100,23 @@ enum AnnualTurnover {
   ABOVE_10000000
 }
 
+"""Approved users"""
+enum Approved_users {
+  Approval_pending
+  Approved_users
+  Rejected_users
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
-type LoginResponse {
-  access_token: String!
-}
-
 type Query {
   hello: String!
   listInitialRegistrations: [User!]!
-  waitingforapproval: [User!]!
+  listapprovealuser: [User!]!
+  listrejecteduser: [User!]!
   listAllOtps: [String!]!
   getOtpByEmail(email: String!): String
   listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
@@ -125,7 +129,7 @@ type Mutation {
   savePassword(passwordInput: Password!, userId: Float!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
-  login(loginUserInput: LoginUserInput!): LoginResponse!
+  rejectUser(userId: Int!): User!
 }
 
 input EmailInput {
@@ -193,9 +197,4 @@ input Updateapproved {
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
   overseasAgentSubType: OverseasAgentSubType
-}
-
-input LoginUserInput {
-  email: String!
-  password: String!
 }
