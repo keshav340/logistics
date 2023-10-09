@@ -148,14 +148,11 @@ async sendOTP(
   @Mutation(() => User)
   async rejectUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
-   
+    @Args('input') input: Updateapproved,
    
     
    ): Promise<User> {
-     return this.userService.rejectUser(userId);
+     return this.userService.rejectUser(userId, input);
   }
-
-
-  
-  
+   
 }

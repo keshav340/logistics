@@ -1,10 +1,11 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { RESOLVER_TYPE_METADATA, registerEnumType } from '@nestjs/graphql';
 
 export enum ApprovedUser {
    
    Approval_pending = 'Approval pending',
-   Approved_users = 'Approved users',
-   Rejected_users = 'Rejected users'
+   Approved = 'Approved ',
+   Rejected = 'Rejected',
+   Reverted_user = 'Reverted user'
 
 }
 

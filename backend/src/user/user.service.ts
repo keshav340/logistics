@@ -18,6 +18,7 @@ import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
 import { Updateapproved } from './inputdto/approved.input';
 import { ApprovedUser } from 'src/enums/approved.enums';
+import { RejectInputType } from './inputdto/rejected.input';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -141,8 +142,8 @@ export class UserService {
         to: email,
         from: 'keshav.sharma@xpressword.com',
         subject: 'OTP verification',
-        text: `Your OTP for verification is: ${body}`,
-        html: `Your OTP for verification is: ${body}`,
+        text:  body,
+        html: body,
       });
 
 
@@ -181,11 +182,15 @@ export class UserService {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     const password = input.password;
     const confirmPassword = input.confirmPassword;
+    console.log(password);
     if (password != confirmPassword) {
       throw new Error('Password does not match');
     }
     if (user.otp_veified == true) {
+      
       const hashedPassword = await bcrypt.hash(password, 10);
+      console.log(hashedPassword);
+     
       user.password = hashedPassword;
     } else {
       throw new Error('OTP is not verified');
@@ -211,13 +216,13 @@ export class UserService {
   async listapprovedusers(): Promise<User[]> {
     // Use the TypeORM repository to fetch the initial registration records
     return await this.userRepository.find({
-      where: { isapproved:ApprovedUser.Approved_users }, // Filter by OTP verification status
+      where: { isapproved:ApprovedUser.Approved }, // Filter by OTP verification status
     });
   }
   async listrejectedusers(): Promise<User[]> {
     // Use the TypeORM repository to fetch the initial registration records
     return await this.userRepository.find({
-      where: { isapproved:ApprovedUser.Rejected_users }, // Filter by OTP verification status
+      where: { isapproved:ApprovedUser.Rejected }, // Filter by OTP verification status
     });
   }
   async listAllOtps(): Promise<string[]> {
@@ -262,31 +267,86 @@ export class UserService {
   }
   
 
-async rejectUser(userId: number): Promise<User> {
-  try {
-    const user = await this.userRepository.findOne({
-      where: { id: userId, isapproved: ApprovedUser.Approval_pending },
-    });
+// async rejectUser(userId: number): Promise<User> {
+//   try {
+//     const user = await this.userRepository.findOne({
+//       where: { id: userId, isapproved: ApprovedUser.Approval_pending },
+//     });
 
-    if (!user) {
-      throw new Error('User not found or already approved/rejected');
-    }
+//     if (!user) {
+//       throw new Error('User not found or already approved/rejected');
+//     }
+    
 
     
-    user.isapproved = ApprovedUser.Rejected_users;
+//     user.isapproved = ApprovedUser.Rejected_users;
 
-    await this.userRepository.save(user);
+//     await this.userRepository.save(user);
 
-    return user;
-  } catch (error) {
-    throw new Error('Failed to reject user: ' + error.message);
-  }
-}
+//     return user;
+//   } catch (error) {
+//     throw new Error('Failed to reject user: ' + error.message);
+//   }
+// }
   
   
   async approveUser(userId: number,input:Updateapproved): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Approval_pending} });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      user.userType = input.userType;
+      user.customerSubType = input.customerSubType;
+      user.vendorSubType = input.vendorSubType;
+      user.overseasAgentSubType = input.overseasAgentSubType;
+      user.email = input.email;
+      user.Adress = input.Address
+      user.companyName = input.company_name
+      user.company_pan_no = input.company_pan_no
+      user.company_reg_no = input.company_reg_no
+     // const password = input.password;
+     // const hashedPassword = await bcrypt.hash(password, 10);
+      //user.password = hashedPassword;
+      user.BillingCode = this.generateBillingCode();
+      user.annualTurnover = input.annualTurnover;
+      user.companyType = input.companyType;
+      user.industryType = input.industryType;
+      user.state = input.state;
+      user.city = input.city;
+      user.country = input.country;
+      user.company_reg_no = input.company_reg_no;
+      user.annualTurnover = input.annualTurnover;
+      user.gst_no = input.gst_no;
+      user.first_name = input.first_name;
+      user.last_name = input.last_name;
+      user.Designation = input.Designation;
+      user.mobile = input.mobile;
+      user.website = input.website;
+      user.remarks = input.remarks
+      let flag = 0;
+      user.isapproved = input.Approveduser;
+
+      await this.userRepository.save(user);
+
+      return user;
+    } catch (error) {
+      throw new Error('Failed to approve user: ' + error.message);
+    }
+
+    
+  }
+
+  generateBillingCode(): string {
+   
+    const prefix = 'BILL';
+    const randomNumber = Math.floor(Math.random() * 10000); 
+    const billingCode = `${prefix}-${randomNumber}`;
+    return billingCode;
+  }
+  async rejectUser(userId: number,input:Updateapproved): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Rejected} });
       if (!user) {
         throw new Error('User not found');
       }
@@ -317,25 +377,26 @@ async rejectUser(userId: number): Promise<User> {
       user.Designation = input.Designation;
       user.mobile = input.mobile;
       user.website = input.website;
+      
+      let flag = 0;
+      user.isapproved = ApprovedUser.Reverted_user;
 
-      user.isapproved = ApprovedUser.Approved_users;
       await this.userRepository.save(user);
 
       return user;
     } catch (error) {
-      throw new Error('Failed to approve user: ' + error.message);
+      throw new Error('Failed to correct the data ' + error.message);
     }
 
     
   }
 
-  generateBillingCode(): string {
-   
-    const prefix = 'BILL';
-    const randomNumber = Math.floor(Math.random() * 10000); 
-    const billingCode = `${prefix}-${randomNumber}`;
-    return billingCode;
-  }
+ 
+
+
+ 
+
+ 
 
 
  

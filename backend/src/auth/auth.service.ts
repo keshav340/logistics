@@ -16,8 +16,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findUserByEmail(email);
-
-    if (user && user.isapproved == ApprovedUser.Approved_users) {
+    
+    if (user ) {
+      console.log(password);
+      
       const validPassword = await bcrypt.compare(password, user.password);
 
       if (validPassword) {
@@ -32,6 +34,7 @@ export class AuthService {
 
   async login(LoginUserInput: LoginUserInput): Promise<LoginResponse> {
     const user = await this.validateUser(LoginUserInput.email, LoginUserInput.password);
+    
 
     if (!user) {
       throw new Error('User not found or not approved');

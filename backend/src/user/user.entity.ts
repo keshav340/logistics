@@ -107,6 +107,9 @@ updatedAt: Date;
 @Column({nullable:true})
 @Field({nullable:true})
 finalregapproved: boolean;
+@Column({type:'text',nullable:true})
+@Field({nullable:true})
+remarks: string
 
 
 

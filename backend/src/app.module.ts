@@ -10,9 +10,10 @@ import { UsersModule } from './user/user.module';
 import { MailModule } from './email/email.module';
 
 import { UserService } from './user/user.service';
+import { AuthModule } from './auth/auth.modules';
 
 @Module({
-  imports: [UsersModule,
+  imports: [UsersModule,AuthModule,
    
     
   

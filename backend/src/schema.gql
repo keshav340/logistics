@@ -34,6 +34,7 @@ type User {
   createdAt: DateTime
   updatedAt: DateTime
   finalregapproved: Boolean
+  remarks: String
 }
 
 """The type of user"""
@@ -103,14 +104,19 @@ enum AnnualTurnover {
 """Approved users"""
 enum Approved_users {
   Approval_pending
-  Approved_users
-  Rejected_users
+  Approved
+  Rejected
+  Reverted_user
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type LoginResponse {
+  access_token: String!
+}
 
 type Query {
   hello: String!
@@ -129,7 +135,8 @@ type Mutation {
   savePassword(passwordInput: Password!, userId: Float!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
-  rejectUser(userId: Int!): User!
+  rejectUser(userId: Int!, input: Updateapproved!): User!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
 }
 
 input EmailInput {
@@ -175,6 +182,7 @@ input UpdateUsertype {
 
 input Updateapproved {
   companyType: CompanyType
+  Approveduser: Approved_users
   industryType: IndustryType
   state: String
   pincode: String
@@ -191,10 +199,16 @@ input Updateapproved {
   Designation: String
   mobile: String
   website: String
-  email: String!
-  password: String!
+  email: String
+  password: String
   userType: UserType
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
   overseasAgentSubType: OverseasAgentSubType
+  remarks: String
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
 }

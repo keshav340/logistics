@@ -67,8 +67,9 @@ export enum AnnualTurnover {
 
 export enum Approved_users {
     Approval_pending = "Approval_pending",
-    Approved_users = "Approved_users",
-    Rejected_users = "Rejected_users"
+    Approved = "Approved",
+    Rejected = "Rejected",
+    Reverted_user = "Reverted_user"
 }
 
 export interface EmailInput {
@@ -114,6 +115,7 @@ export interface UpdateUsertype {
 
 export interface Updateapproved {
     companyType?: Nullable<CompanyType>;
+    Approveduser?: Nullable<Approved_users>;
     industryType?: Nullable<IndustryType>;
     state?: Nullable<string>;
     pincode?: Nullable<string>;
@@ -130,12 +132,18 @@ export interface Updateapproved {
     Designation?: Nullable<string>;
     mobile?: Nullable<string>;
     website?: Nullable<string>;
-    email: string;
-    password: string;
+    email?: Nullable<string>;
+    password?: Nullable<string>;
     userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
+    remarks?: Nullable<string>;
+}
+
+export interface LoginUserInput {
+    email: string;
+    password: string;
 }
 
 export interface User {
@@ -170,6 +178,11 @@ export interface User {
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
     finalregapproved?: Nullable<boolean>;
+    remarks?: Nullable<string>;
+}
+
+export interface LoginResponse {
+    access_token: string;
 }
 
 export interface IQuery {
@@ -189,7 +202,8 @@ export interface IMutation {
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
-    rejectUser(userId: number): User | Promise<User>;
+    rejectUser(userId: number, input: Updateapproved): User | Promise<User>;
+    login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 }
 
 export type DateTime = any;

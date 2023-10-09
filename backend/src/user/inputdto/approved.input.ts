@@ -4,11 +4,14 @@ import { CompanyType } from "src/enums/company.enums";
 import { IndustryType } from "src/enums/industry.enums";
 import { AnnualTurnover } from "src/enums/annualturnover.enums";
 import {  CustomerSubType, VendorSubType, OverseasAgentSubType } from 'src/enums/user.enums';
+import { ApprovedUser } from "src/enums/approved.enums";
 @InputType()
 export class Updateapproved { // Use the correct casing here (UpdateUsertype)
   
   @Field(() => CompanyType, { nullable: true })
   companyType: CompanyType | null;
+  @Field(() => ApprovedUser, { nullable: true })
+  Approveduser: ApprovedUser | null;
   
   @Field(() => IndustryType, { nullable: true })
   industryType: IndustryType | null;
@@ -55,9 +58,9 @@ export class Updateapproved { // Use the correct casing here (UpdateUsertype)
   
   @Field({ nullable: true })
   website: string;
-  @Field()
+  @Field({ nullable: true })
   email: string;
- @Field()
+ @Field({ nullable: true})
  password: string;
 
  @Field(() => UserType, { nullable: true })
@@ -71,6 +74,9 @@ export class Updateapproved { // Use the correct casing here (UpdateUsertype)
 
  @Field(() => OverseasAgentSubType, { nullable: true })
  overseasAgentSubType?: OverseasAgentSubType;
+
+ @Field({ nullable: true })
+ remarks: string;
 
 
 }
