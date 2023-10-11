@@ -118,6 +118,7 @@ export class UserService {
       const body = "You have been registered with us.We are verifying your data.We will mail you once the process completes."
       user.userType = userinput.userType;
       user.BillingCode = this.generateBillingCode();
+      user.companyName = input.companyName
 
       user.companyType = input.companyType;
       user.industryType = input.industryType;
@@ -305,10 +306,6 @@ export class UserService {
       user.companyName = input.company_name
       user.company_pan_no = input.company_pan_no
       user.company_reg_no = input.company_reg_no
-     // const password = input.password;
-     // const hashedPassword = await bcrypt.hash(password, 10);
-      //user.password = hashedPassword;
-      user.BillingCode = this.generateBillingCode();
       user.annualTurnover = input.annualTurnover;
       user.companyType = input.companyType;
       user.industryType = input.industryType;
@@ -359,10 +356,10 @@ export class UserService {
       user.companyName = input.company_name
       user.company_pan_no = input.company_pan_no
       user.company_reg_no = input.company_reg_no
-      const password = input.password;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
-      user.BillingCode = this.generateBillingCode();
+      // const password = input.password;
+      // const hashedPassword = await bcrypt.hash(password, 10);
+      //user.password = hashedPassword;
+      //user.BillingCode = this.generateBillingCode();
       user.annualTurnover = input.annualTurnover;
       user.companyType = input.companyType;
       user.industryType = input.industryType;
