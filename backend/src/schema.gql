@@ -126,6 +126,8 @@ type Query {
   listAllOtps: [String!]!
   getOtpByEmail(email: String!): String
   listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
+  getUserById(userId: Int!): User!
+  getFinalRegisteredUserById(userId: Int!): User!
 }
 
 type Mutation {
@@ -135,7 +137,7 @@ type Mutation {
   savePassword(passwordInput: Password!, userId: Float!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
-  rejectUser(userId: Int!, input: Updateapproved!): User!
+  rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
   login(loginUserInput: LoginUserInput!): LoginResponse!
 }
 
@@ -200,12 +202,36 @@ input Updateapproved {
   mobile: String
   website: String
   email: String
-  password: String
   userType: UserType
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
   overseasAgentSubType: OverseasAgentSubType
   remarks: String
+}
+
+input SendFormTorejectedUser {
+  companyType: CompanyType
+  industryType: IndustryType
+  state: String
+  pincode: String
+  Address: String
+  city: String
+  country: String
+  company_reg_no: String
+  company_name: String
+  company_pan_no: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  email: String
+  userType: UserType
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
 }
 
 input LoginUserInput {

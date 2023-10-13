@@ -133,12 +133,36 @@ export interface Updateapproved {
     mobile?: Nullable<string>;
     website?: Nullable<string>;
     email?: Nullable<string>;
-    password?: Nullable<string>;
     userType?: Nullable<UserType>;
     customerSubType?: Nullable<CustomerSubType>;
     vendorSubType?: Nullable<VendorSubType>;
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
     remarks?: Nullable<string>;
+}
+
+export interface SendFormTorejectedUser {
+    companyType?: Nullable<CompanyType>;
+    industryType?: Nullable<IndustryType>;
+    state?: Nullable<string>;
+    pincode?: Nullable<string>;
+    Address?: Nullable<string>;
+    city?: Nullable<string>;
+    country?: Nullable<string>;
+    company_reg_no?: Nullable<string>;
+    company_name?: Nullable<string>;
+    company_pan_no?: Nullable<string>;
+    annualTurnover?: Nullable<AnnualTurnover>;
+    gst_no?: Nullable<string>;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    Designation?: Nullable<string>;
+    mobile?: Nullable<string>;
+    website?: Nullable<string>;
+    email?: Nullable<string>;
+    userType?: Nullable<UserType>;
+    customerSubType?: Nullable<CustomerSubType>;
+    vendorSubType?: Nullable<VendorSubType>;
+    overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
 export interface LoginUserInput {
@@ -193,6 +217,8 @@ export interface IQuery {
     listAllOtps(): string[] | Promise<string[]>;
     getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
     listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
+    getUserById(userId: number): User | Promise<User>;
+    getFinalRegisteredUserById(userId: number): User | Promise<User>;
 }
 
 export interface IMutation {
@@ -202,7 +228,7 @@ export interface IMutation {
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
-    rejectUser(userId: number, input: Updateapproved): User | Promise<User>;
+    rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 }
 

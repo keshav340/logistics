@@ -60,8 +60,7 @@ export class Updateapproved { // Use the correct casing here (UpdateUsertype)
   website: string;
   @Field({ nullable: true })
   email: string;
- @Field({ nullable: true})
- password: string;
+ 
 
  @Field(() => UserType, { nullable: true })
  userType: UserType;

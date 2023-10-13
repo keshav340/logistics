@@ -18,7 +18,8 @@ import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
 import { Updateapproved } from './inputdto/approved.input';
 import { ApprovedUser } from 'src/enums/approved.enums';
-import { RejectInputType } from './inputdto/rejected.input';
+import { SendFormTorejectedUser } from './inputdto/rejected.input';
+
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -341,7 +342,7 @@ export class UserService {
     const billingCode = `${prefix}-${randomNumber}`;
     return billingCode;
   }
-  async rejectUser(userId: number,input:Updateapproved): Promise<User> {
+  async sendFormtorejectUser(userId: number,input:SendFormTorejectedUser): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Rejected} });
       if (!user) {
@@ -376,7 +377,6 @@ export class UserService {
       user.website = input.website;
       
       let flag = 0;
-      user.isapproved = ApprovedUser.Reverted_user;
 
       await this.userRepository.save(user);
 
@@ -384,10 +384,27 @@ export class UserService {
     } catch (error) {
       throw new Error('Failed to correct the data ' + error.message);
     }
+   
+    
 
     
   }
+  async getUserById(userId: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
 
+  async getFinalRegisteredUserById(userId: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId,isapproved:ApprovedUser.Approval_pending } });
+    if (!user) {
+      throw new Error('Final registered user not found');
+    }
+    return user;
+  }
+  
  
 
 
