@@ -138,6 +138,7 @@ type Mutation {
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
   rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
+  adminreject(userId: Float!, input: Adminreject!): User!
   login(loginUserInput: LoginUserInput!): LoginResponse!
 }
 
@@ -232,6 +233,10 @@ input SendFormTorejectedUser {
   customerSubType: CustomerSubType
   vendorSubType: VendorSubType
   overseasAgentSubType: OverseasAgentSubType
+}
+
+input Adminreject {
+  remarks: String
 }
 
 input LoginUserInput {

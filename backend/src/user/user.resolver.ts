@@ -18,6 +18,7 @@ import { UpdateapprovedUsertype } from './inputdto/updateapproveduser.input';
 import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpassword.input';
 import { Updateapproved } from './inputdto/approved.input'; 
 import { SendFormTorejectedUser } from './inputdto/rejected.input';
+import { Adminreject } from './inputdto/adminreject.input';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -162,6 +163,17 @@ async sendOTP(
   @Query(() => User)
   async getFinalRegisteredUserById(@Args({ name: 'userId', type: () => Int }) userId: number): Promise<User> {
     return this.userService.getFinalRegisteredUserById(userId);
+  }
+  @Mutation(() => User)
+  async adminreject(
+    @Args('userId') userId: number,
+    @Args('input') input: Adminreject,
+  ): Promise<User> {
+    try {
+      return await this.userService.adminreject(userId, input);
+    } catch (error) {
+      throw new Error('Failed to admin reject user: ' + error.message);
+    }
   }
    
 }

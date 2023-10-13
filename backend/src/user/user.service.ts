@@ -19,7 +19,7 @@ import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpa
 import { Updateapproved } from './inputdto/approved.input';
 import { ApprovedUser } from 'src/enums/approved.enums';
 import { SendFormTorejectedUser } from './inputdto/rejected.input';
-
+import { Adminreject } from './inputdto/adminreject.input';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -341,6 +341,26 @@ export class UserService {
     const randomNumber = Math.floor(Math.random() * 10000); 
     const billingCode = `${prefix}-${randomNumber}`;
     return billingCode;
+  }
+  async adminreject(userId: number, input: Adminreject): Promise<User> {
+    try {
+      // Fetch the user by ID and perform the admin rejection logic here
+      const user = await this.userRepository.findOne({ where: { id: userId, isapproved: ApprovedUser.Approval_pending } });
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // Update the user's status and remarks
+      user.isapproved = ApprovedUser.Rejected
+      user.remarks = input.remarks;
+
+      // Save the updated user
+      await this.userRepository.save(user);
+
+      return user;
+    } catch (error) {
+      throw new Error('Failed to admin reject user: ' + error.message);
+    }
   }
   async sendFormtorejectUser(userId: number,input:SendFormTorejectedUser): Promise<User> {
     try {

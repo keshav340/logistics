@@ -165,6 +165,10 @@ export interface SendFormTorejectedUser {
     overseasAgentSubType?: Nullable<OverseasAgentSubType>;
 }
 
+export interface Adminreject {
+    remarks?: Nullable<string>;
+}
+
 export interface LoginUserInput {
     email: string;
     password: string;
@@ -229,6 +233,7 @@ export interface IMutation {
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
     rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
+    adminreject(userId: number, input: Adminreject): User | Promise<User>;
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 }
 
