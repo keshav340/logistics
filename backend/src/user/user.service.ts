@@ -119,7 +119,14 @@ export class UserService {
     admin.mobile = input.mobile
     admin.website = input.website;
     admin.email = input.email;
-    
+    const password = input.password;
+    const confirmPass = input.confirmpassword
+    if(password !== confirmPass)
+    {
+      throw new Error("Paswords do not match")
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    admin.password = hashedPassword;
     await this.userRepository.save(admin);
     return admin;
   }
