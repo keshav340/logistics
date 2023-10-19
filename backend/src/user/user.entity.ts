@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany} from 'typeorm';
 import { ObjectType, Field, Int,ID } from '@nestjs/graphql'; // Import the necessary decorators
 import { CustomerSubType, UserType, VendorSubType, OverseasAgentSubType } from 'src/enums/user.enums';
 import { CompanyType } from 'src/enums/company.enums';
 import { IndustryType } from 'src/enums/industry.enums';
 import { AnnualTurnover } from 'src/enums/annualturnover.enums';
 import { ApprovedUser } from 'src/enums/approved.enums';
- 
+ import { WareHouse } from 'src/warehouse/warehouse.entity';
 @Entity()
 
 @ObjectType() // Decorate your class with @ObjectType()
@@ -110,11 +110,10 @@ finalregapproved: boolean;
 @Column({type:'text',nullable:true})
 @Field({nullable:true})
 remarks: string
+  @OneToMany(() => WareHouse, (warehouse) => warehouse.user)
+  @Field(() => [WareHouse], { nullable: true })
+  warehouses: WareHouse[];
 
-
-
-
-  // ... Other fields ...
 }
 
 

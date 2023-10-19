@@ -2,6 +2,69 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type WareHouse {
+  id: ID!
+  companyName: String!
+  Adress: String!
+  State: String
+  City: String
+  Pincode: String
+  Country: String
+  warehouseType: warehouseType
+  totalSquareArea: String
+  totalAvailiableArea: String
+  occupiedSpace: String
+  unoccupiedSpace: String
+  rackedSpace: String
+  user: User
+  minimumStorageRent: String
+  minimumStorageCharges_per_pallet: String
+  minimumStorageArea: String
+  minimumstorageArea_per_pallet: String
+  storageCharges: String
+  storageCharges_per_pallet: String
+  hazardousStorageType: hazardousStorageType
+  temperatureType: temperatureType
+  temperatureCapacity: temperatureCapacity
+}
+
+"""types of warehouse"""
+enum warehouseType {
+  coldStorageFacility
+  generalWarehouse
+  referigeratedWarehouse
+  fullFilmentCenter
+  petroleumWarehouse
+  bondedWarehouse
+  hazCargoWarehouse
+}
+
+"""The type of hazardous Storage"""
+enum hazardousStorageType {
+  Class1
+  Class2
+  Class3
+  Class4
+  Class5
+  Class6
+  Class7
+  class8
+}
+
+"""The type oftemperature to display"""
+enum temperatureType {
+  Active
+  Passive
+}
+
+"""Value of the temperature capacity"""
+enum temperatureCapacity {
+  MINUS_Eighteen_Degree_to_twenty_degree_celcius
+  MINUS_Two_Degree_to_MINUS_Eight_degree_celcius
+  MINUS_Twenty_Degree_to_twenty_degree_celcius
+  fifteen_Degree_to_twentyfive_degree_celcius
+}
+
 type User {
   id: ID!
   BillingCode: String
@@ -35,6 +98,7 @@ type User {
   updatedAt: DateTime
   finalregapproved: Boolean
   remarks: String
+  warehouses: [WareHouse!]
 }
 
 """The type of user"""
@@ -117,33 +181,6 @@ scalar DateTime
 
 type LoginResponse {
   access_token: String!
-}
-
-type WareHouse {
-  id: ID!
-  companyName: String!
-  Adress: String!
-  State: String
-  City: String
-  Pincode: String
-  Country: String
-  warehouseType: warehouseType
-  totalSquareArea: String
-  totalAvailiableArea: String
-  occupiedSpace: String
-  unoccupiedSpace: String
-  rackedSpace: String
-}
-
-"""types of warehouse"""
-enum warehouseType {
-  coldStorageFacility
-  generalWarehouse
-  referigeratedWarehouse
-  fullFilmentCenter
-  petroleumWarehouse
-  bondedWarehouse
-  hazCargoWarehouse
 }
 
 type Query {
@@ -303,4 +340,13 @@ input WarehouseInput {
   occupiedSpace: String
   unoccupiedSpace: String
   rackedSpace: String
+  minimumStorageRent: String
+  minimumStorageCharges_per_pallet: String
+  minimumStorageArea: String
+  minimumstorageArea_per_pallet: String
+  storageCharges: String
+  storageCharges_per_pallet: String
+  hazardousStorageType: hazardousStorageType
+  temperatureType: temperatureType
+  temperatureCapacity: temperatureCapacity
 }

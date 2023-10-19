@@ -8,6 +8,39 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum warehouseType {
+    coldStorageFacility = "coldStorageFacility",
+    generalWarehouse = "generalWarehouse",
+    referigeratedWarehouse = "referigeratedWarehouse",
+    fullFilmentCenter = "fullFilmentCenter",
+    petroleumWarehouse = "petroleumWarehouse",
+    bondedWarehouse = "bondedWarehouse",
+    hazCargoWarehouse = "hazCargoWarehouse"
+}
+
+export enum hazardousStorageType {
+    Class1 = "Class1",
+    Class2 = "Class2",
+    Class3 = "Class3",
+    Class4 = "Class4",
+    Class5 = "Class5",
+    Class6 = "Class6",
+    Class7 = "Class7",
+    class8 = "class8"
+}
+
+export enum temperatureType {
+    Active = "Active",
+    Passive = "Passive"
+}
+
+export enum temperatureCapacity {
+    MINUS_Eighteen_Degree_to_twenty_degree_celcius = "MINUS_Eighteen_Degree_to_twenty_degree_celcius",
+    MINUS_Two_Degree_to_MINUS_Eight_degree_celcius = "MINUS_Two_Degree_to_MINUS_Eight_degree_celcius",
+    MINUS_Twenty_Degree_to_twenty_degree_celcius = "MINUS_Twenty_Degree_to_twenty_degree_celcius",
+    fifteen_Degree_to_twentyfive_degree_celcius = "fifteen_Degree_to_twentyfive_degree_celcius"
+}
+
 export enum UserType {
     CUSTOMER = "CUSTOMER",
     VENDOR = "VENDOR",
@@ -71,16 +104,6 @@ export enum Approved_users {
     Approved = "Approved",
     Rejected = "Rejected",
     Reverted_user = "Reverted_user"
-}
-
-export enum warehouseType {
-    coldStorageFacility = "coldStorageFacility",
-    generalWarehouse = "generalWarehouse",
-    referigeratedWarehouse = "referigeratedWarehouse",
-    fullFilmentCenter = "fullFilmentCenter",
-    petroleumWarehouse = "petroleumWarehouse",
-    bondedWarehouse = "bondedWarehouse",
-    hazCargoWarehouse = "hazCargoWarehouse"
 }
 
 export interface EmailInput {
@@ -210,6 +233,41 @@ export interface WarehouseInput {
     occupiedSpace?: Nullable<string>;
     unoccupiedSpace?: Nullable<string>;
     rackedSpace?: Nullable<string>;
+    minimumStorageRent?: Nullable<string>;
+    minimumStorageCharges_per_pallet?: Nullable<string>;
+    minimumStorageArea?: Nullable<string>;
+    minimumstorageArea_per_pallet?: Nullable<string>;
+    storageCharges?: Nullable<string>;
+    storageCharges_per_pallet?: Nullable<string>;
+    hazardousStorageType?: Nullable<hazardousStorageType>;
+    temperatureType?: Nullable<temperatureType>;
+    temperatureCapacity?: Nullable<temperatureCapacity>;
+}
+
+export interface WareHouse {
+    id: string;
+    companyName: string;
+    Adress: string;
+    State?: Nullable<string>;
+    City?: Nullable<string>;
+    Pincode?: Nullable<string>;
+    Country?: Nullable<string>;
+    warehouseType?: Nullable<warehouseType>;
+    totalSquareArea?: Nullable<string>;
+    totalAvailiableArea?: Nullable<string>;
+    occupiedSpace?: Nullable<string>;
+    unoccupiedSpace?: Nullable<string>;
+    rackedSpace?: Nullable<string>;
+    user?: Nullable<User>;
+    minimumStorageRent?: Nullable<string>;
+    minimumStorageCharges_per_pallet?: Nullable<string>;
+    minimumStorageArea?: Nullable<string>;
+    minimumstorageArea_per_pallet?: Nullable<string>;
+    storageCharges?: Nullable<string>;
+    storageCharges_per_pallet?: Nullable<string>;
+    hazardousStorageType?: Nullable<hazardousStorageType>;
+    temperatureType?: Nullable<temperatureType>;
+    temperatureCapacity?: Nullable<temperatureCapacity>;
 }
 
 export interface User {
@@ -245,26 +303,11 @@ export interface User {
     updatedAt?: Nullable<DateTime>;
     finalregapproved?: Nullable<boolean>;
     remarks?: Nullable<string>;
+    warehouses?: Nullable<WareHouse[]>;
 }
 
 export interface LoginResponse {
     access_token: string;
-}
-
-export interface WareHouse {
-    id: string;
-    companyName: string;
-    Adress: string;
-    State?: Nullable<string>;
-    City?: Nullable<string>;
-    Pincode?: Nullable<string>;
-    Country?: Nullable<string>;
-    warehouseType?: Nullable<warehouseType>;
-    totalSquareArea?: Nullable<string>;
-    totalAvailiableArea?: Nullable<string>;
-    occupiedSpace?: Nullable<string>;
-    unoccupiedSpace?: Nullable<string>;
-    rackedSpace?: Nullable<string>;
 }
 
 export interface IQuery {
