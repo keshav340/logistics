@@ -16,6 +16,19 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+   // "allowJs": true
+  },
+//   "include": [
+//     "./**/*"
+// ],
+// "exclude": [
+
+//     "./plugins/**/*",
+//     "./typings/**/*",
+//     "./built/**/*",
+//     "./dist/**/*"
+//      // This is what fixed it!
+// ]
+
 }

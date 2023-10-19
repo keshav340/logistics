@@ -4,6 +4,7 @@ export enum UserType {
     CUSTOMER = 'CUSTOMER',
     VENDOR = 'VENDOR',
     OVERSEAS_AGENT = 'OVERSEAS_AGENT',
+    Admin = 'ADMIN',
   }
   
   export enum CustomerSubType {

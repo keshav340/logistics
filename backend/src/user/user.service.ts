@@ -20,6 +20,7 @@ import { Updateapproved } from './inputdto/approved.input';
 import { ApprovedUser } from 'src/enums/approved.enums';
 import { SendFormTorejectedUser } from './inputdto/rejected.input';
 import { Adminreject } from './inputdto/adminreject.input';
+import { Admin } from './inputdto/admin.input';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -106,6 +107,21 @@ export class UserService {
     await this.userRepository.save(user);
   
     return user;
+  }
+  async adminRegister(input:Admin): Promise<User>
+  {
+    const admin = new User();
+    admin.userType = UserType.Admin
+    admin.isapproved = ApprovedUser.Approved;
+    admin.first_name = input.first_name;
+    admin.last_name = input.last_name;
+    admin.Designation = input.Designation;
+    admin.mobile = input.mobile
+    admin.website = input.website;
+    admin.email = input.email;
+    
+    await this.userRepository.save(admin);
+    return admin;
   }
 
   async finalreg(input:Finalreg,userId:number,userinput:UpdateUsertype):Promise<User>{

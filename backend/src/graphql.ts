@@ -11,7 +11,8 @@
 export enum UserType {
     CUSTOMER = "CUSTOMER",
     VENDOR = "VENDOR",
-    OVERSEAS_AGENT = "OVERSEAS_AGENT"
+    OVERSEAS_AGENT = "OVERSEAS_AGENT",
+    Admin = "Admin"
 }
 
 export enum CustomerSubType {
@@ -72,6 +73,16 @@ export enum Approved_users {
     Reverted_user = "Reverted_user"
 }
 
+export enum warehouseType {
+    coldStorageFacility = "coldStorageFacility",
+    generalWarehouse = "generalWarehouse",
+    referigeratedWarehouse = "referigeratedWarehouse",
+    fullFilmentCenter = "fullFilmentCenter",
+    petroleumWarehouse = "petroleumWarehouse",
+    bondedWarehouse = "bondedWarehouse",
+    hazCargoWarehouse = "hazCargoWarehouse"
+}
+
 export interface EmailInput {
     email: string;
     otp: string;
@@ -87,6 +98,18 @@ export interface SelectUserTypeAndSubtypeInput {
 export interface Password {
     password: string;
     confirmPassword: string;
+}
+
+export interface Admin {
+    userType?: Nullable<UserType>;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    Designation?: Nullable<string>;
+    mobile?: Nullable<string>;
+    website?: Nullable<string>;
+    email?: Nullable<string>;
+    password?: Nullable<string>;
+    confirmpassword?: Nullable<string>;
 }
 
 export interface Finalreg {
@@ -174,6 +197,21 @@ export interface LoginUserInput {
     password: string;
 }
 
+export interface WarehouseInput {
+    companyName: string;
+    Adress: string;
+    state: string;
+    city: string;
+    pincode: string;
+    country: string;
+    warehouseType?: Nullable<warehouseType>;
+    totalSquareArea?: Nullable<string>;
+    totalAvailiableArea?: Nullable<string>;
+    occupiedSpace?: Nullable<string>;
+    unoccupiedSpace?: Nullable<string>;
+    rackedSpace?: Nullable<string>;
+}
+
 export interface User {
     id: string;
     BillingCode?: Nullable<string>;
@@ -213,6 +251,22 @@ export interface LoginResponse {
     access_token: string;
 }
 
+export interface WareHouse {
+    id: string;
+    companyName: string;
+    Adress: string;
+    State?: Nullable<string>;
+    City?: Nullable<string>;
+    Pincode?: Nullable<string>;
+    Country?: Nullable<string>;
+    warehouseType?: Nullable<warehouseType>;
+    totalSquareArea?: Nullable<string>;
+    totalAvailiableArea?: Nullable<string>;
+    occupiedSpace?: Nullable<string>;
+    unoccupiedSpace?: Nullable<string>;
+    rackedSpace?: Nullable<string>;
+}
+
 export interface IQuery {
     hello(): string | Promise<string>;
     listInitialRegistrations(): User[] | Promise<User[]>;
@@ -223,6 +277,8 @@ export interface IQuery {
     listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
     getUserById(userId: number): User | Promise<User>;
     getFinalRegisteredUserById(userId: number): User | Promise<User>;
+    getAllWarehouses(): WareHouse[] | Promise<WareHouse[]>;
+    getWarehouseById(id: number): Nullable<WareHouse> | Promise<Nullable<WareHouse>>;
 }
 
 export interface IMutation {
@@ -230,11 +286,15 @@ export interface IMutation {
     sendOTP(email: string): string | Promise<string>;
     initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
+    adminRegister(Admin: Admin): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
     rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
     adminreject(userId: number, input: Adminreject): User | Promise<User>;
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+    createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
+    updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;
+    deleteWarehouse(id: number): boolean | Promise<boolean>;
 }
 
 export type DateTime = any;

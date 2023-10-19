@@ -19,6 +19,7 @@ import { Updateemailpasswordapproved } from './inputdto/updateapproveuseremailpa
 import { Updateapproved } from './inputdto/approved.input'; 
 import { SendFormTorejectedUser } from './inputdto/rejected.input';
 import { Adminreject } from './inputdto/adminreject.input';
+import { Admin } from './inputdto/admin.input';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -55,6 +56,12 @@ async sendOTP(
     @Args('userId') userId: number,
   ): Promise<User> {
     return this.userService.savePassword(passwordInput, userId);
+  }
+  @Mutation(() => User)
+  async adminRegister(
+    @Args('Admin')  admininput:Admin,
+  ): Promise<User>{
+    return this.userService.adminRegister(admininput);
   }
  
 

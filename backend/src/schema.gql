@@ -42,6 +42,7 @@ enum UserType {
   CUSTOMER
   VENDOR
   OVERSEAS_AGENT
+  Admin
 }
 
 """The subtype of a customer"""
@@ -118,6 +119,33 @@ type LoginResponse {
   access_token: String!
 }
 
+type WareHouse {
+  id: ID!
+  companyName: String!
+  Adress: String!
+  State: String
+  City: String
+  Pincode: String
+  Country: String
+  warehouseType: warehouseType
+  totalSquareArea: String
+  totalAvailiableArea: String
+  occupiedSpace: String
+  unoccupiedSpace: String
+  rackedSpace: String
+}
+
+"""types of warehouse"""
+enum warehouseType {
+  coldStorageFacility
+  generalWarehouse
+  referigeratedWarehouse
+  fullFilmentCenter
+  petroleumWarehouse
+  bondedWarehouse
+  hazCargoWarehouse
+}
+
 type Query {
   hello: String!
   listInitialRegistrations: [User!]!
@@ -128,6 +156,8 @@ type Query {
   listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
   getUserById(userId: Int!): User!
   getFinalRegisteredUserById(userId: Int!): User!
+  getAllWarehouses: [WareHouse!]!
+  getWarehouseById(id: Int!): WareHouse
 }
 
 type Mutation {
@@ -135,11 +165,15 @@ type Mutation {
   sendOTP(email: String!): String!
   initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
   savePassword(passwordInput: Password!, userId: Float!): User!
+  adminRegister(Admin: Admin!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
   rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
   adminreject(userId: Float!, input: Adminreject!): User!
   login(loginUserInput: LoginUserInput!): LoginResponse!
+  createWarehouse(input: WarehouseInput!): WareHouse!
+  updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
+  deleteWarehouse(id: Int!): Boolean!
 }
 
 input EmailInput {
@@ -157,6 +191,18 @@ input SelectUserTypeAndSubtypeInput {
 input Password {
   password: String!
   confirmPassword: String!
+}
+
+input Admin {
+  userType: UserType
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  email: String
+  password: String
+  confirmpassword: String
 }
 
 input Finalreg {
@@ -242,4 +288,19 @@ input Adminreject {
 input LoginUserInput {
   email: String!
   password: String!
+}
+
+input WarehouseInput {
+  companyName: String!
+  Adress: String!
+  state: String!
+  city: String!
+  pincode: String!
+  country: String!
+  warehouseType: warehouseType
+  totalSquareArea: String
+  totalAvailiableArea: String
+  occupiedSpace: String
+  unoccupiedSpace: String
+  rackedSpace: String
 }

@@ -11,9 +11,9 @@ import { MailModule } from './email/email.module';
 
 import { UserService } from './user/user.service';
 import { AuthModule } from './auth/auth.modules';
-
+import { WareHouseModule } from './warehouse/warehouse.module';
 @Module({
-  imports: [UsersModule,AuthModule,
+  imports: [UsersModule,AuthModule,WareHouseModule,
    
     
   
