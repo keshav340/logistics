@@ -328,12 +328,12 @@ input LoginUserInput {
 }
 
 input WarehouseInput {
-  companyName: String!
-  Adress: String!
-  state: String!
-  city: String!
-  pincode: String!
-  country: String!
+  companyName: String
+  Adress: String
+  State: String
+  City: String
+  Pincode: String
+  Country: String
   warehouseType: warehouseType
   totalSquareArea: String
   totalAvailiableArea: String

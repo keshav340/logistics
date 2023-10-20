@@ -221,12 +221,12 @@ export interface LoginUserInput {
 }
 
 export interface WarehouseInput {
-    companyName: string;
-    Adress: string;
-    state: string;
-    city: string;
-    pincode: string;
-    country: string;
+    companyName?: Nullable<string>;
+    Adress?: Nullable<string>;
+    State?: Nullable<string>;
+    City?: Nullable<string>;
+    Pincode?: Nullable<string>;
+    Country?: Nullable<string>;
     warehouseType?: Nullable<warehouseType>;
     totalSquareArea?: Nullable<string>;
     totalAvailiableArea?: Nullable<string>;

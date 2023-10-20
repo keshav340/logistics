@@ -5,18 +5,18 @@ import { temperatureCapacity } from 'src/enums/temperaturecapacity.enums';
 import { hazardousStorageType } from 'src/enums/hazardousstorage.enums';
 @InputType()
 export class WarehouseInput{
-    @Field()
+    @Field({nullable:true})
      companyName:string;
-     @Field()
+     @Field({nullable:true})
      Adress:string;
-     @Field()
-     state:string;
-     @Field()
-     city:string;
-     @Field()
-     pincode:string;
-     @Field()
-    country:string;
+     @Field({nullable:true})
+    State: string;
+    @Field({nullable:true})
+    City: string;
+    @Field({nullable:true})
+    Pincode: string;
+    @Field({nullable:true})
+    Country: string;
     @Field(() => warehouseType, { nullable: true })
     warehouseType:warehouseType
     @Field({nullable:true})
