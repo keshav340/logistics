@@ -14,7 +14,7 @@ import { AuthModule } from './auth/auth.modules';
 import { WareHouseModule } from './warehouse/warehouse.module';
 import { truckModule } from './trucking/truck.module';
 @Module({
-  imports: [UsersModule,AuthModule,WareHouseModule,
+  imports: [UsersModule,AuthModule,WareHouseModule,truckModule,
    
     
   

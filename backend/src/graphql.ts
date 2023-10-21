@@ -106,6 +106,65 @@ export enum Approved_users {
     Reverted_user = "Reverted_user"
 }
 
+export enum transportType {
+    FTL = "FTL",
+    LTL = "LTL"
+}
+
+export enum vehicleType {
+    TataAce = "TataAce",
+    AshokLeylandDost = "AshokLeylandDost",
+    MahindraBoleropickup = "MahindraBoleropickup",
+    Tata407 = "Tata407"
+}
+
+export enum pickupCity {
+    Assam = "Assam",
+    Bihar = "Bihar",
+    Gujarat = "Gujarat",
+    Rajesthan = "Rajesthan",
+    Haryana = "Haryana",
+    Kerala = "Kerala",
+    Karnatka = "Karnatka"
+}
+
+export enum pickupCityPincode {
+    _515004 = "_515004",
+    _515731 = "_515731",
+    _515002 = "_515002",
+    _515766 = "_515766",
+    _515415 = "_515415",
+    _515822 = "_515822",
+    _515455 = "_515455",
+    _515001 = "_515001"
+}
+
+export enum dropCity {
+    Assam = "Assam",
+    Bihar = "Bihar",
+    Gujarat = "Gujarat",
+    Rajesthan = "Rajesthan",
+    Haryana = "Haryana",
+    Kerala = "Kerala",
+    Karnatka = "Karnatka"
+}
+
+export enum DropCityPincode {
+    _515004 = "_515004",
+    _515731 = "_515731",
+    _515002 = "_515002",
+    _515766 = "_515766",
+    _515415 = "_515415",
+    _515822 = "_515822",
+    _515455 = "_515455",
+    _515001 = "_515001"
+}
+
+export enum basisofCharges {
+    PerKgs = "PerKgs",
+    PerVehicles = "PerVehicles"
+}
+
 export interface EmailInput {
     email: string;
     otp: string;
@@ -244,6 +303,23 @@ export interface WarehouseInput {
     temperatureCapacity?: Nullable<temperatureCapacity>;
 }
 
+export interface TruckInput {
+    companyName?: Nullable<string>;
+    Adress?: Nullable<string>;
+    State?: Nullable<string>;
+    City?: Nullable<string>;
+    Pincode?: Nullable<string>;
+    Country?: Nullable<string>;
+    transporterType?: Nullable<transportType>;
+    vehicleType?: Nullable<vehicleType>;
+    pickupCity?: Nullable<pickupCity>;
+    PickupCityPincode?: Nullable<pickupCityPincode>;
+    dropCity?: Nullable<dropCity>;
+    DropCityPincode?: Nullable<DropCityPincode>;
+    transportCharges?: Nullable<string>;
+    basisofCharges?: Nullable<basisofCharges>;
+}
+
 export interface WareHouse {
     id: string;
     companyName: string;
@@ -310,6 +386,24 @@ export interface LoginResponse {
     access_token: string;
 }
 
+export interface Trucking {
+    id: string;
+    companyName: string;
+    Adress: string;
+    State?: Nullable<string>;
+    City?: Nullable<string>;
+    Pincode?: Nullable<string>;
+    Country?: Nullable<string>;
+    transporterType?: Nullable<transportType>;
+    vehicleType?: Nullable<vehicleType>;
+    pickupCity?: Nullable<pickupCity>;
+    PickupCityPincode?: Nullable<pickupCityPincode>;
+    dropCity?: Nullable<dropCity>;
+    DropCityPincode?: Nullable<DropCityPincode>;
+    transportCharges?: Nullable<string>;
+    basisofCharges?: Nullable<basisofCharges>;
+}
+
 export interface IQuery {
     hello(): string | Promise<string>;
     listInitialRegistrations(): User[] | Promise<User[]>;
@@ -322,6 +416,8 @@ export interface IQuery {
     getFinalRegisteredUserById(userId: number): User | Promise<User>;
     getAllWarehouses(): WareHouse[] | Promise<WareHouse[]>;
     getWarehouseById(id: number): Nullable<WareHouse> | Promise<Nullable<WareHouse>>;
+    getAlltrucks(): Trucking[] | Promise<Trucking[]>;
+    gettruckById(id: number): Nullable<Trucking> | Promise<Nullable<Trucking>>;
 }
 
 export interface IMutation {
@@ -338,6 +434,9 @@ export interface IMutation {
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
     updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;
     deleteWarehouse(id: number): boolean | Promise<boolean>;
+    createtruck(input: truckInput): Trucking | Promise<Trucking>;
+    updatetruck(id: number, input: truckInput): Trucking | Promise<Trucking>;
+    deletetruck(id: number): boolean | Promise<boolean>;
 }
 
 export type DateTime = any;
