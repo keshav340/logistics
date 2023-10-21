@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WareHouse } from './warehouse.entity';
 import { WarehouseInput } from './dto/warehouse.dto';
-
+import { User } from 'src/user/user.entity';
 @Injectable()
 export class WarehouseService {
     constructor(
     @InjectRepository(WareHouse)
     private warehouseRepository: Repository<WareHouse>){}
+
+ 
+  
     async getAllWarehouses(): Promise<WareHouse[]> {
         return this.warehouseRepository.find();
       }
