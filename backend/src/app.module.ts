@@ -12,9 +12,11 @@ import { MailModule } from './email/email.module';
 import { UserService } from './user/user.service';
 import { AuthModule } from './auth/auth.modules';
 import { WareHouseModule } from './warehouse/warehouse.module';
-import { truckModule } from './trucking/truck.module';
+import { TruckModule } from './truck/truck.module';
+
+
 @Module({
-  imports: [UsersModule,AuthModule,WareHouseModule,truckModule,
+  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,
    
     
   
@@ -39,7 +41,7 @@ import { truckModule } from './trucking/truck.module';
       autoLoadEntities: true,
     }),
   ],
-  providers: [MyResolver,],
+  providers: [MyResolver],
   exports:[]
 })
 export class AppModule {}

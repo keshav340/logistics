@@ -183,7 +183,7 @@ type LoginResponse {
   access_token: String!
 }
 
-type Trucking {
+type TruckEntity {
   id: ID!
   companyName: String!
   Adress: String!
@@ -191,80 +191,6 @@ type Trucking {
   City: String
   Pincode: String
   Country: String
-  transporterType: transportType
-  vehicleType: vehicleType
-  pickupCity: pickupCity
-  PickupCityPincode: pickupCityPincode
-  dropCity: dropCity
-  DropCityPincode: DropCityPincode
-  transportCharges: String
-  basisofCharges: basisofCharges
-}
-
-"""The type of transport to display"""
-enum transportType {
-  FTL
-  LTL
-}
-
-"""The type of vehicle to display"""
-enum vehicleType {
-  TataAce
-  AshokLeylandDost
-  MahindraBoleropickup
-  Tata407
-}
-
-"""pickupCity to display"""
-enum pickupCity {
-  Assam
-  Bihar
-  Gujarat
-  Rajesthan
-  Haryana
-  Kerala
-  Karnatka
-}
-
-"""pickupCity Pincode to display"""
-enum pickupCityPincode {
-  _515004
-  _515731
-  _515002
-  _515766
-  _515415
-  _515822
-  _515455
-  _515001
-}
-
-"""dropCity to display"""
-enum dropCity {
-  Assam
-  Bihar
-  Gujarat
-  Rajesthan
-  Haryana
-  Kerala
-  Karnatka
-}
-
-"""dropCity Pincode to display"""
-enum DropCityPincode {
-  _515004
-  _515731
-  _515002
-  _515766
-  _515415
-  _515822
-  _515455
-  _515001
-}
-
-""" basis of charges to display"""
-enum basisofCharges {
-  PerKgs
-  PerVehicles
 }
 
 type Query {
@@ -279,8 +205,8 @@ type Query {
   getFinalRegisteredUserById(userId: Int!): User!
   getAllWarehouses: [WareHouse!]!
   getWarehouseById(id: Int!): WareHouse
-  getAlltrucks: [Trucking!]!
-  gettruckById(id: Int!): Trucking
+  getTruck(id: ID!): TruckEntity!
+  getAllTrucks: [TruckEntity!]!
 }
 
 type Mutation {
@@ -297,9 +223,9 @@ type Mutation {
   createWarehouse(input: WarehouseInput!): WareHouse!
   updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
   deleteWarehouse(id: Int!): Boolean!
-  createtruck(input: truckInput!): Trucking!
-  updatetruck(id: Int!, input: truckInput!): Trucking!
-  deletetruck(id: Int!): Boolean!
+  createTruck(truckData: TruckDTO!): TruckEntity!
+  updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
+  deleteTruck(id: ID!): Boolean!
 }
 
 input EmailInput {
@@ -440,19 +366,11 @@ input WarehouseInput {
   temperatureCapacity: temperatureCapacity
 }
 
-input truckInput {
+input TruckDTO {
   companyName: String
   Adress: String
   State: String
   City: String
   Pincode: String
   Country: String
-  transporterType: transportType
-  vehicleType: vehicleType
-  pickupCity: pickupCity
-  PickupCityPincode: pickupCityPincode
-  dropCity: dropCity
-  DropCityPincode: DropCityPincode
-  transportCharges: String
-  basisofCharges: basisofCharges
 }
