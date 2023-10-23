@@ -191,6 +191,81 @@ type TruckEntity {
   City: String
   Pincode: String
   Country: String
+  transportertype: transportType
+  vehicletype: vehicleType
+  maxacceptablepayload: maxacceptablePayload
+  pickupcity: pickupCity
+  pickupcitypincode: pickupCityPincode
+  dropcity: dropCity
+  dropcitypincode: DropCityPincode
+  transportcharges: String
+}
+
+"""The type of transport to display"""
+enum transportType {
+  FTL
+  LTL
+}
+
+"""The type of vehicle to display"""
+enum vehicleType {
+  TataAce
+  AshokLeylandDost
+  MahindraBoleropickup
+  Tata407
+}
+
+"""TMax acceptable payload to display"""
+enum maxacceptablePayload {
+  Max_load_850_kgs
+  Max_load_1_Tonne
+  Max_load_onehalf_Tonne
+}
+
+"""pickupCity to display"""
+enum pickupCity {
+  Assam
+  Bihar
+  Gujarat
+  Rajesthan
+  Haryana
+  Kerala
+  Karnatka
+}
+
+"""pickupCity Pincode to display"""
+enum pickupCityPincode {
+  _515004
+  _515731
+  _515002
+  _515766
+  _515415
+  _515822
+  _515455
+  _515001
+}
+
+"""dropCity to display"""
+enum dropCity {
+  Assam
+  Bihar
+  Gujarat
+  Rajesthan
+  Haryana
+  Kerala
+  Karnatka
+}
+
+"""dropCity Pincode to display"""
+enum DropCityPincode {
+  _515004
+  _515731
+  _515002
+  _515766
+  _515415
+  _515822
+  _515455
+  _515001
 }
 
 type Query {
@@ -373,4 +448,12 @@ input TruckDTO {
   City: String
   Pincode: String
   Country: String
+  transportertype: transportType
+  vehicletype: vehicleType
+  maxacceptablepayload: maxacceptablePayload
+  pickupcity: pickupCity
+  pickupcitypincode: pickupCityPincode
+  dropcity: dropCity
+  dropcitypincode: DropCityPincode
+  transportcharges: String
 }

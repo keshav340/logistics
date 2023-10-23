@@ -106,6 +106,66 @@ export enum Approved_users {
     Reverted_user = "Reverted_user"
 }
 
+export enum transportType {
+    FTL = "FTL",
+    LTL = "LTL"
+}
+
+export enum vehicleType {
+    TataAce = "TataAce",
+    AshokLeylandDost = "AshokLeylandDost",
+    MahindraBoleropickup = "MahindraBoleropickup",
+    Tata407 = "Tata407"
+}
+
+export enum maxacceptablePayload {
+    Max_load_850_kgs = "Max_load_850_kgs",
+    Max_load_1_Tonne = "Max_load_1_Tonne",
+    Max_load_onehalf_Tonne = "Max_load_onehalf_Tonne"
+}
+
+export enum pickupCity {
+    Assam = "Assam",
+    Bihar = "Bihar",
+    Gujarat = "Gujarat",
+    Rajesthan = "Rajesthan",
+    Haryana = "Haryana",
+    Kerala = "Kerala",
+    Karnatka = "Karnatka"
+}
+
+export enum pickupCityPincode {
+    _515004 = "_515004",
+    _515731 = "_515731",
+    _515002 = "_515002",
+    _515766 = "_515766",
+    _515415 = "_515415",
+    _515822 = "_515822",
+    _515455 = "_515455",
+    _515001 = "_515001"
+}
+
+export enum dropCity {
+    Assam = "Assam",
+    Bihar = "Bihar",
+    Gujarat = "Gujarat",
+    Rajesthan = "Rajesthan",
+    Haryana = "Haryana",
+    Kerala = "Kerala",
+    Karnatka = "Karnatka"
+}
+
+export enum DropCityPincode {
+    _515004 = "_515004",
+    _515731 = "_515731",
+    _515002 = "_515002",
+    _515766 = "_515766",
+    _515415 = "_515415",
+    _515822 = "_515822",
+    _515455 = "_515455",
+    _515001 = "_515001"
+}
+
 export interface EmailInput {
     email: string;
     otp: string;
@@ -251,6 +311,14 @@ export interface TruckDTO {
     City?: Nullable<string>;
     Pincode?: Nullable<string>;
     Country?: Nullable<string>;
+    transportertype?: Nullable<transportType>;
+    vehicletype?: Nullable<vehicleType>;
+    maxacceptablepayload?: Nullable<maxacceptablePayload>;
+    pickupcity?: Nullable<pickupCity>;
+    pickupcitypincode?: Nullable<pickupCityPincode>;
+    dropcity?: Nullable<dropCity>;
+    dropcitypincode?: Nullable<DropCityPincode>;
+    transportcharges?: Nullable<string>;
 }
 
 export interface WareHouse {
@@ -327,6 +395,14 @@ export interface TruckEntity {
     City?: Nullable<string>;
     Pincode?: Nullable<string>;
     Country?: Nullable<string>;
+    transportertype?: Nullable<transportType>;
+    vehicletype?: Nullable<vehicleType>;
+    maxacceptablepayload?: Nullable<maxacceptablePayload>;
+    pickupcity?: Nullable<pickupCity>;
+    pickupcitypincode?: Nullable<pickupCityPincode>;
+    dropcity?: Nullable<dropCity>;
+    dropcitypincode?: Nullable<DropCityPincode>;
+    transportcharges?: Nullable<string>;
 }
 
 export interface IQuery {
