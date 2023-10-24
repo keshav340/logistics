@@ -21,6 +21,8 @@ import { ApprovedUser } from 'src/enums/approved.enums';
 import { SendFormTorejectedUser } from './inputdto/rejected.input';
 import { Adminreject } from './inputdto/adminreject.input';
 import { Admin } from './inputdto/admin.input';
+import { JwtService } from '@nestjs/jwt';
+import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -447,6 +449,11 @@ export class UserService {
     }
     return user;
   }
+ 
+
+
+
+
   
  
 

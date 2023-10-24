@@ -113,6 +113,9 @@ remarks: string
   @OneToMany(() => WareHouse, (warehouse) => warehouse.user)
   @Field(() => [WareHouse], { nullable: true })
   warehouses: WareHouse[];
+@Field({nullable:true})
+@Column({nullable:true})
+reveiw_token: string;
 
 }
 

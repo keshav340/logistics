@@ -381,6 +381,7 @@ export interface User {
     finalregapproved?: Nullable<boolean>;
     remarks?: Nullable<string>;
     warehouses?: Nullable<WareHouse[]>;
+    reveiw_token?: Nullable<string>;
 }
 
 export interface LoginResponse {
@@ -431,6 +432,7 @@ export interface IMutation {
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
     rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
     adminreject(userId: number, input: Adminreject): User | Promise<User>;
+    userReveiw(userId: number): string | Promise<string>;
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
     updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;

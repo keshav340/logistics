@@ -182,5 +182,47 @@ async sendOTP(
       throw new Error('Failed to admin reject user: ' + error.message);
     }
   }
-   
+  @Mutation(() => String)
+  async userReveiw(@Args('userId') userId: number): Promise<string> {
+    try {
+      // Fetch the user from the service or repository
+      const user = await this.userService.getUserById(userId);
+
+      // Define the payload for the JWT token
+      const payload = {
+        userID: user.id,
+        userType: user.userType,
+        customerSubType: user.customerSubType,
+        vendorSubType: user.vendorSubType,
+        overseasAgentSubType: user.overseasAgentSubType,
+        email: user.email,
+        companyType: user.companyType,
+        industryType: user.industryType,
+        companyName: user.companyName,
+        state: user.state,
+        city: user.city,
+        pincode: user.pincode,
+        address: user.Adress,
+        country: user.country,
+        companyRegNo: user.company_reg_no,
+        companyPanNo: user.company_pan_no,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        designation: user.Designation,
+        mobileNo: user.mobile,
+        website: user.website,
+        gstNo: user.gst_no,
+        annualTurnover: user.annualTurnover,
+      };
+
+      // Replace 'your-secret-key' with your actual secret key
+      const secretKey = "secret"
+      
+      const token = jwt.sign(payload, secretKey);
+
+      return token;
+    } catch (error) {
+      throw new Error('Failed to generate user review token: ' + error.message);
+    }
+  }
 }

@@ -99,6 +99,7 @@ type User {
   finalregapproved: Boolean
   remarks: String
   warehouses: [WareHouse!]
+  reveiw_token: String
 }
 
 """The type of user"""
@@ -294,6 +295,7 @@ type Mutation {
   approveUser(userId: Int!, input: Updateapproved!): User!
   rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
   adminreject(userId: Float!, input: Adminreject!): User!
+  userReveiw(userId: Float!): String!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   createWarehouse(input: WarehouseInput!): WareHouse!
   updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
