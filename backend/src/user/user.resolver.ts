@@ -1,5 +1,8 @@
 // src/user/user.resolver.ts
-
+import * as zlib from 'zlib';
+import urlSafeBase64 from 'urlsafe-base64';
+import base64url from 'base64url';
+import pako from 'pako';
 import { Resolver, Mutation, Args, Int,Query,Context,} from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { Password } from './inputdto/password.input';
@@ -20,6 +23,8 @@ import { Updateapproved } from './inputdto/approved.input';
 import { SendFormTorejectedUser } from './inputdto/rejected.input';
 import { Adminreject } from './inputdto/adminreject.input';
 import { Admin } from './inputdto/admin.input';
+import { Repository } from 'typeorm';
+const sgMail = require('@sendgrid/mail')
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -218,8 +223,53 @@ async sendOTP(
       // Replace 'your-secret-key' with your actual secret key
       const secretKey = "secret"
       
+      
       const token = jwt.sign(payload, secretKey);
+      const compressedToken = pako.deflate(token);
+      console.log(compressedToken)
 
+      const tokenLink = `www.example.com/${token}`;
+      const html = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>User Review</title>
+      </head>
+      <body>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
+              <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
+                  <h2>User Review</h2>
+              </div>
+              <div style="padding: 20px;">
+                  <p>Hello,</p>
+                  <p> Please click the button below to review your user profile:</p>
+                  <a href="${tokenLink}" style="display: inline-block; background: #007bff; color: #ffffff; text-align: center; text-decoration: none; padding: 10px 20px; margin: 20px 0; border-radius: 5px;">Access User Review</a>
+                  <p>If you have any questions, please don't hesitate to contact us.</p>
+                  <p>Thank you!</p>
+              </div>
+              <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
+                  <p>&copy; ${new Date().getFullYear} Exacoadel</p>
+              </div>
+          </div>
+      </body>
+      </html>
+    `;
+      const email = user.email
+      //console.log(tokenLink);
+      sgMail.setApiKey("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")
+      const response = await sgMail.send({
+        to: email,
+        from: 'keshav.sharma@xpressword.com',
+        subject: 'user Reveiw',
+
+       
+        html: html,
+      });
+
+
+     
       return token;
     } catch (error) {
       throw new Error('Failed to generate user review token: ' + error.message);
