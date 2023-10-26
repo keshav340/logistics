@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany,Unique} from 'typeorm';
 import { ObjectType, Field, Int,ID } from '@nestjs/graphql'; // Import the necessary decorators
 import { CustomerSubType, UserType, VendorSubType, OverseasAgentSubType } from 'src/enums/user.enums';
 import { CompanyType } from 'src/enums/company.enums';
@@ -34,6 +34,7 @@ export class User {
   overseasAgentSubType: OverseasAgentSubType | null;
   @Column({nullable:true})
   @Field({nullable:true})
+  @Unique(['email'])
   email: string;
   @Column({nullable:true})
   @Field({nullable:true})
