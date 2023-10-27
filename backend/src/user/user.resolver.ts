@@ -205,8 +205,26 @@ async sendOTP(
       throw new Error('Failed to admin reject user: ' + error.message);
     }
   }
+  @Mutation(() => User)
+  async adminreveiwreject(
+    @Args('userId') userId: number,
+    @Args('input') input: Adminreject,
+  ): Promise<User> {
+    try {
+      return await this.userService.adminreject(userId, input);
+    } catch (error) {
+      throw new Error('Failed to admin reject user: ' + error.message);
+    }
+  }
   @Mutation(() => String)
   async userReveiw(@Args('userId') userId: number): Promise<string> {
     return this.userService.userReveiw(userId);
+  }
+  @Query(() => User, { nullable: true })
+  async getUserByReviewToken(@Args('hashedToken') hashedToken: string): Promise<User | null> {
+    
+    const user = await this.userService.decodeHashedToken(hashedToken);
+
+    return user;
   }
 }

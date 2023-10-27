@@ -281,6 +281,7 @@ type Query {
   listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
   getUserById(userId: Int!): User!
   getFinalRegisteredUserById(userId: Int!): User!
+  getUserByReviewToken(hashedToken: String!): User
   getAllWarehouses: [WareHouse!]!
   getWarehouseById(id: Int!): WareHouse
   getTruck(id: ID!): TruckEntity!
@@ -299,6 +300,7 @@ type Mutation {
   approveUser(userId: Int!, input: Updateapproved!): User!
   rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
   adminreject(userId: Float!, input: Adminreject!): User!
+  adminreveiwreject(userId: Float!, input: Adminreject!): User!
   userReveiw(userId: Float!): String!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   createWarehouse(input: WarehouseInput!): WareHouse!

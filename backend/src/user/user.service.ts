@@ -457,6 +457,26 @@ export class UserService {
       throw new Error('Failed to admin reject user: ' + error.message);
     }
   }
+  async adminreveiwreject(userId: number, input: Adminreject): Promise<User> {
+    try {
+      // Fetch the user by ID and perform the admin rejection logic here
+      const user = await this.userRepository.findOne({ where: { id: userId, isapproved: ApprovedUser.REVEIW_PENDING} });
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // Update the user's status and remarks
+      user.isapproved = ApprovedUser.Rejected
+      user.remarks = input.remarks;
+
+      // Save the updated user
+      await this.userRepository.save(user);
+
+      return user;
+    } catch (error) {
+      throw new Error('Failed to admin reject user: ' + error.message);
+    }
+  }
   async sendFormtorejectUser(userId: number,input:SendFormTorejectedUser): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Rejected} });
@@ -560,6 +580,9 @@ export class UserService {
       sha256.update(token);
       const hashedToken = sha256.digest('hex');
       console.log(hashedToken);
+      console.log("User Data in the Token:");
+      const decodedToken = jwt.verify(token, secretKey);
+      console.log(decodedToken);
    
 
       const tokenLink = `www.example.com/${hashedToken}`;
@@ -613,6 +636,25 @@ export class UserService {
       throw new Error('Failed to generate user review token: ' + error.message);
     }
   }
+  async  decodeHashedToken(hashedToken: string): Promise<any> {
+    
+
+    try {
+     const secret_key = "secret1"
+        
+      // Verify and decode the hashed token
+      const decodedToken = jwt.verify(hashedToken,secret_key);
+  
+      return decodedToken;
+    } catch (error) {
+      console.error('Error decoding hashed token:', error);
+      return null; // Return null in case of an error or invalid token
+    }
+  }
+  
+  
+  
+  
  
 
   

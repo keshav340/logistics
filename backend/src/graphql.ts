@@ -418,6 +418,7 @@ export interface IQuery {
     listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
     getUserById(userId: number): User | Promise<User>;
     getFinalRegisteredUserById(userId: number): User | Promise<User>;
+    getUserByReviewToken(hashedToken: string): Nullable<User> | Promise<Nullable<User>>;
     getAllWarehouses(): WareHouse[] | Promise<WareHouse[]>;
     getWarehouseById(id: number): Nullable<WareHouse> | Promise<Nullable<WareHouse>>;
     getTruck(id: string): TruckEntity | Promise<TruckEntity>;
@@ -436,6 +437,7 @@ export interface IMutation {
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
     rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
     adminreject(userId: number, input: Adminreject): User | Promise<User>;
+    adminreveiwreject(userId: number, input: Adminreject): User | Promise<User>;
     userReveiw(userId: number): string | Promise<string>;
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
