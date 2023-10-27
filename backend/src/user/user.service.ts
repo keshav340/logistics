@@ -23,6 +23,7 @@ import { Adminreject } from './inputdto/adminreject.input';
 import { Admin } from './inputdto/admin.input';
 import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -49,20 +50,23 @@ export class UserService {
     try {
       // Check if a user with the provided email exists
       const existingUser = await this.userRepository.findOne({ where: { email } });
-  
+       
       if (existingUser) {
-        // Update the existing user's OTP
-        existingUser.otp = generateOTP;
-        existingUser.otp_veified = false;
-        await this.userRepository.save(existingUser);
-      } else {
+        // If an existing user is found, throw an exception
+        throw new Error("User with this email already exists");
+      }
+  
+    
         // Create a new user
         const newUser = new User();
         newUser.email = email;
         newUser.otp = generateOTP;
         newUser.otp_veified = false;
         await this.userRepository.save(newUser);
-      }
+      
+    
+   
+
   
       // Send the OTP email
       const response = await sgMail.send({
@@ -74,6 +78,7 @@ export class UserService {
       });
   
     } catch (error) {
+     
       console.log(typeof email);
       console.log(error);
     }
@@ -457,15 +462,5 @@ export class UserService {
   
  
 
-
- 
-
- 
-
-
- 
-
- 
- 
   
 }

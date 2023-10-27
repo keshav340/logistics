@@ -225,8 +225,7 @@ async sendOTP(
       
       
       const token = jwt.sign(payload, secretKey);
-      const compressedToken = pako.deflate(token);
-      console.log(compressedToken)
+   
 
       const tokenLink = `www.example.com/${token}`;
       const html = `
