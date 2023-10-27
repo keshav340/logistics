@@ -24,6 +24,7 @@ import { SendFormTorejectedUser } from './inputdto/rejected.input';
 import { Adminreject } from './inputdto/adminreject.input';
 import { Admin } from './inputdto/admin.input';
 import { Repository } from 'typeorm';
+const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail')
 @Resolver('User')
 export class UserResolver {
@@ -83,6 +84,10 @@ async sendOTP(
   async listrejecteduser(): Promise<User[]> {
     return this.userService.listrejectedusers();
   }
+   @Query(() => [User])
+   async listreveiweduser(): Promise<User[]> {
+    return this.userService.listreveiwedusers();
+   }
 
 
   @Query(() => [String])
@@ -126,6 +131,12 @@ async sendOTP(
    //   throw new HttpException('Unauthenticated', HttpStatus.UNAUTHORIZED);
   //  }
   //}
+  @Mutation(()=>User)
+  async sendtoreveiwuser(
+    @Args('userId') userId: number,
+  ): Promise<User>{
+    return this.userService.sendtoreveiweduser(userId);
+  }
   
   
   @Mutation(() => User)
@@ -148,6 +159,13 @@ async sendOTP(
   ): Promise<User[]> {
     return this.userService.filterlistNonApprovedUsersbyUserType(userType,CustomerSubType,VendorSubType,OverseasAgentSubType);
   }
+  @Mutation(() => User)
+  async approvereveiwedUser(
+    @Args({ name: 'userId', type: () => Int }) userId: number,
+    @Args('input') input: Updateapproved,
+    ): Promise<User> {
+      return this.userService.approvereveiwedUser(userId, input);
+   }
   
   
    @Mutation(() => User)
@@ -189,89 +207,6 @@ async sendOTP(
   }
   @Mutation(() => String)
   async userReveiw(@Args('userId') userId: number): Promise<string> {
-    try {
-      // Fetch the user from the service or repository
-      const user = await this.userService.getUserById(userId);
-
-      // Define the payload for the JWT token
-      const payload = {
-        userID: user.id,
-        userType: user.userType,
-        customerSubType: user.customerSubType,
-        vendorSubType: user.vendorSubType,
-        overseasAgentSubType: user.overseasAgentSubType,
-        email: user.email,
-        companyType: user.companyType,
-        industryType: user.industryType,
-        companyName: user.companyName,
-        state: user.state,
-        city: user.city,
-        pincode: user.pincode,
-        address: user.Adress,
-        country: user.country,
-        companyRegNo: user.company_reg_no,
-        companyPanNo: user.company_pan_no,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        designation: user.Designation,
-        mobileNo: user.mobile,
-        website: user.website,
-        gstNo: user.gst_no,
-        annualTurnover: user.annualTurnover,
-      };
-
-      // Replace 'your-secret-key' with your actual secret key
-      const secretKey = "secret"
-      
-      
-      const token = jwt.sign(payload, secretKey);
-   
-
-      const tokenLink = `www.example.com/${token}`;
-      const html = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>User Review</title>
-      </head>
-      <body>
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
-              <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
-                  <h2>User Review</h2>
-              </div>
-              <div style="padding: 20px;">
-                  <p>Hello,</p>
-                  <p> Please click the button below to review your user profile:</p>
-                  <a href="${tokenLink}" style="display: inline-block; background: #007bff; color: #ffffff; text-align: center; text-decoration: none; padding: 10px 20px; margin: 20px 0; border-radius: 5px;">Access User Review</a>
-                  <p>If you have any questions, please don't hesitate to contact us.</p>
-                  <p>Thank you!</p>
-              </div>
-              <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
-                  <p>&copy; ${new Date().getFullYear} Exacoadel</p>
-              </div>
-          </div>
-      </body>
-      </html>
-    `;
-      const email = user.email
-      //console.log(tokenLink);
-      sgMail.setApiKey("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")
-      const response = await sgMail.send({
-        to: email,
-        from: 'keshav.sharma@xpressword.com',
-        subject: 'user Reveiw',
-
-       
-        html: html,
-      });
-
-
-     
-      return token;
-    } catch (error) {
-      throw new Error('Failed to generate user review token: ' + error.message);
-    }
+    return this.userService.userReveiw(userId);
   }
 }

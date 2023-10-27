@@ -103,6 +103,7 @@ export enum Approved_users {
     Approval_pending = "Approval_pending",
     Approved = "Approved",
     Rejected = "Rejected",
+    REVEIW_PENDING = "REVEIW_PENDING",
     Reverted_user = "Reverted_user"
 }
 
@@ -411,6 +412,7 @@ export interface IQuery {
     listInitialRegistrations(): User[] | Promise<User[]>;
     listapprovealuser(): User[] | Promise<User[]>;
     listrejecteduser(): User[] | Promise<User[]>;
+    listreveiweduser(): User[] | Promise<User[]>;
     listAllOtps(): string[] | Promise<string[]>;
     getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
     listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
@@ -428,7 +430,9 @@ export interface IMutation {
     initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     adminRegister(Admin: Admin): User | Promise<User>;
+    sendtoreveiwuser(userId: number): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
+    approvereveiwedUser(userId: number, input: Updateapproved): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
     rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
     adminreject(userId: number, input: Adminreject): User | Promise<User>;

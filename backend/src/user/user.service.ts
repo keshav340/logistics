@@ -24,6 +24,7 @@ import { Admin } from './inputdto/admin.input';
 import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+const crypto = require('crypto');
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -117,8 +118,22 @@ export class UserService {
   
     return user;
   }
+
+  async listreveiwedusers(): Promise<User[]> {
+   
+    return await this.userRepository.find({
+      where: { isapproved:ApprovedUser.REVEIW_PENDING },
+    });
+  }
   async adminRegister(input:Admin): Promise<User>
   {
+    const existingUser = await this.userRepository.findOne({ where: { email: input.email } });
+
+  if (existingUser) {
+    throw new Error("User already exists");
+  }
+   
+    
     const admin = new User();
     admin.userType = UserType.Admin
     admin.isapproved = ApprovedUser.Approved;
@@ -188,6 +203,12 @@ export class UserService {
       throw new Error(error);
     }
     
+  }
+  async sendtoreveiweduser(userId:number): Promise<User> {
+    const user = await this.userRepository.findOne({where:{id:userId}})
+    user.isapproved = ApprovedUser.REVEIW_PENDING
+    await this.userRepository.save(user);
+    return user;
   }
  async fetchdata(gstinp:string)
  {
@@ -296,6 +317,48 @@ export class UserService {
       },
     });
 
+
+    
+  }
+  async approvereveiwedUser(userId: number,input:Updateapproved): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.REVEIW_PENDING} });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      user.userType = input.userType;
+      user.customerSubType = input.customerSubType;
+      user.vendorSubType = input.vendorSubType;
+      user.overseasAgentSubType = input.overseasAgentSubType;
+      user.email = input.email;
+      user.Adress = input.Address
+      user.companyName = input.company_name
+      user.company_pan_no = input.company_pan_no
+      user.company_reg_no = input.company_reg_no
+      user.annualTurnover = input.annualTurnover;
+      user.companyType = input.companyType;
+      user.industryType = input.industryType;
+      user.state = input.state;
+      user.city = input.city;
+      user.country = input.country;
+      user.company_reg_no = input.company_reg_no;
+      user.annualTurnover = input.annualTurnover;
+      user.gst_no = input.gst_no;
+      user.first_name = input.first_name;
+      user.last_name = input.last_name;
+      user.Designation = input.Designation;
+      user.mobile = input.mobile;
+      user.website = input.website;
+      user.remarks = input.remarks
+      let flag = 0;
+      user.isapproved = input.Approveduser;
+
+      await this.userRepository.save(user);
+
+      return user;
+    } catch (error) {
+      throw new Error('Failed to approve user: ' + error.message);
+    }
 
     
   }
@@ -456,6 +519,103 @@ export class UserService {
     }
     return user;
   }
+  async userReveiw( userId: number): Promise<string> {
+    try {
+      // Fetch the user from the service or repository
+      const user = await this.userRepository.findOne({ where: { id: userId}});
+
+      // Define the payload for the JWT token
+      const payload = {
+        userID: user.id,
+        userType: user.userType,
+        customerSubType: user.customerSubType,
+        vendorSubType: user.vendorSubType,
+        overseasAgentSubType: user.overseasAgentSubType,
+        email: user.email,
+        companyType: user.companyType,
+        industryType: user.industryType,
+        companyName: user.companyName,
+        state: user.state,
+        city: user.city,
+        pincode: user.pincode,
+        address: user.Adress,
+        country: user.country,
+        companyRegNo: user.company_reg_no,
+        companyPanNo: user.company_pan_no,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        designation: user.Designation,
+        mobileNo: user.mobile,
+        website: user.website,
+        gstNo: user.gst_no,
+        annualTurnover: user.annualTurnover,
+      };
+
+     
+      const secretKey = "secret1"
+      
+      
+      const token = jwt.sign(payload, secretKey);
+      const sha256 = crypto.createHash('sha256');
+      sha256.update(token);
+      const hashedToken = sha256.digest('hex');
+      console.log(hashedToken);
+   
+
+      const tokenLink = `www.example.com/${hashedToken}`;
+      const html = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>User Review</title>
+      </head>
+      <body>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
+              <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
+                  <h2>User Review</h2>
+              </div>
+              <div style="padding: 20px;">
+                  <p>Hello,</p>
+                  <p> Please click the button below to review your user profile:</p>
+                  <a href="${tokenLink}" style="display: inline-block; background: #007bff; color: #ffffff; text-align: center; text-decoration: none; padding: 10px 20px; margin: 20px 0; border-radius: 5px;">Access User Review</a>
+                  <p>If you have any questions, please don't hesitate to contact us.</p>
+                  <p>Thank you!</p>
+              </div>
+              <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
+                  <p>&copy; ${new Date().getFullYear} Exacoadel</p>
+              </div>
+          </div>
+      </body>
+      </html>
+    `;
+      const email = user.email
+      //console.log(tokenLink);
+      sgMail.setApiKey("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")
+      const response = await sgMail.send({
+        to: email,
+        from: 'keshav.sharma@xpressword.com',
+        subject: 'user Reveiw',
+
+       
+        html: html,
+      });
+      user.reveiw_token = hashedToken;
+      await this.userRepository.save(user);
+    
+      
+
+
+     
+      return hashedToken;
+    } catch (error) {
+      throw new Error('Failed to generate user review token: ' + error.message);
+    }
+  }
+ 
+
+  
  
 
 

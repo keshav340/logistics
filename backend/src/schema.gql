@@ -172,6 +172,7 @@ enum Approved_users {
   Approval_pending
   Approved
   Rejected
+  REVEIW_PENDING
   Reverted_user
 }
 
@@ -274,6 +275,7 @@ type Query {
   listInitialRegistrations: [User!]!
   listapprovealuser: [User!]!
   listrejecteduser: [User!]!
+  listreveiweduser: [User!]!
   listAllOtps: [String!]!
   getOtpByEmail(email: String!): String
   listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
@@ -291,7 +293,9 @@ type Mutation {
   initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
   savePassword(passwordInput: Password!, userId: Float!): User!
   adminRegister(Admin: Admin!): User!
+  sendtoreveiwuser(userId: Float!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
+  approvereveiwedUser(userId: Int!, input: Updateapproved!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
   rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
   adminreject(userId: Float!, input: Adminreject!): User!
