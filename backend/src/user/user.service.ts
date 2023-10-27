@@ -50,25 +50,23 @@ export class UserService {
     try {
       // Check if a user with the provided email exists
       const existingUser = await this.userRepository.findOne({ where: { email } });
-       
       if (existingUser) {
-        // If an existing user is found, throw an exception
-        throw new Error("User with this email already exists");
-      }
-  
-    
+        // Update the existing user's OTP
+        existingUser.otp = generateOTP;
+        existingUser.otp_veified = false;
+        await this.userRepository.save(existingUser);
+      } 
+      else{
+
         // Create a new user
         const newUser = new User();
         newUser.email = email;
         newUser.otp = generateOTP;
         newUser.otp_veified = false;
         await this.userRepository.save(newUser);
-      
-    
-   
+      }
 
-  
-      // Send the OTP email
+       
       const response = await sgMail.send({
         to: email,
         from: 'keshav.sharma@xpressword.com',
@@ -88,8 +86,12 @@ export class UserService {
     const given = emailinput.email;
     const user = await this.userRepository.findOne({ where: { email: given } });
     if (!user) {
-      throw new Error('User not found'); // You can customize this error message
+      throw new Error('User not found'); 
     }
+    if (user.userType) {
+      throw new Error('User type is already set.');
+  }
+
     user.userType = input.userType;
     const usergivenotp = emailinput.otp;
     if (!user || user.otp !== emailinput.otp) {

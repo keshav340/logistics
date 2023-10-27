@@ -35,6 +35,7 @@ import { TruckModule } from './truck/truck.module';
       port: 5432,
       username: process.env.DATABASE_USERNAME,
       database: process.env.DATABASE_NAME,
+      password: process.env.DATABASE_PASSWORD,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,

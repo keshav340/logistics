@@ -34,7 +34,7 @@ export class User {
   overseasAgentSubType: OverseasAgentSubType | null;
   @Column({nullable:true})
   @Field({nullable:true})
-  @Unique(['email'])
+  
   email: string;
   @Column({nullable:true})
   @Field({nullable:true})
