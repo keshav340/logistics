@@ -41,6 +41,66 @@ export enum temperatureCapacity {
     fifteen_Degree_to_twentyfive_degree_celcius = "fifteen_Degree_to_twentyfive_degree_celcius"
 }
 
+export enum transportType {
+    FTL = "FTL",
+    LTL = "LTL"
+}
+
+export enum vehicleType {
+    TataAce = "TataAce",
+    AshokLeylandDost = "AshokLeylandDost",
+    MahindraBoleropickup = "MahindraBoleropickup",
+    Tata407 = "Tata407"
+}
+
+export enum maxacceptablePayload {
+    Max_load_850_kgs = "Max_load_850_kgs",
+    Max_load_1_Tonne = "Max_load_1_Tonne",
+    Max_load_onehalf_Tonne = "Max_load_onehalf_Tonne"
+}
+
+export enum pickupCity {
+    Assam = "Assam",
+    Bihar = "Bihar",
+    Gujarat = "Gujarat",
+    Rajesthan = "Rajesthan",
+    Haryana = "Haryana",
+    Kerala = "Kerala",
+    Karnatka = "Karnatka"
+}
+
+export enum pickupCityPincode {
+    _515004 = "_515004",
+    _515731 = "_515731",
+    _515002 = "_515002",
+    _515766 = "_515766",
+    _515415 = "_515415",
+    _515822 = "_515822",
+    _515455 = "_515455",
+    _515001 = "_515001"
+}
+
+export enum dropCity {
+    Assam = "Assam",
+    Bihar = "Bihar",
+    Gujarat = "Gujarat",
+    Rajesthan = "Rajesthan",
+    Haryana = "Haryana",
+    Kerala = "Kerala",
+    Karnatka = "Karnatka"
+}
+
+export enum DropCityPincode {
+    _515004 = "_515004",
+    _515731 = "_515731",
+    _515002 = "_515002",
+    _515766 = "_515766",
+    _515415 = "_515415",
+    _515822 = "_515822",
+    _515455 = "_515455",
+    _515001 = "_515001"
+}
+
 export enum UserType {
     CUSTOMER = "CUSTOMER",
     VENDOR = "VENDOR",
@@ -105,66 +165,6 @@ export enum Approved_users {
     Rejected = "Rejected",
     REVEIW_PENDING = "REVEIW_PENDING",
     Reverted_user = "Reverted_user"
-}
-
-export enum transportType {
-    FTL = "FTL",
-    LTL = "LTL"
-}
-
-export enum vehicleType {
-    TataAce = "TataAce",
-    AshokLeylandDost = "AshokLeylandDost",
-    MahindraBoleropickup = "MahindraBoleropickup",
-    Tata407 = "Tata407"
-}
-
-export enum maxacceptablePayload {
-    Max_load_850_kgs = "Max_load_850_kgs",
-    Max_load_1_Tonne = "Max_load_1_Tonne",
-    Max_load_onehalf_Tonne = "Max_load_onehalf_Tonne"
-}
-
-export enum pickupCity {
-    Assam = "Assam",
-    Bihar = "Bihar",
-    Gujarat = "Gujarat",
-    Rajesthan = "Rajesthan",
-    Haryana = "Haryana",
-    Kerala = "Kerala",
-    Karnatka = "Karnatka"
-}
-
-export enum pickupCityPincode {
-    _515004 = "_515004",
-    _515731 = "_515731",
-    _515002 = "_515002",
-    _515766 = "_515766",
-    _515415 = "_515415",
-    _515822 = "_515822",
-    _515455 = "_515455",
-    _515001 = "_515001"
-}
-
-export enum dropCity {
-    Assam = "Assam",
-    Bihar = "Bihar",
-    Gujarat = "Gujarat",
-    Rajesthan = "Rajesthan",
-    Haryana = "Haryana",
-    Kerala = "Kerala",
-    Karnatka = "Karnatka"
-}
-
-export enum DropCityPincode {
-    _515004 = "_515004",
-    _515731 = "_515731",
-    _515002 = "_515002",
-    _515766 = "_515766",
-    _515415 = "_515415",
-    _515822 = "_515822",
-    _515455 = "_515455",
-    _515001 = "_515001"
 }
 
 export interface EmailInput {
@@ -281,6 +281,11 @@ export interface LoginUserInput {
     password: string;
 }
 
+export interface ResetPasswordInput {
+    password: string;
+    confirmPassword: string;
+}
+
 export interface WarehouseInput {
     companyName?: Nullable<string>;
     Adress?: Nullable<string>;
@@ -303,6 +308,7 @@ export interface WarehouseInput {
     hazardousStorageType?: Nullable<hazardousStorageType>;
     temperatureType?: Nullable<temperatureType>;
     temperatureCapacity?: Nullable<temperatureCapacity>;
+    userId: number;
 }
 
 export interface TruckDTO {
@@ -320,6 +326,7 @@ export interface TruckDTO {
     dropcity?: Nullable<dropCity>;
     dropcitypincode?: Nullable<DropCityPincode>;
     transportcharges?: Nullable<string>;
+    userId?: Nullable<number>;
 }
 
 export interface WareHouse {
@@ -346,6 +353,25 @@ export interface WareHouse {
     hazardousStorageType?: Nullable<hazardousStorageType>;
     temperatureType?: Nullable<temperatureType>;
     temperatureCapacity?: Nullable<temperatureCapacity>;
+}
+
+export interface TruckEntity {
+    id: string;
+    companyName: string;
+    Adress: string;
+    State?: Nullable<string>;
+    City?: Nullable<string>;
+    Pincode?: Nullable<string>;
+    Country?: Nullable<string>;
+    transportertype?: Nullable<transportType>;
+    vehicletype?: Nullable<vehicleType>;
+    maxacceptablepayload?: Nullable<maxacceptablePayload>;
+    pickupcity?: Nullable<pickupCity>;
+    pickupcitypincode?: Nullable<pickupCityPincode>;
+    dropcity?: Nullable<dropCity>;
+    dropcitypincode?: Nullable<DropCityPincode>;
+    transportcharges?: Nullable<string>;
+    user?: Nullable<User>;
 }
 
 export interface User {
@@ -382,29 +408,16 @@ export interface User {
     finalregapproved?: Nullable<boolean>;
     remarks?: Nullable<string>;
     warehouses?: Nullable<WareHouse[]>;
+    trucks?: Nullable<TruckEntity[]>;
     reveiw_token?: Nullable<string>;
+    JWT_token?: Nullable<string>;
+    reset_token?: Nullable<string>;
+    email_token?: Nullable<string>;
+    email_verify?: Nullable<boolean>;
 }
 
 export interface LoginResponse {
     access_token: string;
-}
-
-export interface TruckEntity {
-    id: string;
-    companyName: string;
-    Adress: string;
-    State?: Nullable<string>;
-    City?: Nullable<string>;
-    Pincode?: Nullable<string>;
-    Country?: Nullable<string>;
-    transportertype?: Nullable<transportType>;
-    vehicletype?: Nullable<vehicleType>;
-    maxacceptablepayload?: Nullable<maxacceptablePayload>;
-    pickupcity?: Nullable<pickupCity>;
-    pickupcitypincode?: Nullable<pickupCityPincode>;
-    dropcity?: Nullable<dropCity>;
-    dropcitypincode?: Nullable<DropCityPincode>;
-    transportcharges?: Nullable<string>;
 }
 
 export interface IQuery {
@@ -421,13 +434,17 @@ export interface IQuery {
     getUserByReviewToken(hashedToken: string): Nullable<User> | Promise<Nullable<User>>;
     getAllWarehouses(): WareHouse[] | Promise<WareHouse[]>;
     getWarehouseById(id: number): Nullable<WareHouse> | Promise<Nullable<WareHouse>>;
+    getWarehousesByUserId(userId: number): WareHouse[] | Promise<WareHouse[]>;
     getTruck(id: string): TruckEntity | Promise<TruckEntity>;
     getAllTrucks(): TruckEntity[] | Promise<TruckEntity[]>;
+    gettrucksByUserId(userId: number): TruckEntity[] | Promise<TruckEntity[]>;
 }
 
 export interface IMutation {
     acceptEmail(emailInput: EmailInput): User | Promise<User>;
     sendOTP(email: string): string | Promise<string>;
+    verifyEmailotp(email: string): string | Promise<string>;
+    verifyEmail(email: string): string | Promise<string>;
     initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     adminRegister(Admin: Admin): User | Promise<User>;
@@ -440,6 +457,9 @@ export interface IMutation {
     adminreveiwreject(userId: number, input: Adminreject): User | Promise<User>;
     userReveiw(userId: number): string | Promise<string>;
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+    logout(userId: number): boolean | Promise<boolean>;
+    reset_password_token(email: string): string | Promise<string>;
+    reset_password(resettoken: string, resetpassword: ResetPasswordInput): string | Promise<string>;
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
     updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;
     deleteWarehouse(id: number): boolean | Promise<boolean>;

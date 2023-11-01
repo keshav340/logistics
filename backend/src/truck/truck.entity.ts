@@ -8,6 +8,7 @@ import { PickupCityPincode } from '../enums/pickupcitypincode.enums';
 import {pickupCity} from '../enums/pickupcity.enums';
 import {dropCity } from '../enums/dropcity.enums';
 import {DropCityPincode} from '../enums/dropCityPincode.enums';
+import { User } from 'src/user/user.entity';
 @Entity()
 @ObjectType()
 export class  TruckEntity{
@@ -57,11 +58,7 @@ export class  TruckEntity{
     @Field({nullable: true})
     transportcharges:string;
 
-          
-
-
-    
-   
-
-
+    @ManyToOne(() => User, (user) => user.trucks)
+    @Field(() => User, { nullable: true })
+    user: User;
 }

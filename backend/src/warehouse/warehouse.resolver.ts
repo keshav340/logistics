@@ -36,4 +36,9 @@ export class WarehouseResolver {
   ) {
     return this.warehouseService.deleteWarehouse(id);
   }
+
+  @Query(() => [WareHouse])
+  async getWarehousesByUserId(@Args('userId', { type: () => Int }) userId: number) {
+    return this.warehouseService.getWarehousesByUserId(userId);
+  }
 }

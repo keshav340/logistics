@@ -5,7 +5,8 @@ import { CompanyType } from 'src/enums/company.enums';
 import { IndustryType } from 'src/enums/industry.enums';
 import { AnnualTurnover } from 'src/enums/annualturnover.enums';
 import { ApprovedUser } from 'src/enums/approved.enums';
- import { WareHouse } from 'src/warehouse/warehouse.entity';
+import { WareHouse } from 'src/warehouse/warehouse.entity';
+import { TruckEntity } from 'src/truck/truck.entity';
 @Entity()
 
 @ObjectType() // Decorate your class with @ObjectType()
@@ -114,9 +115,26 @@ remarks: string
   @OneToMany(() => WareHouse, (warehouse) => warehouse.user)
   @Field(() => [WareHouse], { nullable: true })
   warehouses: WareHouse[];
+  @OneToMany(() => TruckEntity, (truck) => truck.user)
+  @Field(() => [TruckEntity], { nullable: true })
+  trucks: TruckEntity[];
+
 @Field({nullable:true})
 @Column({nullable:true})
 reveiw_token: string;
+@Field({nullable:true})
+@Column({nullable:true})
+JWT_token: string;
+@Column({nullable:true})
+@Field({nullable:true})
+reset_token: string;
+@Column({nullable:true})
+@Field({nullable:true})
+email_token : string;
+@Column({nullable:true})
+@Field({nullable:true})
+email_verify: boolean;
+
 
 }
 

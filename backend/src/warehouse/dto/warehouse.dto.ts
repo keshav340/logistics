@@ -47,6 +47,8 @@ hazardousStorageType: hazardousStorageType| null
 temperatureType:temperatureType| null
 @Field(() => temperatureCapacity,{nullable:true})
 temperatureCapacity:temperatureCapacity| null
+@Field()
+userId:number
 
 
 

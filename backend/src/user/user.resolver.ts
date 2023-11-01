@@ -45,6 +45,18 @@ async sendOTP(
   return 'OTP sent successfully'; // Return a success message
 }
 
+@Mutation(() => String)
+async verifyEmailotp(@Args('email') email: string): Promise<string> {
+  await this.userService.verifyEmailotp(email);
+  return "OTP sent for verification of Email"
+}
+
+@Mutation(() => String)
+async verifyEmail(@Args('email') email: string): Promise<string> {
+  await this.userService.verify_email(email);
+  return "Email verified successfully"
+}
+
 
 
 

@@ -36,7 +36,34 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     
   ) {}
-  
+  async verifyEmailotp(email:string):Promise<void>{
+    const user = await this.userRepository.findOne({ where: { email } });
+    if(!user){
+      throw new Error('User not found');
+    }
+    const token = await this.generateOTP(4);
+    sgMail.setApiKey("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")
+    user.email_token = token;
+    const response = await sgMail.send({
+      to: email,
+      from: 'keshav.sharma@xpressword.com',
+      subject: 'OTP verification',
+      text: `Your OTP for verifiying email is: ${token}`,
+      html: `Your OTP for verifying email is: ${token}`,
+    })
+    await this.userRepository.save(user);
+
+
+
+  }
+  async verify_email(token:string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { email_token: token } });
+    if(!user)
+    {
+      throw new Error("User Not Found")
+    }
+    user.email_verify = true;
+  }
 
   async acceptEmail(input: EmailInput): Promise<User> {
     const user = new User();
@@ -440,7 +467,7 @@ export class UserService {
   async adminreject(userId: number, input: Adminreject): Promise<User> {
     try {
       // Fetch the user by ID and perform the admin rejection logic here
-      const user = await this.userRepository.findOne({ where: { id: userId} });
+      const user = await this.userRepository.findOne({ where: { id: userId, isapproved: ApprovedUser.Approval_pending } });
       if (!user) {
         throw new Error('User not found');
       }
@@ -460,7 +487,7 @@ export class UserService {
   async adminreveiwreject(userId: number, input: Adminreject): Promise<User> {
     try {
       // Fetch the user by ID and perform the admin rejection logic here
-      const user = await this.userRepository.findOne({ where: {  id:userId} });
+      const user = await this.userRepository.findOne({ where: { id: userId, isapproved: ApprovedUser.REVEIW_PENDING} });
       if (!user) {
         throw new Error('User not found');
       }
@@ -620,29 +647,18 @@ export class UserService {
         to: email,
         from: 'keshav.sharma@xpressword.com',
         subject: 'user Reveiw',
-
-       
         html: html,
       });
       user.reveiw_token = hashedToken;
       await this.userRepository.save(user);
-    
-      
-
-
-     
       return hashedToken;
     } catch (error) {
       throw new Error('Failed to generate user review token: ' + error.message);
     }
   }
   async  decodeHashedToken(hashedToken: string): Promise<any> {
-    
-
     try {
      const secret_key = "secret1"
-        
-      // Verify and decode the hashed token
       const decodedToken = jwt.verify(hashedToken,secret_key);
   
       return decodedToken;
@@ -651,20 +667,4 @@ export class UserService {
       return null; // Return null in case of an error or invalid token
     }
   }
-  
-  
-  
-  
- 
-
-  
- 
-
-
-
-
-  
- 
-
-  
 }

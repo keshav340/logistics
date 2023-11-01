@@ -1,5 +1,5 @@
 
-import { Resolver, Query, Mutation, Args,ID} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args,ID,Int} from '@nestjs/graphql';
 import { TruckEntity } from './truck.entity';
 import { TruckService } from './truck.service';
 import { TruckDTO } from './truck.dto';
@@ -34,5 +34,9 @@ export class TruckResolver {
   @Mutation(() => Boolean)
   async deleteTruck(@Args('id', { type: () => ID }) id: number): Promise<boolean> {
     return this.truckService.deleteTruck(id);
+  }
+  @Query(() => [TruckEntity])
+  async gettrucksByUserId(@Args('userId', { type: () => Int }) userId: number) {
+    return this.truckService.getTrucksByUserId(userId);
   }
 }
