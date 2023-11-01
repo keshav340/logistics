@@ -440,7 +440,7 @@ export class UserService {
   async adminreject(userId: number, input: Adminreject): Promise<User> {
     try {
       // Fetch the user by ID and perform the admin rejection logic here
-      const user = await this.userRepository.findOne({ where: { id: userId, isapproved: ApprovedUser.Approval_pending } });
+      const user = await this.userRepository.findOne({ where: { id: userId} });
       if (!user) {
         throw new Error('User not found');
       }
@@ -460,7 +460,7 @@ export class UserService {
   async adminreveiwreject(userId: number, input: Adminreject): Promise<User> {
     try {
       // Fetch the user by ID and perform the admin rejection logic here
-      const user = await this.userRepository.findOne({ where: { id: userId, isapproved: ApprovedUser.REVEIW_PENDING} });
+      const user = await this.userRepository.findOne({ where: {  id:userId} });
       if (!user) {
         throw new Error('User not found');
       }
