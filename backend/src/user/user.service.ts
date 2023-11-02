@@ -63,6 +63,7 @@ export class UserService {
       throw new Error("User Not Found")
     }
     user.email_verify = true;
+    await this.userRepository.save(user);
   }
 
   async acceptEmail(input: EmailInput): Promise<User> {

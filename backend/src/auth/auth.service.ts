@@ -91,6 +91,8 @@ export class AuthService {
    //const  email1 = user.email;
    const reset_token = await this.generateresettoken(6);
    user.reset_token = reset_token;
+   await this.userRepository.save(user);
+   console.log("hi",user.reset_token)
    sgMail.setApiKey("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")
    const response = await sgMail.send({
     to: email,

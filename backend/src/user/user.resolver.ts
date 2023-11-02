@@ -52,8 +52,8 @@ async verifyEmailotp(@Args('email') email: string): Promise<string> {
 }
 
 @Mutation(() => String)
-async verifyEmail(@Args('email') email: string): Promise<string> {
-  await this.userService.verify_email(email);
+async verifyEmail(@Args('token') token: string): Promise<string> {
+  await this.userService.verify_email(token);
   return "Email verified successfully"
 }
 

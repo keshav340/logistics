@@ -300,7 +300,7 @@ type Mutation {
   acceptEmail(emailInput: EmailInput!): User!
   sendOTP(email: String!): String!
   verifyEmailotp(email: String!): String!
-  verifyEmail(email: String!): String!
+  verifyEmail(token: String!): String!
   initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
   savePassword(passwordInput: Password!, userId: Float!): User!
   adminRegister(Admin: Admin!): User!
