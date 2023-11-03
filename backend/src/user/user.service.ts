@@ -56,11 +56,15 @@ export class UserService {
 
 
   }
-  async verify_email(token:string): Promise<void> {
-    const user = await this.userRepository.findOne({ where: { email_token: token } });
+  async verify_email(token:string,userid:number): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id:userid} });
     if(!user)
     {
       throw new Error("User Not Found")
+    }
+    if(user.email_token!=token)
+    {
+      throw new Error("Otp is not correct")
     }
     user.email_verify = true;
     await this.userRepository.save(user);

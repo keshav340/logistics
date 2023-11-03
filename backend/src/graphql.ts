@@ -444,7 +444,7 @@ export interface IMutation {
     acceptEmail(emailInput: EmailInput): User | Promise<User>;
     sendOTP(email: string): string | Promise<string>;
     verifyEmailotp(email: string): string | Promise<string>;
-    verifyEmail(token: string): string | Promise<string>;
+    verifyEmail(token: string, userid: number): string | Promise<string>;
     initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     adminRegister(Admin: Admin): User | Promise<User>;
