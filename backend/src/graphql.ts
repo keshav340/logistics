@@ -299,12 +299,12 @@ export interface WarehouseInput {
     occupiedSpace?: Nullable<string>;
     unoccupiedSpace?: Nullable<string>;
     rackedSpace?: Nullable<string>;
-    minimumStorageRent?: Nullable<string>;
-    minimumStorageCharges_per_pallet?: Nullable<string>;
+    minimumStorageRent?: Nullable<number>;
+    minimumStorageCharges_per_pallet?: Nullable<number>;
     minimumStorageArea?: Nullable<string>;
     minimumstorageArea_per_pallet?: Nullable<string>;
-    storageCharges?: Nullable<string>;
-    storageCharges_per_pallet?: Nullable<string>;
+    storageCharges?: Nullable<number>;
+    storageCharges_per_pallet?: Nullable<number>;
     hazardousStorageType?: Nullable<hazardousStorageType>;
     temperatureType?: Nullable<temperatureType>;
     temperatureCapacity?: Nullable<temperatureCapacity>;
@@ -325,7 +325,7 @@ export interface TruckDTO {
     pickupcitypincode?: Nullable<pickupCityPincode>;
     dropcity?: Nullable<dropCity>;
     dropcitypincode?: Nullable<DropCityPincode>;
-    transportcharges?: Nullable<string>;
+    transportcharges?: Nullable<number>;
     userId?: Nullable<number>;
 }
 
@@ -344,12 +344,12 @@ export interface WareHouse {
     unoccupiedSpace?: Nullable<string>;
     rackedSpace?: Nullable<string>;
     user?: Nullable<User>;
-    minimumStorageRent?: Nullable<string>;
-    minimumStorageCharges_per_pallet?: Nullable<string>;
+    minimumStorageRent?: Nullable<number>;
+    minimumStorageCharges_per_pallet?: Nullable<number>;
     minimumStorageArea?: Nullable<string>;
     minimumstorageArea_per_pallet?: Nullable<string>;
-    storageCharges?: Nullable<string>;
-    storageCharges_per_pallet?: Nullable<string>;
+    storageCharges?: Nullable<number>;
+    storageCharges_per_pallet?: Nullable<number>;
     hazardousStorageType?: Nullable<hazardousStorageType>;
     temperatureType?: Nullable<temperatureType>;
     temperatureCapacity?: Nullable<temperatureCapacity>;
@@ -370,7 +370,7 @@ export interface TruckEntity {
     pickupcitypincode?: Nullable<pickupCityPincode>;
     dropcity?: Nullable<dropCity>;
     dropcitypincode?: Nullable<DropCityPincode>;
-    transportcharges?: Nullable<string>;
+    transportcharges?: Nullable<number>;
     user?: Nullable<User>;
 }
 

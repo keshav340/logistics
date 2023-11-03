@@ -30,17 +30,17 @@ export class WarehouseInput{
     @Field({nullable:true})
     rackedSpace:string;
     @Field({nullable:true})
-    minimumStorageRent:string
+    minimumStorageRent:number
     @Field({nullable:true})
-  minimumStorageCharges_per_pallet:string
+  minimumStorageCharges_per_pallet:number
   @Field({nullable:true})
   minimumStorageArea :string
   @Field({nullable:true})
   minimumstorageArea_per_pallet :string
   @Field({nullable:true})
-  storageCharges:String
+  storageCharges:number
   @Field({nullable:true})
-storageCharges_per_pallet:string
+storageCharges_per_pallet:number
 @Field(() => hazardousStorageType, { nullable: true })
 hazardousStorageType: hazardousStorageType| null
 @Field(() => temperatureType,{nullable:true})

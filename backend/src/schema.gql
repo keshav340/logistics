@@ -17,12 +17,12 @@ type WareHouse {
   unoccupiedSpace: String
   rackedSpace: String
   user: User
-  minimumStorageRent: String
-  minimumStorageCharges_per_pallet: String
+  minimumStorageRent: Float
+  minimumStorageCharges_per_pallet: Float
   minimumStorageArea: String
   minimumstorageArea_per_pallet: String
-  storageCharges: String
-  storageCharges_per_pallet: String
+  storageCharges: Float
+  storageCharges_per_pallet: Float
   hazardousStorageType: hazardousStorageType
   temperatureType: temperatureType
   temperatureCapacity: temperatureCapacity
@@ -80,7 +80,7 @@ type TruckEntity {
   pickupcitypincode: pickupCityPincode
   dropcity: dropCity
   dropcitypincode: DropCityPincode
-  transportcharges: String
+  transportcharges: Float
   user: User
 }
 
@@ -456,12 +456,12 @@ input WarehouseInput {
   occupiedSpace: String
   unoccupiedSpace: String
   rackedSpace: String
-  minimumStorageRent: String
-  minimumStorageCharges_per_pallet: String
+  minimumStorageRent: Float
+  minimumStorageCharges_per_pallet: Float
   minimumStorageArea: String
   minimumstorageArea_per_pallet: String
-  storageCharges: String
-  storageCharges_per_pallet: String
+  storageCharges: Float
+  storageCharges_per_pallet: Float
   hazardousStorageType: hazardousStorageType
   temperatureType: temperatureType
   temperatureCapacity: temperatureCapacity
@@ -482,6 +482,6 @@ input TruckDTO {
   pickupcitypincode: pickupCityPincode
   dropcity: dropCity
   dropcitypincode: DropCityPincode
-  transportcharges: String
+  transportcharges: Float
   userId: Float
 }

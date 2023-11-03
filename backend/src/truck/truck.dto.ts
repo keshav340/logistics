@@ -43,7 +43,7 @@ export class TruckDTO {
   @Field(() => DropCityPincode, { nullable: true })
   dropcitypincode:DropCityPincode;
   @Field({nullable: true})
-  transportcharges:string;
+  transportcharges:number;
 @Field({nullable:true})
   userId:number;
 

@@ -53,10 +53,10 @@ export class WareHouse{
   user: User;
   @Column({nullable:true})
   @Field({nullable:true})
-  minimumStorageRent:string
+  minimumStorageRent:number
   @Column({nullable:true})
   @Field({nullable:true})
-  minimumStorageCharges_per_pallet:string
+  minimumStorageCharges_per_pallet:number
   @Column({nullable:true})
   @Field({nullable:true})
   minimumStorageArea :string
@@ -65,10 +65,10 @@ export class WareHouse{
   minimumstorageArea_per_pallet :string
   @Column({nullable:true})
   @Field({nullable:true})
-  storageCharges:String
+  storageCharges:number
   @Column({nullable:true})
 @Field({nullable:true})
-storageCharges_per_pallet:string
+storageCharges_per_pallet:number
 @Column({ type: 'enum', enum: hazardousStorageType, nullable: true })
 @Field(() => hazardousStorageType, { nullable: true })
 hazardousStorageType: hazardousStorageType| null

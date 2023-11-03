@@ -26,12 +26,12 @@ export class WarehouseService {
       async createWarehouse(input: WarehouseInput): Promise<WareHouse> {
         const user = await this.userRepository.findOne({where: {id: input.userId}});
         //const warehouse = this.warehouseRepository.create(input);
-        const existingWarehouse = await this.warehouseRepository.findOne({
-          where: { companyName: input.companyName },
-        });
-        if (existingWarehouse) {
-          throw new Error('Warehouse with the same company name already exists.');
-        }
+        //const existingWarehouse = await this.warehouseRepository.findOne({
+         // where: { companyName: input.companyName },
+       // });
+        //if (existingWarehouse) {
+          //throw new Error('Warehouse with the same company name already exists.');
+        //}
       
         const warehouse = new WareHouse();
         warehouse.user = user;
@@ -55,7 +55,7 @@ export class WarehouseService {
         warehouse.hazardousStorageType = input.hazardousStorageType;
         warehouse.temperatureType = input.temperatureType;
         warehouse.temperatureCapacity = input.temperatureCapacity;
-       
+       warehouse.minimumstorageArea_per_pallet = input.minimumstorageArea_per_pallet
         return this.warehouseRepository.save(warehouse);
       }
       async deleteWarehouse(id: number): Promise<boolean> {

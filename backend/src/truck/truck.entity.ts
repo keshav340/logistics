@@ -56,7 +56,7 @@ export class  TruckEntity{
      dropcitypincode:DropCityPincode;
     @Column({nullable: true})
     @Field({nullable: true})
-    transportcharges:string;
+    transportcharges:number;
 
     @ManyToOne(() => User, (user) => user.trucks)
     @Field(() => User, { nullable: true })
