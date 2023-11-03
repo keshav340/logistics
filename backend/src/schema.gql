@@ -191,6 +191,7 @@ type User {
   reset_token: String
   email_token: String
   email_verify: Boolean
+  reset_password_verification: DateTime
 }
 
 """The type of user"""
@@ -315,7 +316,8 @@ type Mutation {
   login(loginUserInput: LoginUserInput!): LoginResponse!
   logout(userId: Float!): Boolean!
   reset_password_token(email: String!): String!
-  reset_password(useid: String!, resettoken: String!, resetpassword: ResetPasswordInput!): String!
+  reset_password_verify(email: String!, resettoken: String!): String!
+  reset_Save_password(email: String!, password: ResetPasswordInput!): String!
   createWarehouse(input: WarehouseInput!): WareHouse!
   updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
   deleteWarehouse(id: Int!): Boolean!

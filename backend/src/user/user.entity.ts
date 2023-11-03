@@ -134,6 +134,9 @@ email_token : string;
 @Column({nullable:true})
 @Field({nullable:true})
 email_verify: boolean;
+@Column({nullable:true})
+@Field({nullable:true})
+reset_password_verification:Date;
 
 
 }

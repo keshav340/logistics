@@ -414,6 +414,7 @@ export interface User {
     reset_token?: Nullable<string>;
     email_token?: Nullable<string>;
     email_verify?: Nullable<boolean>;
+    reset_password_verification?: Nullable<DateTime>;
 }
 
 export interface LoginResponse {
@@ -459,7 +460,8 @@ export interface IMutation {
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
     logout(userId: number): boolean | Promise<boolean>;
     reset_password_token(email: string): string | Promise<string>;
-    reset_password(useid: string, resettoken: string, resetpassword: ResetPasswordInput): string | Promise<string>;
+    reset_password_verify(email: string, resettoken: string): string | Promise<string>;
+    reset_Save_password(email: string, password: ResetPasswordInput): string | Promise<string>;
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
     updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;
     deleteWarehouse(id: number): boolean | Promise<boolean>;

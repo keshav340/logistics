@@ -106,7 +106,7 @@ export class AuthService {
 
 
   }
-  async resetPassword(email:string,resetPassword:string,password:ResetPasswordInput): Promise<void> {
+  async resetPassword(email:string,resetPassword:string): Promise<void> {
     const user = await this.userRepository.findOne({ where: {email:email} });
     if(!user)
     {
@@ -116,17 +116,50 @@ export class AuthService {
     {
       throw new Error("otp not valid");
     }
-    const desiredpassword = password.password
-    const desiredconfirmpassword = password.confirmPassword
-    if(desiredpassword != desiredconfirmpassword)
-    {
-      throw new Error("Passwords do not match");
-    }
+    user.reset_password_verification = new Date();
+
+
+    // user.reset_password_Flag = true;
+    // const desiredpassword = password.password
+    // const desiredconfirmpassword = password.confirmPassword
+    // if(desiredpassword != desiredconfirmpassword)
+    // {
+    //   throw new Error("Passwords do not match");
+    // }
     
-    user.password = await bcrypt.hash(desiredpassword, 10);
-    user.reset_token = null;
+    // user.password = await bcrypt.hash(desiredpassword, 10);
+    // user.reset_token = null;
     await this.userRepository.save(user);
     
   }
+  async setNewPassword(email: string,password:ResetPasswordInput): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { email: email } });
+    if (!user) {
+      throw new Error("User not found");
+    }
+  
+    const currentTime = new Date();
+    // Check if the verification_date is within the last 5 minutes
+    const verificationTime = user.reset_password_verification;
+    const fiveMinutesAgo = new Date(currentTime.getTime() - 5 * 60 * 1000);
+  
+    if (!verificationTime || verificationTime < fiveMinutesAgo) {
+      throw new Error("Verification expired");
+    }
+  
+    const desiredPassword = password.password;
+    const desiredConfirmPassword = password.confirmPassword;
+  
+    if (desiredPassword !== desiredConfirmPassword) {
+      throw new Error("Passwords do not match");
+    }
+  
+    user.password = await bcrypt.hash(desiredPassword, 10);
+    user.reset_password_verification = null;
+  
+    await this.userRepository.save(user);
+  }
+  
+
 
 }

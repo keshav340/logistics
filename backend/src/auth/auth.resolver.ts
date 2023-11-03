@@ -33,11 +33,19 @@ export class AuthResolver {
     }
 
     @Mutation(()=>String)
-    async reset_password(
-      @Args('useid') email:string,
-      @Args('resettoken') resettoken: string,
-      @Args('resetpassword') resetpassword: ResetPasswordInput): Promise<string> {
-      await this.authService.resetPassword(email,resettoken, resetpassword);
-      return "Password has been reset successfully."
+    async reset_password_verify(
+      @Args('email') email:string,
+      @Args('resettoken') resettoken: string): Promise<string> {
+      await this.authService.resetPassword(email,resettoken);
+      return "otp has been verified"
       }
+    @Mutation(()=>String)
+    async reset_Save_password(
+      @Args('email') email:string,
+      @Args('password') password:ResetPasswordInput): Promise<string> {
+        await this.authService.setNewPassword(email,password);
+        return "password has been  changed"
+      }
+    
+
 }
