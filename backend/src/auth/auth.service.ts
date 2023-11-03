@@ -106,8 +106,8 @@ export class AuthService {
 
 
   }
-  async resetPassword(userid:number,resetPassword:string,password:ResetPasswordInput): Promise<void> {
-    const user = await this.userRepository.findOne({ where: {id:userid } });
+  async resetPassword(email:string,resetPassword:string,password:ResetPasswordInput): Promise<void> {
+    const user = await this.userRepository.findOne({ where: {email:email} });
     if(!user)
     {
       throw new Error("User not found");

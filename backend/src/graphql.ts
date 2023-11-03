@@ -459,7 +459,7 @@ export interface IMutation {
     login(loginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
     logout(userId: number): boolean | Promise<boolean>;
     reset_password_token(email: string): string | Promise<string>;
-    reset_password(useid: number, resettoken: string, resetpassword: ResetPasswordInput): string | Promise<string>;
+    reset_password(useid: string, resettoken: string, resetpassword: ResetPasswordInput): string | Promise<string>;
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
     updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;
     deleteWarehouse(id: number): boolean | Promise<boolean>;
