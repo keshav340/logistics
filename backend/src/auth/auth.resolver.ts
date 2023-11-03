@@ -34,9 +34,10 @@ export class AuthResolver {
 
     @Mutation(()=>String)
     async reset_password(
+      @Args('useid') userid:number,
       @Args('resettoken') resettoken: string,
       @Args('resetpassword') resetpassword: ResetPasswordInput): Promise<string> {
-      await this.authService.resetPassword(resettoken, resetpassword);
+      await this.authService.resetPassword(userid,resettoken, resetpassword);
       return "Password has been reset successfully."
       }
 }

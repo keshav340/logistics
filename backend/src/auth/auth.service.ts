@@ -106,15 +106,19 @@ export class AuthService {
 
 
   }
-  async resetPassword(resetPassword:string,password:ResetPasswordInput): Promise<void> {
-    const user = await this.userRepository.findOne({ where: { reset_token: resetPassword } });
+  async resetPassword(userid:number,resetPassword:string,password:ResetPasswordInput): Promise<void> {
+    const user = await this.userRepository.findOne({ where: {id:userid } });
     if(!user)
     {
-      throw new Error("You have entered an invalid token");
+      throw new Error("User not found");
+    }
+    if(user.reset_token!=resetPassword)
+    {
+      throw new Error("otp not valid");
     }
     const desiredpassword = password.password
     const desiredconfirmpassword = password.confirmPassword
-    if(desiredpassword !== desiredconfirmpassword)
+    if(desiredpassword != desiredconfirmpassword)
     {
       throw new Error("Passwords do not match");
     }

@@ -315,7 +315,7 @@ type Mutation {
   login(loginUserInput: LoginUserInput!): LoginResponse!
   logout(userId: Float!): Boolean!
   reset_password_token(email: String!): String!
-  reset_password(resettoken: String!, resetpassword: ResetPasswordInput!): String!
+  reset_password(useid: Float!, resettoken: String!, resetpassword: ResetPasswordInput!): String!
   createWarehouse(input: WarehouseInput!): WareHouse!
   updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
   deleteWarehouse(id: Int!): Boolean!
