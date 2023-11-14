@@ -151,6 +151,26 @@ enum DropCityPincode {
   _515001
 }
 
+type CompanyContact {
+  id: ID!
+  firstName: String
+  lastName: String
+  designation: String
+  mobileNo: String
+  emailId: String
+  user: User
+}
+
+type CorporateAddress {
+  id: ID!
+  address: String
+  state: String
+  city: String
+  pincode: String
+  country: String
+  user: User
+}
+
 type User {
   id: ID!
   BillingCode: String
@@ -192,6 +212,8 @@ type User {
   email_token: String
   email_verify: Boolean
   reset_password_verification: DateTime
+  companyContact: CompanyContact
+  corporateAddress: CorporateAddress
 }
 
 """The type of user"""
@@ -324,6 +346,8 @@ type Mutation {
   createTruck(truckData: TruckDTO!): TruckEntity!
   updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
   deleteTruck(id: ID!): Boolean!
+  updateProfilecorporateAdress(userId: Float!, corporateAddressDto: CorporateAddressDto!): User!
+  updateProfileCompanyContact(userId: Float!, companyContactDto: CompanyContactDto!): User!
 }
 
 input EmailInput {
@@ -486,4 +510,20 @@ input TruckDTO {
   dropcitypincode: DropCityPincode
   transportcharges: Float
   userId: Float
+}
+
+input CorporateAddressDto {
+  address: String
+  state: String
+  city: String
+  pincode: String
+  country: String
+}
+
+input CompanyContactDto {
+  firstName: String
+  lastName: String
+  designation: String
+  mobileNo: String
+  emailId: String
 }

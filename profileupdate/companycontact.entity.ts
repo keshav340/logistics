@@ -1,38 +1,37 @@
-// corporate-adress.entity.ts
+// companycontact.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/user/user.entity';
 
 @Entity()
 @ObjectType()
-export class CorporateAddress {
+export class companyContact {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  address: string;
+  firstName: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  state: string;
+  lastname: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  city: string;
+  Designation: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  pincode: string;
+  Mobileno: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  country: string;
+  emailid: string;
 
-  @OneToOne(() => User, (user) => user.corporateAddress) 
+  @OneToOne(() => User, (user) => user.CompanyContact, { cascade: true })
+  @JoinColumn()
   @Field(() => User, { nullable: true })
   user: User;
-
-  
 }

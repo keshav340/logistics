@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn,OneToMany,Unique} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany,Unique,OneToOne,JoinColumn} from 'typeorm';
 import { ObjectType, Field, Int,ID } from '@nestjs/graphql'; // Import the necessary decorators
 import { CustomerSubType, UserType, VendorSubType, OverseasAgentSubType } from 'src/enums/user.enums';
 import { CompanyType } from 'src/enums/company.enums';
@@ -7,6 +7,8 @@ import { AnnualTurnover } from 'src/enums/annualturnover.enums';
 import { ApprovedUser } from 'src/enums/approved.enums';
 import { WareHouse } from 'src/warehouse/warehouse.entity';
 import { TruckEntity } from 'src/truck/truck.entity';
+import { CompanyContact } from 'src/profileupdate/company.entity';
+import { CorporateAddress } from 'src/profileupdate/corporate.entity';
 @Entity()
 
 @ObjectType() // Decorate your class with @ObjectType()
@@ -137,6 +139,14 @@ email_verify: boolean;
 @Column({nullable:true})
 @Field({nullable:true})
 reset_password_verification:Date;
+@OneToOne(() => CompanyContact, { cascade: true, eager: true }) 
+  @JoinColumn()
+  @Field(() => CompanyContact, { nullable: true })
+  companyContact: CompanyContact;
+  @OneToOne(() => CorporateAddress, { cascade: true, eager: true }) 
+  @JoinColumn()
+  @Field(() => CorporateAddress, { nullable: true })
+  corporateAddress: CorporateAddress;
 
 
 }

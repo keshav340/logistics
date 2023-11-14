@@ -329,6 +329,22 @@ export interface TruckDTO {
     userId?: Nullable<number>;
 }
 
+export interface CorporateAddressDto {
+    address?: Nullable<string>;
+    state?: Nullable<string>;
+    city?: Nullable<string>;
+    pincode?: Nullable<string>;
+    country?: Nullable<string>;
+}
+
+export interface CompanyContactDto {
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    designation?: Nullable<string>;
+    mobileNo?: Nullable<string>;
+    emailId?: Nullable<string>;
+}
+
 export interface WareHouse {
     id: string;
     companyName: string;
@@ -374,6 +390,26 @@ export interface TruckEntity {
     user?: Nullable<User>;
 }
 
+export interface CompanyContact {
+    id: string;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    designation?: Nullable<string>;
+    mobileNo?: Nullable<string>;
+    emailId?: Nullable<string>;
+    user?: Nullable<User>;
+}
+
+export interface CorporateAddress {
+    id: string;
+    address?: Nullable<string>;
+    state?: Nullable<string>;
+    city?: Nullable<string>;
+    pincode?: Nullable<string>;
+    country?: Nullable<string>;
+    user?: Nullable<User>;
+}
+
 export interface User {
     id: string;
     BillingCode?: Nullable<string>;
@@ -415,6 +451,8 @@ export interface User {
     email_token?: Nullable<string>;
     email_verify?: Nullable<boolean>;
     reset_password_verification?: Nullable<DateTime>;
+    companyContact?: Nullable<CompanyContact>;
+    corporateAddress?: Nullable<CorporateAddress>;
 }
 
 export interface LoginResponse {
@@ -468,6 +506,8 @@ export interface IMutation {
     createTruck(truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     updateTruck(id: string, truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     deleteTruck(id: string): boolean | Promise<boolean>;
+    updateProfilecorporateAdress(userId: number, corporateAddressDto: CorporateAddressDto): User | Promise<User>;
+    updateProfileCompanyContact(userId: number, companyContactDto: CompanyContactDto): User | Promise<User>;
 }
 
 export type DateTime = any;

@@ -88,6 +88,10 @@ export class AuthService {
     if (!user) {
       throw new Error('User not found');
     }
+    if(user.isapproved!=ApprovedUser.Approved)
+    {
+      throw new Error("you are not approved");
+    }
    //const  email1 = user.email;
    const reset_token = await this.generateresettoken(6);
    user.reset_token = reset_token;
