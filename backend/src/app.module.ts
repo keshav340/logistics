@@ -8,7 +8,7 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { MyResolver } from './app.resolver';
 import { UsersModule } from './user/user.module';
 import { MailModule } from './email/email.module';
-import { profileUpdate } from './profileupdate/profileupdate.module';
+//import { profileUpdate } from './profileupdate/profileupdate.module';
 import { UserService } from './user/user.service';
 import { AuthModule } from './auth/auth.modules';
 import { WareHouseModule } from './warehouse/warehouse.module';
@@ -16,7 +16,7 @@ import { TruckModule } from './truck/truck.module';
 
 
 @Module({
-  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,profileUpdate,
+  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,//profileUpdate,
    
     
   

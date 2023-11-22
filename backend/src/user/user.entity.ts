@@ -7,8 +7,9 @@ import { AnnualTurnover } from 'src/enums/annualturnover.enums';
 import { ApprovedUser } from 'src/enums/approved.enums';
 import { WareHouse } from 'src/warehouse/warehouse.entity';
 import { TruckEntity } from 'src/truck/truck.entity';
-import { CompanyContact } from 'src/profileupdate/company.entity';
-import { CorporateAddress } from 'src/profileupdate/corporate.entity';
+import { CompanyContact } from './company.entity';
+import { CorporateAddress } from './corporate.entity';
+import { Kyc } from './kyc.entity';
 @Entity()
 
 @ObjectType() // Decorate your class with @ObjectType()
@@ -139,14 +140,21 @@ email_verify: boolean;
 @Column({nullable:true})
 @Field({nullable:true})
 reset_password_verification:Date;
-@OneToOne(() => CompanyContact, { cascade: true, eager: true }) 
+ @OneToOne(() => CompanyContact, { cascade: true, eager: true }) 
   @JoinColumn()
-  @Field(() => CompanyContact, { nullable: true })
+   @Field(() => CompanyContact, { nullable: true })
   companyContact: CompanyContact;
   @OneToOne(() => CorporateAddress, { cascade: true, eager: true }) 
-  @JoinColumn()
+   @JoinColumn()
   @Field(() => CorporateAddress, { nullable: true })
-  corporateAddress: CorporateAddress;
+   corporateAddress: CorporateAddress;
+
+  @OneToOne(() => Kyc, { cascade: true, eager: true }) // Define the one-to-one relationship with Kyc
+  @JoinColumn()
+  @Field(() => Kyc, { nullable: true })
+   kyc: Kyc;
+  
+
 
 
 }

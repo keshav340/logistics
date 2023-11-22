@@ -25,6 +25,13 @@ import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 const crypto = require('crypto');
+import { CompanyContactDto } from './inputdto/company-contact.input';
+import { CorporateAddressDto } from './inputdto/corporate-adress.input';
+import { CompanyContact } from './company.entity';
+import { CorporateAddress } from './corporate.entity';
+import { Kyc } from './kyc.entity';
+import { KycInput } from './inputdto/kyc.input';
+
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
@@ -34,6 +41,12 @@ export class UserService {
    
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(CompanyContact)
+    private readonly companyContactRepository: Repository<CompanyContact>,
+    @InjectRepository(CorporateAddress)
+    private readonly corporateAdressRepository: Repository<CorporateAddress>,
+    @InjectRepository(Kyc)
+    private readonly kycRepository: Repository<Kyc>,
     
   ) {}
   async verifyEmailotp(email:string):Promise<void>{
@@ -187,14 +200,14 @@ export class UserService {
     return admin;
   }
 
-  async finalreg(input:Finalreg,userId:number,userinput:UpdateUsertype):Promise<User>{
+  async finalreg(input:Finalreg,userId:number,userinput:UpdateUsertype,compcontact:CompanyContactDto,corpad:CorporateAddressDto,kycInput: KycInput):Promise<User>{
     try{
       const user = await this.userRepository.findOne({where:{id:userId}});
       if (!user || !user.otp_veified) {
         throw new Error('User not found or OTP not verified');
       }
       const email = user.email;
-      sgMail.setApiKey("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")
+      sgMail.setApiKey("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")
       const body = "You have been registered with us.We are verifying your data.We will mail you once the process completes."
       user.userType = userinput.userType;
       user.BillingCode = this.generateBillingCode();
@@ -218,14 +231,32 @@ export class UserService {
       user.website = input.website;
       user.isapproved =ApprovedUser.Approval_pending;
       user.finalregapproved = true;
+      const newCompanyContact = new CompanyContact();
+      newCompanyContact.firstName = compcontact.firstName;
+      newCompanyContact.lastName = compcontact.lastName;
+      newCompanyContact.designation = compcontact.designation;
+      newCompanyContact.emailId = compcontact.emailId;
+      newCompanyContact.mobileNo = compcontact.mobileNo;
+      const savedCompanyContact = await this.companyContactRepository.save(newCompanyContact);
+       user.companyContact = savedCompanyContact
+      const corpadress = new CorporateAddress();
+      corpadress.address =  corpad.address
+      corpadress.city = corpad.city
+      corpadress.country = corpad.country
+      corpadress.state = corpad.state
+      corpadress.pincode = corpad.pincode
+      const savedcorp = await this.corporateAdressRepository.save(corpadress);
+      user.corporateAddress = savedcorp;
+      const kyc = this.kycRepository.create(kycInput);
+      user.kyc = kyc;
       await this.userRepository.save(user);
-      const response = await sgMail.send({
+       const response = await sgMail.send({
         to: email,
         from: 'keshav.sharma@xpressword.com',
         subject: 'OTP verification',
-        text:  body,
-        html: body,
-      });
+         text:  body,
+        //html: body,
+       });
 
 
       return user;

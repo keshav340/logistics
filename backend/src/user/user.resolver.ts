@@ -26,6 +26,10 @@ import { Admin } from './inputdto/admin.input';
 import { Repository } from 'typeorm';
 const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail')
+import { CompanyContactDto } from './inputdto/company-contact.input';
+import { CorporateAddressDto } from './inputdto/corporate-adress.input';
+//import { kycdto } from './inputdto/kyc.input';
+import { KycInput } from './inputdto/kyc.input';
 @Resolver('User')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -156,9 +160,12 @@ async verifyEmail(@Args('token') token: string,
   async finalreg(
     @Args('input') input: Finalreg, // Correct the casing here
     @Args('userId') userId: number,
-    @Args('userInput') userInput: UpdateUsertype, // Correct the casing here
+    @Args('userInput') userInput: UpdateUsertype, 
+    @Args('compcontact') compContact: CompanyContactDto,
+    @Args('corpad') corpad:CorporateAddressDto,
+    @Args('kycin') kycin:KycInput
   ): Promise<User> {
-    return this.userService.finalreg(input, userId, userInput);
+    return this.userService.finalreg(input, userId, userInput,compContact,corpad,kycin);
   }
 
   @Query(() => [User])

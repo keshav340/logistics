@@ -85,4 +85,5 @@ export class ProfileUpdateService {
     // Save the updated user entity
     return this.userRepository.save(user);
   }
+  
 }

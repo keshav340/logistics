@@ -220,6 +220,36 @@ export interface UpdateUsertype {
     userType?: Nullable<UserType>;
 }
 
+export interface CompanyContactDto {
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    designation?: Nullable<string>;
+    mobileNo?: Nullable<string>;
+    emailId?: Nullable<string>;
+}
+
+export interface CorporateAddressDto {
+    address?: Nullable<string>;
+    state?: Nullable<string>;
+    city?: Nullable<string>;
+    pincode?: Nullable<string>;
+    country?: Nullable<string>;
+}
+
+export interface KycInput {
+    certificate_of_registration?: Nullable<KeyValue>;
+    company_pan_card?: Nullable<KeyValue>;
+    aadhar_card?: Nullable<KeyValue>;
+    pan_card?: Nullable<KeyValue>;
+    iso_certificate?: Nullable<KeyValue>;
+    aeo_certificate?: Nullable<KeyValue>;
+    iata_certificate?: Nullable<KeyValue>;
+    duns_certificate?: Nullable<KeyValue>;
+    manufacturing_license?: Nullable<KeyValue>;
+    warehouse_insurance?: Nullable<KeyValue>;
+    any_other_trading_license?: Nullable<KeyValue>;
+}
+
 export interface Updateapproved {
     companyType?: Nullable<CompanyType>;
     Approveduser?: Nullable<Approved_users>;
@@ -329,22 +359,6 @@ export interface TruckDTO {
     userId?: Nullable<number>;
 }
 
-export interface CorporateAddressDto {
-    address?: Nullable<string>;
-    state?: Nullable<string>;
-    city?: Nullable<string>;
-    pincode?: Nullable<string>;
-    country?: Nullable<string>;
-}
-
-export interface CompanyContactDto {
-    firstName?: Nullable<string>;
-    lastName?: Nullable<string>;
-    designation?: Nullable<string>;
-    mobileNo?: Nullable<string>;
-    emailId?: Nullable<string>;
-}
-
 export interface WareHouse {
     id: string;
     companyName: string;
@@ -397,7 +411,6 @@ export interface CompanyContact {
     designation?: Nullable<string>;
     mobileNo?: Nullable<string>;
     emailId?: Nullable<string>;
-    user?: Nullable<User>;
 }
 
 export interface CorporateAddress {
@@ -408,6 +421,21 @@ export interface CorporateAddress {
     pincode?: Nullable<string>;
     country?: Nullable<string>;
     user?: Nullable<User>;
+}
+
+export interface Kyc {
+    id: string;
+    certificate_of_registration?: Nullable<KeyValue>;
+    company_pan_card?: Nullable<KeyValue>;
+    aadhar_card?: Nullable<KeyValue>;
+    pan_card?: Nullable<KeyValue>;
+    iso_certificate?: Nullable<KeyValue>;
+    aeo_certificate?: Nullable<KeyValue>;
+    iata_certificate?: Nullable<KeyValue>;
+    duns_certificate?: Nullable<KeyValue>;
+    manufacturing_license?: Nullable<KeyValue>;
+    warehouse_insurance?: Nullable<KeyValue>;
+    any_other_trading_license?: Nullable<KeyValue>;
 }
 
 export interface User {
@@ -453,6 +481,7 @@ export interface User {
     reset_password_verification?: Nullable<DateTime>;
     companyContact?: Nullable<CompanyContact>;
     corporateAddress?: Nullable<CorporateAddress>;
+    kyc?: Nullable<Kyc>;
 }
 
 export interface LoginResponse {
@@ -488,7 +517,7 @@ export interface IMutation {
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     adminRegister(Admin: Admin): User | Promise<User>;
     sendtoreveiwuser(userId: number): User | Promise<User>;
-    finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype): User | Promise<User>;
+    finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
     approvereveiwedUser(userId: number, input: Updateapproved): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved): User | Promise<User>;
     rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
@@ -506,9 +535,8 @@ export interface IMutation {
     createTruck(truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     updateTruck(id: string, truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     deleteTruck(id: string): boolean | Promise<boolean>;
-    updateProfilecorporateAdress(userId: number, corporateAddressDto: CorporateAddressDto): User | Promise<User>;
-    updateProfileCompanyContact(userId: number, companyContactDto: CompanyContactDto): User | Promise<User>;
 }
 
+export type KeyValue = any;
 export type DateTime = any;
 type Nullable<T> = T | null;

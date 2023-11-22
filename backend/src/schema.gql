@@ -158,7 +158,6 @@ type CompanyContact {
   designation: String
   mobileNo: String
   emailId: String
-  user: User
 }
 
 type CorporateAddress {
@@ -170,6 +169,24 @@ type CorporateAddress {
   country: String
   user: User
 }
+
+type Kyc {
+  id: ID!
+  certificate_of_registration: KeyValue
+  company_pan_card: KeyValue
+  aadhar_card: KeyValue
+  pan_card: KeyValue
+  iso_certificate: KeyValue
+  aeo_certificate: KeyValue
+  iata_certificate: KeyValue
+  duns_certificate: KeyValue
+  manufacturing_license: KeyValue
+  warehouse_insurance: KeyValue
+  any_other_trading_license: KeyValue
+}
+
+"""Custom scalar type for key-value pairs"""
+scalar KeyValue
 
 type User {
   id: ID!
@@ -214,6 +231,7 @@ type User {
   reset_password_verification: DateTime
   companyContact: CompanyContact
   corporateAddress: CorporateAddress
+  kyc: Kyc
 }
 
 """The type of user"""
@@ -328,7 +346,7 @@ type Mutation {
   savePassword(passwordInput: Password!, userId: Float!): User!
   adminRegister(Admin: Admin!): User!
   sendtoreveiwuser(userId: Float!): User!
-  finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!): User!
+  finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
   approvereveiwedUser(userId: Int!, input: Updateapproved!): User!
   approveUser(userId: Int!, input: Updateapproved!): User!
   rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
@@ -346,8 +364,6 @@ type Mutation {
   createTruck(truckData: TruckDTO!): TruckEntity!
   updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
   deleteTruck(id: ID!): Boolean!
-  updateProfilecorporateAdress(userId: Float!, corporateAddressDto: CorporateAddressDto!): User!
-  updateProfileCompanyContact(userId: Float!, companyContactDto: CompanyContactDto!): User!
 }
 
 input EmailInput {
@@ -401,6 +417,36 @@ input Finalreg {
 
 input UpdateUsertype {
   userType: UserType
+}
+
+input CompanyContactDto {
+  firstName: String
+  lastName: String
+  designation: String
+  mobileNo: String
+  emailId: String
+}
+
+input CorporateAddressDto {
+  address: String
+  state: String
+  city: String
+  pincode: String
+  country: String
+}
+
+input KycInput {
+  certificate_of_registration: KeyValue
+  company_pan_card: KeyValue
+  aadhar_card: KeyValue
+  pan_card: KeyValue
+  iso_certificate: KeyValue
+  aeo_certificate: KeyValue
+  iata_certificate: KeyValue
+  duns_certificate: KeyValue
+  manufacturing_license: KeyValue
+  warehouse_insurance: KeyValue
+  any_other_trading_license: KeyValue
 }
 
 input Updateapproved {
@@ -510,20 +556,4 @@ input TruckDTO {
   dropcitypincode: DropCityPincode
   transportcharges: Float
   userId: Float
-}
-
-input CorporateAddressDto {
-  address: String
-  state: String
-  city: String
-  pincode: String
-  country: String
-}
-
-input CompanyContactDto {
-  firstName: String
-  lastName: String
-  designation: String
-  mobileNo: String
-  emailId: String
 }
