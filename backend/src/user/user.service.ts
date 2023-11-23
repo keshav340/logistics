@@ -383,7 +383,7 @@ export class UserService {
 
     
   }
-  async approvereveiwedUser(userId: number,input:Updateapproved): Promise<User> {
+  async approvereveiwedUser(userId: number,input:Updateapproved,compcontact:CompanyContactDto,corpad:CorporateAddressDto,kycInput: KycInput): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.REVEIW_PENDING} });
       if (!user) {
@@ -412,9 +412,29 @@ export class UserService {
       user.Designation = input.Designation;
       user.mobile = input.mobile;
       user.website = input.website;
-      user.remarks = input.remarks
+      user.remarks = input.remarks;
+
       let flag = 0;
       user.isapproved = input.Approveduser;
+      const newCompanyContact = new CompanyContact();
+      newCompanyContact.firstName = compcontact.firstName;
+      newCompanyContact.lastName = compcontact.lastName;
+      newCompanyContact.designation = compcontact.designation;
+      newCompanyContact.emailId = compcontact.emailId;
+      newCompanyContact.mobileNo = compcontact.mobileNo;
+      const savedCompanyContact = await this.companyContactRepository.save(newCompanyContact);
+       user.companyContact = savedCompanyContact
+      const corpadress = new CorporateAddress();
+      corpadress.address =  corpad.address
+      corpadress.city = corpad.city
+      corpadress.country = corpad.country
+      corpadress.state = corpad.state
+      corpadress.pincode = corpad.pincode
+      const savedcorp = await this.corporateAdressRepository.save(corpadress);
+      user.corporateAddress = savedcorp;
+      const kyc = this.kycRepository.create(kycInput);
+      user.kyc = kyc;
+
 
       await this.userRepository.save(user);
 
@@ -450,7 +470,7 @@ export class UserService {
 // }
   
   
-  async approveUser(userId: number,input:Updateapproved): Promise<User> {
+  async approveUser(userId: number,input:Updateapproved,compcontact:CompanyContactDto,corpad:CorporateAddressDto,kycInput: KycInput): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Approval_pending} });
       if (!user) {
@@ -482,6 +502,26 @@ export class UserService {
       user.remarks = input.remarks
       let flag = 0;
       user.isapproved = input.Approveduser;
+      const newCompanyContact = new CompanyContact();
+      newCompanyContact.firstName = compcontact.firstName;
+      newCompanyContact.lastName = compcontact.lastName;
+      newCompanyContact.designation = compcontact.designation;
+      newCompanyContact.emailId = compcontact.emailId;
+      newCompanyContact.mobileNo = compcontact.mobileNo;
+      const savedCompanyContact = await this.companyContactRepository.save(newCompanyContact);
+       user.companyContact = savedCompanyContact
+      const corpadress = new CorporateAddress();
+      corpadress.address =  corpad.address
+      corpadress.city = corpad.city
+      corpadress.country = corpad.country
+      corpadress.state = corpad.state
+      corpadress.pincode = corpad.pincode
+      const savedcorp = await this.corporateAdressRepository.save(corpadress);
+      user.corporateAddress = savedcorp;
+      const kyc = this.kycRepository.create(kycInput);
+      user.kyc = kyc;
+
+
 
       await this.userRepository.save(user);
 
@@ -540,7 +580,7 @@ export class UserService {
       throw new Error('Failed to admin reject user: ' + error.message);
     }
   }
-  async sendFormtorejectUser(userId: number,input:SendFormTorejectedUser): Promise<User> {
+  async sendFormtorejectUser(userId: number,input:SendFormTorejectedUser,compcontact:CompanyContactDto,corpad:CorporateAddressDto,kycInput: KycInput): Promise<User> {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId,isapproved: ApprovedUser.Rejected} });
       if (!user) {
@@ -573,6 +613,26 @@ export class UserService {
       user.Designation = input.Designation;
       user.mobile = input.mobile;
       user.website = input.website;
+      const newCompanyContact = new CompanyContact();
+      newCompanyContact.firstName = compcontact.firstName;
+      newCompanyContact.lastName = compcontact.lastName;
+      newCompanyContact.designation = compcontact.designation;
+      newCompanyContact.emailId = compcontact.emailId;
+      newCompanyContact.mobileNo = compcontact.mobileNo;
+      const savedCompanyContact = await this.companyContactRepository.save(newCompanyContact);
+       user.companyContact = savedCompanyContact
+      const corpadress = new CorporateAddress();
+      corpadress.address =  corpad.address
+      corpadress.city = corpad.city
+      corpadress.country = corpad.country
+      corpadress.state = corpad.state
+      corpadress.pincode = corpad.pincode
+      const savedcorp = await this.corporateAdressRepository.save(corpadress);
+      user.corporateAddress = savedcorp;
+      const kyc = this.kycRepository.create(kycInput);
+      user.kyc = kyc;
+
+
       
       let flag = 0;
 
@@ -632,6 +692,10 @@ export class UserService {
         website: user.website,
         gstNo: user.gst_no,
         annualTurnover: user.annualTurnover,
+        CorporateAddress: user.corporateAddress,
+        CompanyContact:user.companyContact,
+        Kyc_Details:user.kyc
+
       };
 
      

@@ -347,9 +347,9 @@ type Mutation {
   adminRegister(Admin: Admin!): User!
   sendtoreveiwuser(userId: Float!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
-  approvereveiwedUser(userId: Int!, input: Updateapproved!): User!
-  approveUser(userId: Int!, input: Updateapproved!): User!
-  rejectUser(userId: Int!, input: SendFormTorejectedUser!): User!
+  approvereveiwedUser(userId: Int!, input: Updateapproved!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
+  approveUser(userId: Int!, input: Updateapproved!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
+  rejectUser(userId: Int!, input: SendFormTorejectedUser!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
   adminreject(userId: Float!, input: Adminreject!): User!
   adminreveiwreject(userId: Float!, input: Adminreject!): User!
   userReveiw(userId: Float!): String!

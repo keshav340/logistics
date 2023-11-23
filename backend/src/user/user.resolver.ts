@@ -183,8 +183,11 @@ async verifyEmail(@Args('token') token: string,
   async approvereveiwedUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
     @Args('input') input: Updateapproved,
+    @Args('compcontact') compContact: CompanyContactDto,
+    @Args('corpad') corpad:CorporateAddressDto,
+    @Args('kycin') kycin:KycInput
     ): Promise<User> {
-      return this.userService.approvereveiwedUser(userId, input);
+      return this.userService.approvereveiwedUser(userId, input,compContact,corpad,kycin);
    }
   
   
@@ -192,19 +195,25 @@ async verifyEmail(@Args('token') token: string,
   async approveUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
     @Args('input') input: Updateapproved,
+    @Args('compcontact') compContact: CompanyContactDto,
+    @Args('corpad') corpad:CorporateAddressDto,
+    @Args('kycin') kycin:KycInput
    
     
    ): Promise<User> {
-     return this.userService.approveUser(userId, input);
+     return this.userService.approveUser(userId, input,compContact,corpad,kycin);
   }
   @Mutation(() => User)
   async rejectUser(
     @Args({ name: 'userId', type: () => Int }) userId: number,
-    @Args('input') input: SendFormTorejectedUser
+    @Args('input') input: SendFormTorejectedUser,
+    @Args('compcontact') compContact: CompanyContactDto,
+    @Args('corpad') corpad:CorporateAddressDto,
+    @Args('kycin') kycin:KycInput
    
     
    ): Promise<User> {
-     return this.userService.sendFormtorejectUser(userId, input);
+     return this.userService.sendFormtorejectUser(userId, input,compContact,corpad,kycin);
   }
   @Query(() => User)
   async getUserById(@Args({ name: 'userId', type: () => Int }) userId: number): Promise<User> {

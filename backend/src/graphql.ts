@@ -518,9 +518,9 @@ export interface IMutation {
     adminRegister(Admin: Admin): User | Promise<User>;
     sendtoreveiwuser(userId: number): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
-    approvereveiwedUser(userId: number, input: Updateapproved): User | Promise<User>;
-    approveUser(userId: number, input: Updateapproved): User | Promise<User>;
-    rejectUser(userId: number, input: SendFormTorejectedUser): User | Promise<User>;
+    approvereveiwedUser(userId: number, input: Updateapproved, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
+    approveUser(userId: number, input: Updateapproved, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
+    rejectUser(userId: number, input: SendFormTorejectedUser, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
     adminreject(userId: number, input: Adminreject): User | Promise<User>;
     adminreveiwreject(userId: number, input: Adminreject): User | Promise<User>;
     userReveiw(userId: number): string | Promise<string>;
