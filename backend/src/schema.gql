@@ -26,6 +26,8 @@ type WareHouse {
   hazardousStorageType: hazardousStorageType
   temperatureType: temperatureType
   temperatureCapacity: temperatureCapacity
+  WarehouseApproval: WarehouseStatus
+  remarks: String
 }
 
 """types of warehouse"""
@@ -63,6 +65,14 @@ enum temperatureCapacity {
   MINUS_Two_Degree_to_MINUS_Eight_degree_celcius
   MINUS_Twenty_Degree_to_twenty_degree_celcius
   fifteen_Degree_to_twentyfive_degree_celcius
+}
+
+"""Warehous status of the warehouse"""
+enum WarehouseStatus {
+  Warehouse_Approval_pending
+  Warehouse_Approved
+  Warehouse_Rejected
+  Warehouse_Reveiw_peding
 }
 
 type TruckEntity {
@@ -361,6 +371,11 @@ type Mutation {
   createWarehouse(input: WarehouseInput!): WareHouse!
   updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
   deleteWarehouse(id: Int!): Boolean!
+  approveWarehouse(userId: Float!, warehouseid: Float!, approvedinput: ApprovedWarehouseInput!): WareHouse!
+  warehousereject(userid: Int!, warehouseid: Int!, remarks: String!): WareHouse!
+  sendforreveiwingWarehouse(userid: Int!, warehouseid: Int!): WareHouse!
+  reveiwwarehousereject(userid: Int!, warehouseid: Int!, remarks: String!): WareHouse!
+  reveiwwarehouseapproved(userid: Int!, warehouseid: Int!, approvedinput: ApprovedWarehouseInput!): WareHouse!
   createTruck(truckData: TruckDTO!): TruckEntity!
   updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
   deleteTruck(id: ID!): Boolean!
@@ -538,6 +553,31 @@ input WarehouseInput {
   temperatureType: temperatureType
   temperatureCapacity: temperatureCapacity
   userId: Float!
+}
+
+input ApprovedWarehouseInput {
+  companyname: String
+  Adress: String
+  State: String
+  city: String
+  pincode: String
+  country: String
+  WarehouseType: warehouseType
+  totalsquareArea: String
+  totalavailiableareas: String
+  occupied_spaces: String
+  unoccupied_spaces: String
+  racked_spaces: String
+  minimumstoragerent: Float
+  minimum_storages_charges_per_pallet: Float
+  minimum_storage_Area: String
+  minimum_storage_area_per_pallet: String
+  storage_charges: Float
+  storage_charges_per_pallet: Float
+  HazardousStorageType: hazardousStorageType
+  TempaeratureType: temperatureType
+  TemperatureCapacity: temperatureCapacity
+  remarks: String
 }
 
 input TruckDTO {

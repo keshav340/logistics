@@ -41,6 +41,13 @@ export enum temperatureCapacity {
     fifteen_Degree_to_twentyfive_degree_celcius = "fifteen_Degree_to_twentyfive_degree_celcius"
 }
 
+export enum WarehouseStatus {
+    Warehouse_Approval_pending = "Warehouse_Approval_pending",
+    Warehouse_Approved = "Warehouse_Approved",
+    Warehouse_Rejected = "Warehouse_Rejected",
+    Warehouse_Reveiw_peding = "Warehouse_Reveiw_peding"
+}
+
 export enum transportType {
     FTL = "FTL",
     LTL = "LTL"
@@ -341,6 +348,31 @@ export interface WarehouseInput {
     userId: number;
 }
 
+export interface ApprovedWarehouseInput {
+    companyname?: Nullable<string>;
+    Adress?: Nullable<string>;
+    State?: Nullable<string>;
+    city?: Nullable<string>;
+    pincode?: Nullable<string>;
+    country?: Nullable<string>;
+    WarehouseType?: Nullable<warehouseType>;
+    totalsquareArea?: Nullable<string>;
+    totalavailiableareas?: Nullable<string>;
+    occupied_spaces?: Nullable<string>;
+    unoccupied_spaces?: Nullable<string>;
+    racked_spaces?: Nullable<string>;
+    minimumstoragerent?: Nullable<number>;
+    minimum_storages_charges_per_pallet?: Nullable<number>;
+    minimum_storage_Area?: Nullable<string>;
+    minimum_storage_area_per_pallet?: Nullable<string>;
+    storage_charges?: Nullable<number>;
+    storage_charges_per_pallet?: Nullable<number>;
+    HazardousStorageType?: Nullable<hazardousStorageType>;
+    TempaeratureType?: Nullable<temperatureType>;
+    TemperatureCapacity?: Nullable<temperatureCapacity>;
+    remarks?: Nullable<string>;
+}
+
 export interface TruckDTO {
     companyName?: Nullable<string>;
     Adress?: Nullable<string>;
@@ -383,6 +415,8 @@ export interface WareHouse {
     hazardousStorageType?: Nullable<hazardousStorageType>;
     temperatureType?: Nullable<temperatureType>;
     temperatureCapacity?: Nullable<temperatureCapacity>;
+    WarehouseApproval?: Nullable<WarehouseStatus>;
+    remarks?: Nullable<string>;
 }
 
 export interface TruckEntity {
@@ -532,6 +566,11 @@ export interface IMutation {
     createWarehouse(input: WarehouseInput): WareHouse | Promise<WareHouse>;
     updateWarehouse(id: number, input: WarehouseInput): WareHouse | Promise<WareHouse>;
     deleteWarehouse(id: number): boolean | Promise<boolean>;
+    approveWarehouse(userId: number, warehouseid: number, approvedinput: ApprovedWarehouseInput): WareHouse | Promise<WareHouse>;
+    warehousereject(userid: number, warehouseid: number, remarks: string): WareHouse | Promise<WareHouse>;
+    sendforreveiwingWarehouse(userid: number, warehouseid: number): WareHouse | Promise<WareHouse>;
+    reveiwwarehousereject(userid: number, warehouseid: number, remarks: string): WareHouse | Promise<WareHouse>;
+    reveiwwarehouseapproved(userid: number, warehouseid: number, approvedinput: ApprovedWarehouseInput): WareHouse | Promise<WareHouse>;
     createTruck(truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     updateTruck(id: string, truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     deleteTruck(id: string): boolean | Promise<boolean>;

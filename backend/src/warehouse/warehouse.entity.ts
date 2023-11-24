@@ -6,6 +6,7 @@ import { hazardousStorageType } from 'src/enums/hazardousstorage.enums';
 import { User } from 'src/user/user.entity';
 import { temperatureType } from 'src/enums/temperaturetype.enums';
 import { temperatureCapacity } from 'src/enums/temperaturecapacity.enums';
+import { warehouseApproval } from 'src/enums/warehouse_approval.enums';
 @Entity()
 @ObjectType()
 export class WareHouse{
@@ -78,5 +79,12 @@ temperatureType:temperatureType| null
 @Column({type:'enum',enum:temperatureCapacity,nullable:true})
 @Field(() => temperatureCapacity,{nullable:true})
 temperatureCapacity:temperatureCapacity| null
+@Column({type:'enum',enum:warehouseApproval,nullable:true})
+@Field(()=>warehouseApproval,{nullable:true})
+WarehouseApproval:warehouseApproval| null
+@Column({nullable:true})
+@Field({nullable:true})
+remarks:string;
+
 
 }
