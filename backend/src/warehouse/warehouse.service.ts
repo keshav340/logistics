@@ -9,6 +9,7 @@ import { warehouseApproval } from 'src/enums/warehouse_approval.enums';
 import { warehouseType } from 'src/enums/warehouse.enums';
 import { ApprovedWarehouseInput } from './dto/warehouseapproval.input';
 import { temperatureCapacity } from '../enums/temperaturecapacity.enums';
+import { ID } from '@nestjs/graphql';
 @Injectable()
 export class WarehouseService {
     constructor(
@@ -41,8 +42,8 @@ export class WarehouseService {
        
         warehouse.user = user;
         console.log(user);
-        const id = await this.generateUniqueId();
-        warehouse.uniqueid  = id
+       
+
         warehouse.companyName = input.companyName;
         warehouse.Adress = input.Adress;
         warehouse.State = input.State;
@@ -65,7 +66,9 @@ export class WarehouseService {
         warehouse.temperatureCapacity = input.temperatureCapacity;
        warehouse.minimumstorageArea_per_pallet = input.minimumstorageArea_per_pallet
        warehouse.WarehouseApproval = warehouseApproval.Warehouse_Approval_pending;
-        return this.warehouseRepository.save(warehouse);
+       const savedWarehouse = await this.warehouseRepository.save(warehouse);
+       savedWarehouse.uniqueid = `FR-WH-${savedWarehouse.id.toString().padStart(5, '0')}`;
+        return this.warehouseRepository.save(savedWarehouse);
       }
       async deleteWarehouse(id: number): Promise<boolean> {
         const warehouse =  await this.getWarehouseById(id);
@@ -244,12 +247,12 @@ export class WarehouseService {
 
 
   }
-  private async generateUniqueId(): Promise<string> {
-    const existingWarehousesCount = await this.warehouseRepository.count();
-    const uniqueId = `FR-WH-${(existingWarehousesCount + 1).toString().padStart(5, '0')}`;
+  // private async generateUniqueId(): Promise<string> {
+  //   const existingWarehousesCount = await this.warehouseRepository.count();
+  //   const uniqueId = `FR-WH-${(existingWarehousesCount + 1).toString().padStart(5, '0')}`;
 
-    return uniqueId;
-  }
+  //   return uniqueId;
+  // }
   
        
       }
