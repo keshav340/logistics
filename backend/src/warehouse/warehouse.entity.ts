@@ -85,6 +85,9 @@ WarehouseApproval:warehouseApproval| null
 @Column({nullable:true})
 @Field({nullable:true})
 remarks:string;
+@Column({nullable:true})
+@Field({nullable:true})
+uniqueid:string
 
 
 }

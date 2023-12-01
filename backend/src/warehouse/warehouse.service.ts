@@ -41,6 +41,8 @@ export class WarehouseService {
        
         warehouse.user = user;
         console.log(user);
+        const id = await this.generateUniqueId();
+        warehouse.uniqueid  = id
         warehouse.companyName = input.companyName;
         warehouse.Adress = input.Adress;
         warehouse.State = input.State;
@@ -241,6 +243,12 @@ export class WarehouseService {
       return warehouse;
 
 
+  }
+  private async generateUniqueId(): Promise<string> {
+    const existingWarehousesCount = await this.warehouseRepository.count();
+    const uniqueId = `FR-WH-${(existingWarehousesCount + 1).toString().padStart(5, '0')}`;
+
+    return uniqueId;
   }
   
        

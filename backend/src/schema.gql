@@ -28,6 +28,7 @@ type WareHouse {
   temperatureCapacity: temperatureCapacity
   WarehouseApproval: WarehouseStatus
   remarks: String
+  uniqueid: String
 }
 
 """types of warehouse"""

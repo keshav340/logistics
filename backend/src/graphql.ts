@@ -417,6 +417,7 @@ export interface WareHouse {
     temperatureCapacity?: Nullable<temperatureCapacity>;
     WarehouseApproval?: Nullable<WarehouseStatus>;
     remarks?: Nullable<string>;
+    uniqueid?: Nullable<string>;
 }
 
 export interface TruckEntity {
