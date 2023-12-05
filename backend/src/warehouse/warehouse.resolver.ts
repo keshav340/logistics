@@ -11,6 +11,18 @@ export class WarehouseResolver {
   async getAllWarehouses() {
     return this.warehouseService.getAllWarehouses();
   }
+  @Query(() => [WareHouse], { name: 'getRejectedWarehouseList' })
+  async getRejectedWarehouseList(): Promise<WareHouse[]> {
+    return this.warehouseService.getRejectedWarehouseList();
+  }
+  @Query(()=>[WareHouse], { name: 'getapprovedWarehouseList' })
+  async getApprovedWarehouseList(): Promise<WareHouse[]> {
+    return this.warehouseService.getWarehouseApprovedList();
+  }
+  @Query(() => [WareHouse], { name: 'getWarehousereveiwedlist' })
+  async getWarehousereveiwedlist(): Promise<WareHouse[]> {
+    return this.warehouseService.getWarehousereveiwedlist();
+  }
 
   @Query(() => WareHouse, { nullable: true })
   async getWarehouseById(@Args('id', { type: () => Int }) id: number) {
@@ -43,13 +55,13 @@ export class WarehouseResolver {
   }
   @Mutation(() => WareHouse)
   async approveWarehouse(
-    @Args('userId') userId: number,
+    //@Args('userId') userId: number,
     @Args('warehouseid') warehouseId: number,
     @Args('approvedinput') approvedInput: ApprovedWarehouseInput,
   ): Promise<WareHouse> {
     try {
       const approvedWarehouse = await this.warehouseService.approveWarehouse(
-        userId,
+        
         warehouseId,
         approvedInput,
       );
@@ -60,12 +72,12 @@ export class WarehouseResolver {
   }
   @Mutation(()=>WareHouse)
   async warehousereject(
-    @Args('userid', { type: () => Int }) userId: number,
+    //@Args('userid', { type: () => Int }) userId: number,
     @Args('warehouseid', { type: () => Int }) warehouseId: number,
     @Args('remarks', { type: () => String }) remarks: string,
   ): Promise<WareHouse> {
     try {
-      return await this.warehouseService.warehousereject(userId, warehouseId, remarks);
+      return await this.warehouseService.warehousereject(warehouseId, remarks);
     } catch (error) {
       throw new Error(`Failed to reject warehouse: ${error.message}`);
     }
@@ -105,5 +117,63 @@ export class WarehouseResolver {
       throw new Error(`Failed to approve warehouse review: ${error.message}`);
     }
   }
+  @Query(() => [WareHouse], { name: 'getWarehousePendingForApprovalListbyuserid' })
+  async getWarehousePendingForApprovalListbyuserid(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<WareHouse[]> {
+    return this.warehouseService.getWarehousePendingForApprovalListbyuserid(userId);
+  }
+  @Query(() => [WareHouse], { name: 'getWarehouseapprovedlistbyuserid' })
+  async getWarehouseapprovedlistbyuserid(
+    @Args('userId', { type: () => Int }) userId:number,
+  ): Promise<WareHouse[]> {
+    return this.warehouseService.getWarehouseApprovedListbyuserid(userId);
+  }
+  @Query(() => [WareHouse], { name: 'getWarehouseReveiwedlistbyuserid' })
+  async getWarehouseReveiwedlistbyuserid(
+    @Args('userId', { type: () => Int}) userId:number,
+  ): Promise<WareHouse[]> {
+    return this.warehouseService.getWarehouseReveiwedListbyuserid(userId);
+  }
+  @Query(() => [String], { name: 'totalsquareAreaAvailiable' })
+  async totalsquareAreaAvailiable(): Promise<string[]> {
+    return this.warehouseService.totalsquareAreaAvailiable();
+  }
 
+  @Query(() => [String!])
+  async totalsquareAreaAvailiableforuserid(@Args('userId') userId: number): Promise<string[]> {
+    return this.warehouseService.getTotalSquareAreaForUser(userId);
+  }
+  @Query(() => [String!])
+  async occupiedspaceforuserid(@Args('userId') userId: number):Promise<string[]>{
+    return this.warehouseService.occupiedSpaceForUser(userId);
+  }
+  @Query(() => [String],{name:'OccupiedSpace'})
+  async occupiedSpace(): Promise<string[]> {
+    return this.warehouseService.occupiedspace();
+  }
+  @Query(() => [String],{name:'UnoccupiedSpace'})
+  async unoccupiedspace(): Promise<string[]>{
+    return this.warehouseService.unoccupiedspace();
+  }
+  @Query(() => [String!])
+  async unoccupiedspaceforuserid(@Args('userId') userId: number):Promise<string[]>{
+    return this.warehouseService.unoccupiedSpaceForUser(userId);
+  }
+  @Query(()=>[Number],{name:'storagechargeperPallet'})
+  async storagechargeperPallet(): Promise<number[]>{
+    return this.warehouseService.storagechargeperPallet();
+  }
+  @Query(() => [Number!])
+async storagechargeperPalletforuserid(@Args('userId') userId: number): Promise<number[]> {
+  return this.warehouseService.storagechargeperPalletForUser(userId);
+}
+@Query(() => [String],{name:'minimumstorageareaperpallet'})
+  async minimumstorageareaperpallet(): Promise<string[]>{
+    return this.warehouseService.minimumStorageAreaperPallet();
+  }
+
+
+
+  
 }

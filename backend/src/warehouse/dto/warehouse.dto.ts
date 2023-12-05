@@ -3,6 +3,7 @@ import { warehouseType } from "src/enums/warehouse.enums";
 import { temperatureType } from 'src/enums/temperaturetype.enums';
 import { temperatureCapacity } from 'src/enums/temperaturecapacity.enums';
 import { hazardousStorageType } from 'src/enums/hazardousstorage.enums';
+import { warehouseApproval } from "src/enums/warehouse_approval.enums";
 @InputType()
 export class WarehouseInput{
     @Field({nullable:true})
@@ -49,6 +50,7 @@ temperatureType:temperatureType| null
 temperatureCapacity:temperatureCapacity| null
 @Field()
 userId:number
+
 
 
 

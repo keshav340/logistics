@@ -341,8 +341,23 @@ type Query {
   getFinalRegisteredUserById(userId: Int!): User!
   getUserByReviewToken(hashedToken: String!): User
   getAllWarehouses: [WareHouse!]!
+  getRejectedWarehouseList: [WareHouse!]!
+  getapprovedWarehouseList: [WareHouse!]!
+  getWarehousereveiwedlist: [WareHouse!]!
   getWarehouseById(id: Int!): WareHouse
   getWarehousesByUserId(userId: Int!): [WareHouse!]!
+  getWarehousePendingForApprovalListbyuserid(userId: Int!): [WareHouse!]!
+  getWarehouseapprovedlistbyuserid(userId: Int!): [WareHouse!]!
+  getWarehouseReveiwedlistbyuserid(userId: Int!): [WareHouse!]!
+  totalsquareAreaAvailiable: [String!]!
+  totalsquareAreaAvailiableforuserid(userId: Float!): [String!]!
+  occupiedspaceforuserid(userId: Float!): [String!]!
+  OccupiedSpace: [String!]!
+  UnoccupiedSpace: [String!]!
+  unoccupiedspaceforuserid(userId: Float!): [String!]!
+  storagechargeperPallet: [Float!]!
+  storagechargeperPalletforuserid(userId: Float!): [Float!]!
+  minimumstorageareaperpallet: [String!]!
   getTruck(id: ID!): TruckEntity!
   getAllTrucks: [TruckEntity!]!
   gettrucksByUserId(userId: Int!): [TruckEntity!]!
@@ -372,8 +387,8 @@ type Mutation {
   createWarehouse(input: WarehouseInput!): WareHouse!
   updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
   deleteWarehouse(id: Int!): Boolean!
-  approveWarehouse(userId: Float!, warehouseid: Float!, approvedinput: ApprovedWarehouseInput!): WareHouse!
-  warehousereject(userid: Int!, warehouseid: Int!, remarks: String!): WareHouse!
+  approveWarehouse(warehouseid: Float!, approvedinput: ApprovedWarehouseInput!): WareHouse!
+  warehousereject(warehouseid: Int!, remarks: String!): WareHouse!
   sendforreveiwingWarehouse(userid: Int!, warehouseid: Int!): WareHouse!
   reveiwwarehousereject(userid: Int!, warehouseid: Int!, remarks: String!): WareHouse!
   reveiwwarehouseapproved(userid: Int!, warehouseid: Int!, approvedinput: ApprovedWarehouseInput!): WareHouse!
