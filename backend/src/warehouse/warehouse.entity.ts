@@ -1,5 +1,5 @@
 
-import {Entity,Column,PrimaryGeneratedColumn,ManyToOne}  from 'typeorm'
+import {Entity,Column,PrimaryGeneratedColumn,ManyToOne,Unique}  from 'typeorm'
 import { ObjectType,Field,Int,ID } from '@nestjs/graphql'
 import { warehouseType } from 'src/enums/warehouse.enums';
 import { hazardousStorageType } from 'src/enums/hazardousstorage.enums';
@@ -9,6 +9,8 @@ import { temperatureCapacity } from 'src/enums/temperaturecapacity.enums';
 import { warehouseApproval } from 'src/enums/warehouse_approval.enums';
 @Entity()
 @ObjectType()
+
+
 export class WareHouse{
     @Field(() => ID)
     @PrimaryGeneratedColumn()

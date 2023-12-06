@@ -31,6 +31,36 @@ export class WarehouseService {
         return this.warehouseRepository.findOne({where: {id: id}});
       }
       async createWarehouse(input: WarehouseInput): Promise<WareHouse> {
+        const existingWarehouse = await this.warehouseRepository.findOne({
+          where: {
+            companyName: input.companyName,
+            Adress: input.Adress,
+            State: input.State,
+            City: input.City,
+            Pincode: input.Pincode,
+            Country: input.Country,
+            warehouseType: input.warehouseType,
+            totalSquareArea: input.totalSquareArea,
+            totalAvailiableArea: input.totalAvailiableArea,
+            occupiedSpace: input.occupiedSpace,
+            unoccupiedSpace: input.unoccupiedSpace,
+            rackedSpace: input.rackedSpace,
+            minimumStorageArea: input.minimumStorageArea,
+            minimumStorageRent: input.minimumStorageRent,
+            minimumStorageCharges_per_pallet: input.minimumStorageCharges_per_pallet,
+            storageCharges: input.storageCharges,
+            storageCharges_per_pallet: input.storageCharges_per_pallet,
+            hazardousStorageType: input.hazardousStorageType,
+            temperatureType: input.temperatureType,
+            temperatureCapacity: input.temperatureCapacity,
+            minimumstorageArea_per_pallet: input.minimumstorageArea_per_pallet,
+          },
+        });
+        if(existingWarehouse){
+          throw new Error("Warehouse already exists");
+        }
+
+
         const user = await this.userRepository.findOne({where: {id: input.userId}});
         //const warehouse = this.warehouseRepository.create(input);
         //const existingWarehouse = await this.warehouseRepository.findOne({
@@ -69,6 +99,7 @@ export class WarehouseService {
        warehouse.minimumstorageArea_per_pallet = input.minimumstorageArea_per_pallet
        warehouse.WarehouseApproval = warehouseApproval.Warehouse_Approval_pending
        const savedWarehouse = await this.warehouseRepository.save(warehouse);
+       
        savedWarehouse.uniqueid = `FR-WH-${savedWarehouse.id.toString().padStart(5, '0')}`;
         return this.warehouseRepository.save(savedWarehouse);
       }
@@ -480,7 +511,9 @@ export class WarehouseService {
         });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageRent, 0);
       }
-    
+     
+
+
 
       
 
