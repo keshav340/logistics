@@ -172,6 +172,78 @@ async storagechargeperPalletforuserid(@Args('userId') userId: number): Promise<n
   async minimumstorageareaperpallet(): Promise<string[]>{
     return this.warehouseService.minimumStorageAreaperPallet();
   }
+ @Query(()=>[String!])
+ async minimumStorageareaperpalletForUser(@Args('userId') userId: number): Promise<string[]>{
+   return this.warehouseService.minimumStorageareaperpalletForUser(userId);
+ }
+
+ @Query(()=>[Number],{name:'minimumstoragechargeperPallet'})
+ async minimumstoragechargeperPallet(): Promise<number[]>{
+   return this.warehouseService.minimumstoragechargeperPallet();
+ }
+
+ @Query(() => [Number!])
+ async minimumstoragechargeperPalletforuserid(@Args('userId') userId: number): Promise<number[]> {
+   return this.warehouseService.minimumstoragechargeperPalletForUser(userId);
+ }
+ @Query(() => Int, { name: 'totalStorageChargesPerPalletSum' })
+ async getTotalStorageChargesPerPalletSum(): Promise<number> {
+   return this.warehouseService.getTotalStorageChargesPerPalletSum();
+ }
+
+ @Query(() => Int, { name: 'totalStorageChargesPerPalletSumforuser' })
+ async getTotalStorageChargesPerPalletSumforuser(
+   @Args('userId', { type: () => Int }) userId: number,
+ ): Promise<number> {
+   return this.warehouseService.getTotalStorageChargesPerPalletSumforuser(userId);
+ }
+ @Query(() => Int, { name: 'getTotalstorageChargesSum' })
+  async getTotalstorageChargesSum(): Promise<number> {
+    return this.warehouseService.getTotalstorageChargesSum();
+  }
+
+  @Query(() => Int, { name: 'getTotalstorageChargesSumforuser' })
+  async getTotalstorageChargesSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotalstorageChargesSumforuser(userId);
+  }
+
+  @Query(() => Int, { name: 'getTotalstorageCharges_per_palletSum' })
+  async getTotalstorageCharges_per_palletSum(): Promise<number> {
+    return this.warehouseService.getTotalstorageCharges_per_palletSum();
+  }
+
+  @Query(() => Int, { name: 'getTotalstorageCharges_per_palletSumforuser' })
+  async getTotalstorageCharges_per_palletSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotalstorageCharges_per_palletSumforuser(userId);
+  }
+  @Query(() => Int, { name: 'getTotalminimumStorageCharges_per_palletSum' })
+  async getTotalminimumStorageCharges_per_palletSum(): Promise<number> {
+    return this.warehouseService.getTotalminimumStorageCharges_per_palletSum();
+  }
+
+  @Query(() => Int, { name: 'getTotalminimumStorageCharges_per_palletSumforuser' })
+  async getTotalminimumStorageCharges_per_palletSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotalminimumStorageCharges_per_palletSumforuser(userId);
+  }
+
+  @Query(() => Int, { name: 'getTotalminimumStorageRentSum' })
+  async getTotalminimumStorageRentSum(): Promise<number> {
+    return this.warehouseService.getTotalminimumStorageRentSum();
+  }
+
+  @Query(() => Int, { name: 'getTotalminimumStorageRentSumforuser' })
+  async getTotalminimumStorageRentSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotalminimumStorageRentSumforuser(userId);
+  }
+
 
 
 

@@ -406,6 +406,91 @@ export class WarehouseService {
         }
       }
 
+      async minimumstoragechargeperPallet():Promise<number[]> {
+        const warehouses = await this.warehouseRepository.find();
+        return warehouses.map((warehouse) => warehouse.minimumStorageCharges_per_pallet);
+      }
+
+      async minimumstoragechargeperPalletForUser(userId: number): Promise<number[]> {
+        try {
+          // Your logic to fetch the total square areas for the given user from the database
+          const warehouses = await this.warehouseRepository.find({
+            where: { user: { id: userId } },
+          });
+    
+          const minimumstoragechargeperPallet = warehouses.map((warehouse) => warehouse.minimumStorageCharges_per_pallet);
+    
+          return minimumstoragechargeperPallet;
+        } catch (error) {
+          console.error('Error fetching total square areas for the user:', error);
+          throw error;
+        }
+      }
+      async getTotalStorageChargesPerPalletSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find();
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
+      }
+      async getTotalStorageChargesPerPalletSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId } },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
+      }
+
+      async getTotalstorageChargesSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find();
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges, 0);
+      }
+      async getTotalstorageChargesSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId } },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges, 0);
+      }
+
+      async getTotalstorageCharges_per_palletSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find();
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
+      }
+      async getTotalstorageCharges_per_palletSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId } },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
+      }
+
+      async getTotalminimumStorageCharges_per_palletSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find();
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageCharges_per_pallet, 0);
+      }
+      async getTotalminimumStorageCharges_per_palletSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId } },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageCharges_per_pallet, 0);
+      }
+
+      async getTotalminimumStorageRentSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find();
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageRent, 0);
+      }
+      async getTotalminimumStorageRentSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId } },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageRent, 0);
+      }
+    
+
+      
+
+      
+
+     
+
+
+
+
 
 
 

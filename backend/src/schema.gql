@@ -358,6 +358,19 @@ type Query {
   storagechargeperPallet: [Float!]!
   storagechargeperPalletforuserid(userId: Float!): [Float!]!
   minimumstorageareaperpallet: [String!]!
+  minimumStorageareaperpalletForUser(userId: Float!): [String!]!
+  minimumstoragechargeperPallet: [Float!]!
+  minimumstoragechargeperPalletforuserid(userId: Float!): [Float!]!
+  totalStorageChargesPerPalletSum: Int!
+  totalStorageChargesPerPalletSumforuser(userId: Int!): Int!
+  getTotalstorageChargesSum: Int!
+  getTotalstorageChargesSumforuser(userId: Int!): Int!
+  getTotalstorageCharges_per_palletSum: Int!
+  getTotalstorageCharges_per_palletSumforuser(userId: Int!): Int!
+  getTotalminimumStorageCharges_per_palletSum: Int!
+  getTotalminimumStorageCharges_per_palletSumforuser(userId: Int!): Int!
+  getTotalminimumStorageRentSum: Int!
+  getTotalminimumStorageRentSumforuser(userId: Int!): Int!
   getTruck(id: ID!): TruckEntity!
   getAllTrucks: [TruckEntity!]!
   gettrucksByUserId(userId: Int!): [TruckEntity!]!
