@@ -13,10 +13,10 @@ import { UserService } from './user/user.service';
 import { AuthModule } from './auth/auth.modules';
 import { WareHouseModule } from './warehouse/warehouse.module';
 import { TruckModule } from './truck/truck.module';
-
+import { BookingModule } from './booking/booking.module';
 
 @Module({
-  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,//profileUpdate,
+  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,BookingModule,//profileUpdate,
    
     
   

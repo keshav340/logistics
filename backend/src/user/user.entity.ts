@@ -10,6 +10,7 @@ import { TruckEntity } from 'src/truck/truck.entity';
 import { CompanyContact } from './company.entity';
 import { CorporateAddress } from './corporate.entity';
 import { Kyc } from './kyc.entity';
+import { Booking } from 'src/booking/booking.entity';
 @Entity()
 
 @ObjectType() // Decorate your class with @ObjectType()
@@ -153,7 +154,9 @@ reset_password_verification:Date;
   @JoinColumn()
   @Field(() => Kyc, { nullable: true })
    kyc: Kyc;
-  
+   @OneToMany(() => Booking, (booking) => booking.user)
+   @Field(() => [Booking], { nullable: true })
+   bookings: Booking[];
 
 
 

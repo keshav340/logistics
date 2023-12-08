@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Booking {
+  id: ID!
+  moveInDate: DateTime
+  moveOutDate: DateTime
+  spaceMaterialType: String
+  specialInstructions: String
+  uniquecode: String
+  warehouse: WareHouse
+  user: User
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type WareHouse {
   id: ID!
   companyName: String!
@@ -29,6 +45,9 @@ type WareHouse {
   WarehouseApproval: WarehouseStatus
   remarks: String
   uniqueid: String
+  latitude: Float
+  longitude: Float
+  booking: Booking
 }
 
 """types of warehouse"""
@@ -243,6 +262,7 @@ type User {
   companyContact: CompanyContact
   corporateAddress: CorporateAddress
   kyc: Kyc
+  bookings: [Booking!]
 }
 
 """The type of user"""
@@ -319,11 +339,6 @@ enum Approved_users {
   Reverted_user
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type LoginResponse {
   access_token: String!
 }
@@ -371,9 +386,17 @@ type Query {
   getTotalminimumStorageCharges_per_palletSumforuser(userId: Int!): Int!
   getTotalminimumStorageRentSum: Int!
   getTotalminimumStorageRentSumforuser(userId: Int!): Int!
+  getTotaloccupiedspaceSumforuser(userId: Int!): Int!
+  getTotaloccupiedspaceSum: Int!
+  getTotalunoccupiedspaceSumforuser(userId: Int!): Int!
+  getTotalunoccupiedspaceSum: Int!
+  getTotalavailiableareaSumforuser(userId: Int!): Int!
+  getTotalabviableareaSum: Int!
   getTruck(id: ID!): TruckEntity!
   getAllTrucks: [TruckEntity!]!
   gettrucksByUserId(userId: Int!): [TruckEntity!]!
+  booking(id: Int!): Booking!
+  allBookings: [Booking!]!
 }
 
 type Mutation {
@@ -408,6 +431,9 @@ type Mutation {
   createTruck(truckData: TruckDTO!): TruckEntity!
   updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
   deleteTruck(id: ID!): Boolean!
+  createBooking(bookingInput: BookingInput!): Booking!
+  updateBooking(id: Int!, bookingInput: BookingInput!): Booking!
+  deleteBooking(id: Int!): Boolean!
 }
 
 input EmailInput {
@@ -582,6 +608,8 @@ input WarehouseInput {
   temperatureType: temperatureType
   temperatureCapacity: temperatureCapacity
   userId: Float!
+  latitude: Float
+  longitude: Float
 }
 
 input ApprovedWarehouseInput {
@@ -606,6 +634,8 @@ input ApprovedWarehouseInput {
   HazardousStorageType: hazardousStorageType
   TempaeratureType: temperatureType
   TemperatureCapacity: temperatureCapacity
+  latitude: Float
+  longitude: Float
   remarks: String
 }
 
@@ -625,4 +655,13 @@ input TruckDTO {
   dropcitypincode: DropCityPincode
   transportcharges: Float
   userId: Float
+}
+
+input BookingInput {
+  moveInDate: DateTime
+  moveOutDate: DateTime
+  spaceMaterialType: String
+  specialInstructions: String
+  warehouseId: Int
+  userId: Int
 }

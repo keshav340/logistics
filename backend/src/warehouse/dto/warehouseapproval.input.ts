@@ -1,4 +1,4 @@
-import { InputType,ObjectType,Field,ID } from "@nestjs/graphql";
+import { InputType,ObjectType,Field,ID,Float } from "@nestjs/graphql";
 import { warehouseType } from "src/enums/warehouse.enums";
 import { temperatureType } from 'src/enums/temperaturetype.enums';
 import { temperatureCapacity } from 'src/enums/temperaturecapacity.enums';
@@ -47,6 +47,11 @@ export class ApprovedWarehouseInput{
     TempaeratureType:temperatureType
     @Field(()=>temperatureCapacity,{nullable:true})
     TemperatureCapacity:temperatureCapacity;
+    @Field(() => Float, { nullable: true })
+  latitude?: number;
+
+  @Field(() => Float, { nullable: true })
+  longitude?: number;
     @Field({nullable:true})
     remarks:string;
 }

@@ -346,6 +346,8 @@ export interface WarehouseInput {
     temperatureType?: Nullable<temperatureType>;
     temperatureCapacity?: Nullable<temperatureCapacity>;
     userId: number;
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
 }
 
 export interface ApprovedWarehouseInput {
@@ -370,6 +372,8 @@ export interface ApprovedWarehouseInput {
     HazardousStorageType?: Nullable<hazardousStorageType>;
     TempaeratureType?: Nullable<temperatureType>;
     TemperatureCapacity?: Nullable<temperatureCapacity>;
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
     remarks?: Nullable<string>;
 }
 
@@ -389,6 +393,26 @@ export interface TruckDTO {
     dropcitypincode?: Nullable<DropCityPincode>;
     transportcharges?: Nullable<number>;
     userId?: Nullable<number>;
+}
+
+export interface BookingInput {
+    moveInDate?: Nullable<DateTime>;
+    moveOutDate?: Nullable<DateTime>;
+    spaceMaterialType?: Nullable<string>;
+    specialInstructions?: Nullable<string>;
+    warehouseId?: Nullable<number>;
+    userId?: Nullable<number>;
+}
+
+export interface Booking {
+    id: string;
+    moveInDate?: Nullable<DateTime>;
+    moveOutDate?: Nullable<DateTime>;
+    spaceMaterialType?: Nullable<string>;
+    specialInstructions?: Nullable<string>;
+    uniquecode?: Nullable<string>;
+    warehouse?: Nullable<WareHouse>;
+    user?: Nullable<User>;
 }
 
 export interface WareHouse {
@@ -418,6 +442,9 @@ export interface WareHouse {
     WarehouseApproval?: Nullable<WarehouseStatus>;
     remarks?: Nullable<string>;
     uniqueid?: Nullable<string>;
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
+    booking?: Nullable<Booking>;
 }
 
 export interface TruckEntity {
@@ -517,6 +544,7 @@ export interface User {
     companyContact?: Nullable<CompanyContact>;
     corporateAddress?: Nullable<CorporateAddress>;
     kyc?: Nullable<Kyc>;
+    bookings?: Nullable<Booking[]>;
 }
 
 export interface LoginResponse {
@@ -566,9 +594,17 @@ export interface IQuery {
     getTotalminimumStorageCharges_per_palletSumforuser(userId: number): number | Promise<number>;
     getTotalminimumStorageRentSum(): number | Promise<number>;
     getTotalminimumStorageRentSumforuser(userId: number): number | Promise<number>;
+    getTotaloccupiedspaceSumforuser(userId: number): number | Promise<number>;
+    getTotaloccupiedspaceSum(): number | Promise<number>;
+    getTotalunoccupiedspaceSumforuser(userId: number): number | Promise<number>;
+    getTotalunoccupiedspaceSum(): number | Promise<number>;
+    getTotalavailiableareaSumforuser(userId: number): number | Promise<number>;
+    getTotalabviableareaSum(): number | Promise<number>;
     getTruck(id: string): TruckEntity | Promise<TruckEntity>;
     getAllTrucks(): TruckEntity[] | Promise<TruckEntity[]>;
     gettrucksByUserId(userId: number): TruckEntity[] | Promise<TruckEntity[]>;
+    booking(id: number): Booking | Promise<Booking>;
+    allBookings(): Booking[] | Promise<Booking[]>;
 }
 
 export interface IMutation {
@@ -603,8 +639,11 @@ export interface IMutation {
     createTruck(truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     updateTruck(id: string, truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     deleteTruck(id: string): boolean | Promise<boolean>;
+    createBooking(bookingInput: BookingInput): Booking | Promise<Booking>;
+    updateBooking(id: number, bookingInput: BookingInput): Booking | Promise<Booking>;
+    deleteBooking(id: number): boolean | Promise<boolean>;
 }
 
-export type KeyValue = any;
 export type DateTime = any;
+export type KeyValue = any;
 type Nullable<T> = T | null;

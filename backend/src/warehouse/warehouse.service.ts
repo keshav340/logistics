@@ -27,9 +27,10 @@ export class WarehouseService {
   return this.warehouseRepository.find({ relations: ['user'] });
 }
 
-      async getWarehouseById(id: number): Promise<WareHouse > {
-        return this.warehouseRepository.findOne({where: {id: id}});
-      }
+async getWarehouseById(id: number): Promise<WareHouse> {
+  return this.warehouseRepository.findOne({ where: { id: id }, relations: ['user'] });
+}
+
       async createWarehouse(input: WarehouseInput): Promise<WareHouse> {
         const existingWarehouse = await this.warehouseRepository.findOne({
           where: {
@@ -98,6 +99,8 @@ export class WarehouseService {
         warehouse.temperatureCapacity = input.temperatureCapacity;
        warehouse.minimumstorageArea_per_pallet = input.minimumstorageArea_per_pallet
        warehouse.WarehouseApproval = warehouseApproval.Warehouse_Approval_pending
+       warehouse.latitude = input.latitude
+       warehouse.longitude = input.longitude
        const savedWarehouse = await this.warehouseRepository.save(warehouse);
        
        savedWarehouse.uniqueid = `FR-WH-${savedWarehouse.id.toString().padStart(5, '0')}`;
@@ -141,12 +144,16 @@ export class WarehouseService {
             warehouse.hazardousStorageType = input.hazardousStorageType;
             warehouse.temperatureType = input.temperatureType;
             warehouse.temperatureCapacity = input.temperatureCapacity;
+            warehouse.latitude = input.latitude
+            warehouse.longitude = input.longitude
+
             
             return this.warehouseRepository.save(warehouse);
         }
         async getWarehousesByUserId(userId: number): Promise<WareHouse[]> {
           return this.warehouseRepository.find({
-            where: { user: { id: userId } }, // Filter by the user's ID
+            where: { user: { id: userId } },
+             // Filter by the user's ID
           });
         }
      async approveWarehouse(warehouseid:number,approvedinput:ApprovedWarehouseInput):Promise<WareHouse>{
@@ -177,6 +184,8 @@ export class WarehouseService {
       warehouse.temperatureType = approvedinput.TempaeratureType
       warehouse.temperatureCapacity = approvedinput.TemperatureCapacity
       warehouse.remarks = approvedinput.remarks;
+      warehouse.latitude = approvedinput.latitude
+      warehouse.longitude = approvedinput.longitude
       warehouse.WarehouseApproval = warehouseApproval.Warehouse_Approved;
       await this.warehouseRepository.save(warehouse);
 
@@ -201,6 +210,7 @@ export class WarehouseService {
 
     }
     warehouse.WarehouseApproval = warehouseApproval.Warehouse_Reveiw_peding;
+    await this.warehouseRepository.save(warehouse);
     return warehouse;
   }
   async warehousereject(warehouseid:number,remarks:string):Promise<WareHouse>{
@@ -335,7 +345,9 @@ export class WarehouseService {
    
       }
       async totalsquareAreaAvailiable():Promise<string[]>{
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.map((warehouse) => warehouse.totalSquareArea);
       }
 
@@ -343,7 +355,7 @@ export class WarehouseService {
         try {
           // Your logic to fetch the total square areas for the given user from the database
           const warehouses = await this.warehouseRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved  },
           });
     
           const totalSquareAreas = warehouses.map((warehouse) => warehouse.totalSquareArea);
@@ -356,12 +368,16 @@ export class WarehouseService {
       }
 
       async occupiedspace(): Promise<string[]> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.map((warehouse) => warehouse.occupiedSpace);
 
       }
       async unoccupiedspace(): Promise<string[]> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.map((warehouse) => warehouse.unoccupiedSpace);
 
       }
@@ -369,7 +385,7 @@ export class WarehouseService {
         try {
           // Your logic to fetch the total square areas for the given user from the database
           const warehouses = await this.warehouseRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
           });
     
           const unoccupiedspace = warehouses.map((warehouse) => warehouse.unoccupiedSpace);
@@ -385,7 +401,7 @@ export class WarehouseService {
         try {
           // Your logic to fetch the total square areas for the given user from the database
           const warehouses = await this.warehouseRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
           });
     
           const occupiedspace = warehouses.map((warehouse) => warehouse.occupiedSpace);
@@ -400,7 +416,7 @@ export class WarehouseService {
         try {
           // Your logic to fetch the total square areas for the given user from the database
           const warehouses = await this.warehouseRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
           });
     
           const storagechargeperPallet = warehouses.map((warehouse) => warehouse.storageCharges_per_pallet);
@@ -412,12 +428,16 @@ export class WarehouseService {
         }
       }
       async storagechargeperPallet():Promise<number[]> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.map((warehouse) => warehouse.storageCharges_per_pallet);
       }
 
       async minimumStorageAreaperPallet():Promise<string[]> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.map((warehouse) => warehouse.minimumstorageArea_per_pallet);
 
       }
@@ -426,7 +446,7 @@ export class WarehouseService {
         try {
           // Your logic to fetch the total square areas for the given user from the database
           const warehouses = await this.warehouseRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved  },
           });
             const minimumstorage_Area_per_pallet = warehouses.map((warehouse) => warehouse.minimumstorageArea_per_pallet);
     
@@ -438,7 +458,9 @@ export class WarehouseService {
       }
 
       async minimumstoragechargeperPallet():Promise<number[]> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.map((warehouse) => warehouse.minimumStorageCharges_per_pallet);
       }
 
@@ -446,7 +468,7 @@ export class WarehouseService {
         try {
           // Your logic to fetch the total square areas for the given user from the database
           const warehouses = await this.warehouseRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
           });
     
           const minimumstoragechargeperPallet = warehouses.map((warehouse) => warehouse.minimumStorageCharges_per_pallet);
@@ -458,75 +480,109 @@ export class WarehouseService {
         }
       }
       async getTotalStorageChargesPerPalletSum(): Promise<number> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
       }
       async getTotalStorageChargesPerPalletSumforuser(userId: number): Promise<number> {
         const warehouses = await this.warehouseRepository.find({
-          where: { user: { id: userId } },
+          where: { user: { id: userId } ,WarehouseApproval:warehouseApproval.Warehouse_Approved  },
         });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
       }
 
       async getTotalstorageChargesSum(): Promise<number> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges, 0);
       }
       async getTotalstorageChargesSumforuser(userId: number): Promise<number> {
         const warehouses = await this.warehouseRepository.find({
-          where: { user: { id: userId } },
+          where: { user: { id: userId } ,WarehouseApproval:warehouseApproval.Warehouse_Approved },
         });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges, 0);
       }
 
       async getTotalstorageCharges_per_palletSum(): Promise<number> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
       }
       async getTotalstorageCharges_per_palletSumforuser(userId: number): Promise<number> {
         const warehouses = await this.warehouseRepository.find({
-          where: { user: { id: userId } },
+          where: { user: { id: userId } ,WarehouseApproval:warehouseApproval.Warehouse_Approved },
         });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.storageCharges_per_pallet, 0);
       }
 
       async getTotalminimumStorageCharges_per_palletSum(): Promise<number> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageCharges_per_pallet, 0);
       }
       async getTotalminimumStorageCharges_per_palletSumforuser(userId: number): Promise<number> {
         const warehouses = await this.warehouseRepository.find({
-          where: { user: { id: userId } },
+          where: { user: { id: userId } ,WarehouseApproval:warehouseApproval.Warehouse_Approved },
         });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageCharges_per_pallet, 0);
       }
 
       async getTotalminimumStorageRentSum(): Promise<number> {
-        const warehouses = await this.warehouseRepository.find();
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageRent, 0);
       }
       async getTotalminimumStorageRentSumforuser(userId: number): Promise<number> {
         const warehouses = await this.warehouseRepository.find({
-          where: { user: { id: userId } },
+          where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
         });
         return warehouses.reduce((sum, warehouse) => sum + warehouse.minimumStorageRent, 0);
       }
-     
+      async getTotaloccupiedspaceSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.occupiedSpace), 0);
+      }
+      async getTotaloccupiedspaceSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.occupiedSpace), 0);
+      }
+    
+      async getTotalunoccupiedspaceSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.unoccupiedSpace), 0);
+      }
+      async getTotalunoccupiedspaceSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.unoccupiedSpace), 0);
+      }
+      async getTotalavailiableareaSumforuser(userId: number): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { user: { id: userId },WarehouseApproval:warehouseApproval.Warehouse_Approved },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.totalAvailiableArea), 0);
+      }
+      async getTotalabviableareaSum(): Promise<number> {
+        const warehouses = await this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approved },
+        });
+        return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.totalAvailiableArea), 0);
+      }
 
 
-
-      
-
-      
-
-     
-
-
-
-
-
-
-
+    
   }
     
 

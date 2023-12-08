@@ -1,12 +1,13 @@
 
-import {Entity,Column,PrimaryGeneratedColumn,ManyToOne,Unique}  from 'typeorm'
-import { ObjectType,Field,Int,ID } from '@nestjs/graphql'
+import {Entity,Column,PrimaryGeneratedColumn,ManyToOne,Unique,JoinColumn,OneToOne}  from 'typeorm'
+import { ObjectType,Field,Int,ID,Float} from '@nestjs/graphql'
 import { warehouseType } from 'src/enums/warehouse.enums';
 import { hazardousStorageType } from 'src/enums/hazardousstorage.enums';
 import { User } from 'src/user/user.entity';
 import { temperatureType } from 'src/enums/temperaturetype.enums';
 import { temperatureCapacity } from 'src/enums/temperaturecapacity.enums';
 import { warehouseApproval } from 'src/enums/warehouse_approval.enums';
+import { Booking } from 'src/booking/booking.entity';
 @Entity()
 @ObjectType()
 
@@ -90,6 +91,16 @@ remarks:string;
 @Column({nullable:true})
 @Field({nullable:true})
 uniqueid:string
+@Column({ type: 'double precision', nullable: true })
+@Field(() => Float, { nullable: true })
+latitude: number;
 
+@Column({ type: 'double precision', nullable: true })
+@Field(() => Float, { nullable: true })
+longitude: number;
+@OneToOne(() => Booking, { nullable: true })
+  @JoinColumn()
+  @Field(() => Booking, { nullable: true })
+  booking: Booking;
 
 }

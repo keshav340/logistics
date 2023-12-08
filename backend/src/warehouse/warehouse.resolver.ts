@@ -244,6 +244,44 @@ async storagechargeperPalletforuserid(@Args('userId') userId: number): Promise<n
     return this.warehouseService.getTotalminimumStorageRentSumforuser(userId);
   }
 
+  @Query(() => Int, { name: 'getTotaloccupiedspaceSumforuser' })
+  async getTotaloccupiedspaceSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotaloccupiedspaceSumforuser(userId);
+  }
+
+  @Query(() => Int, { name: 'getTotaloccupiedspaceSum' })
+  async getTotaloccupiedspaceSum(): Promise<number> {
+    return this.warehouseService.getTotaloccupiedspaceSum();
+  }
+  @Query(() => Int, { name: 'getTotalunoccupiedspaceSumforuser' })
+  async getTotalunoccupiedspaceSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotaloccupiedspaceSumforuser(userId);
+  }
+
+  @Query(() => Int, { name: 'getTotalunoccupiedspaceSum' })
+  async getTotalunoccupiedspaceSum(): Promise<number> {
+    return this.warehouseService.getTotaloccupiedspaceSum();
+  }
+
+  @Query(() => Int, { name: 'getTotalavailiableareaSumforuser' })
+  async getTotalavailiableareaSumforuser(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<number> {
+    return this.warehouseService.getTotalavailiableareaSumforuser(userId);
+  }
+
+  @Query(() => Int, { name: 'getTotalabviableareaSum' })
+  async getTotalabviableareaSum(): Promise<number> {
+    return this.warehouseService.getTotaloccupiedspaceSum();
+  }
+
+
+
+
 
 
 
