@@ -5,6 +5,7 @@ import { NotFoundException } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.entity';
 import { BookingInput } from './dto/booking.input';
+import { WareHouse } from 'src/warehouse/warehouse.entity';
 
 @Resolver(() => Booking)
 export class BookingResolver {
@@ -40,6 +41,14 @@ export class BookingResolver {
   @Mutation(() => Boolean)
   async deleteBooking(@Args('id', { type: () => Int }) id: number): Promise<boolean> {
     return this.bookingService.deleteBooking(id);
+  }
+
+  @Query(() => [Booking], { name: 'searchWarehousesByUserLocation' })
+  async searchWarehousesByUserLocation(
+    @Args('userLatitude') userLatitude: number,
+    @Args('userLongitude') userLongitude: number,
+  ): Promise<WareHouse[]> {
+    return this.bookingService.searchByUserLocation(userLatitude, userLongitude);
   }
 
   

@@ -605,6 +605,7 @@ export interface IQuery {
     gettrucksByUserId(userId: number): TruckEntity[] | Promise<TruckEntity[]>;
     booking(id: number): Booking | Promise<Booking>;
     allBookings(): Booking[] | Promise<Booking[]>;
+    searchWarehousesByUserLocation(userLatitude: number, userLongitude: number): Booking[] | Promise<Booking[]>;
 }
 
 export interface IMutation {

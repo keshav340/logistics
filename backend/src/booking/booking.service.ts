@@ -7,7 +7,7 @@ import { Booking } from './booking.entity';
 import { BookingInput } from './dto/booking.input';
 import { WareHouse } from '../warehouse/warehouse.entity';
 import { User } from 'src/user/user.entity';
-
+import { getDistance } from 'geolib';
 @Injectable()
 export class BookingService {
   constructor(
@@ -104,4 +104,19 @@ export class BookingService {
 
     return `FR-BK-${session}-${bookingId}`;
   }
+
+  async searchByUserLocation(userLatitude: number, userLongitude: number): Promise<WareHouse[]> {
+    const allWarehouses = await this.warehouseRepository.find();
+    const nearbyWarehouses = allWarehouses.filter((warehouse) => {
+      const distance = getDistance(
+        { latitude: userLatitude, longitude: userLongitude },
+        { latitude: warehouse.latitude, longitude: warehouse.longitude },
+      );
+      
+      return distance <= 50000; 
+    });
+    return nearbyWarehouses;
+  }
+ 
+
 }
