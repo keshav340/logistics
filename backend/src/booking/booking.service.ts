@@ -107,16 +107,27 @@ export class BookingService {
 
   async searchByUserLocation(userLatitude: number, userLongitude: number): Promise<WareHouse[]> {
     const allWarehouses = await this.warehouseRepository.find();
+  
     const nearbyWarehouses = allWarehouses.filter((warehouse) => {
-      const distance = getDistance(
-        { latitude: userLatitude, longitude: userLongitude },
-        { latitude: warehouse.latitude, longitude: warehouse.longitude },
-      );
-      
-      return distance <= 50000; 
+      const warehouseLatitude = warehouse.latitude;
+      const warehouseLongitude = warehouse.longitude;
+  
+      // Check for null or undefined values before using getDistance
+      if (warehouseLatitude !== null && warehouseLongitude !== null) {
+        const distance = getDistance(
+          { latitude: userLatitude, longitude: userLongitude },
+          { latitude: warehouseLatitude, longitude: warehouseLongitude },
+        );
+  
+        return distance <= 50000;
+      }
+  
+      return false;
     });
+  
     return nearbyWarehouses;
   }
+  
  
 
 }
