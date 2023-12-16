@@ -43,7 +43,7 @@ export class BookingResolver {
     return this.bookingService.deleteBooking(id);
   }
 
-  @Query(() => [Booking], { name: 'searchWarehousesByUserLocation' })
+  @Query(() => [WareHouse], { name: 'searchWarehousesByUserLocation' })
   async searchWarehousesByUserLocation(
     @Args('userLatitude') userLatitude: number,
     @Args('userLongitude') userLongitude: number,

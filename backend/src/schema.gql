@@ -397,7 +397,7 @@ type Query {
   gettrucksByUserId(userId: Int!): [TruckEntity!]!
   booking(id: Int!): Booking!
   allBookings: [Booking!]!
-  searchWarehousesByUserLocation(userLatitude: Float!, userLongitude: Float!): [Booking!]!
+  searchWarehousesByUserLocation(userLatitude: Float!, userLongitude: Float!): [WareHouse!]!
 }
 
 type Mutation {
