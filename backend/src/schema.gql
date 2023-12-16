@@ -392,6 +392,7 @@ type Query {
   getTotalunoccupiedspaceSum: Int!
   getTotalavailiableareaSumforuser(userId: Int!): Int!
   getTotalabviableareaSum: Int!
+  warehousesPendingApproval: [WareHouse!]!
   getTruck(id: ID!): TruckEntity!
   getAllTrucks: [TruckEntity!]!
   gettrucksByUserId(userId: Int!): [TruckEntity!]!

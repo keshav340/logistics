@@ -600,6 +600,7 @@ export interface IQuery {
     getTotalunoccupiedspaceSum(): number | Promise<number>;
     getTotalavailiableareaSumforuser(userId: number): number | Promise<number>;
     getTotalabviableareaSum(): number | Promise<number>;
+    warehousesPendingApproval(): WareHouse[] | Promise<WareHouse[]>;
     getTruck(id: string): TruckEntity | Promise<TruckEntity>;
     getAllTrucks(): TruckEntity[] | Promise<TruckEntity[]>;
     gettrucksByUserId(userId: number): TruckEntity[] | Promise<TruckEntity[]>;

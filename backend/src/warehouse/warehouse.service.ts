@@ -581,6 +581,13 @@ async getWarehouseById(id: number): Promise<WareHouse> {
         return warehouses.reduce((sum, warehouse) => sum + parseFloat(warehouse.totalAvailiableArea), 0);
       }
 
+      async getWarehousesPendingApproval(): Promise<WareHouse[]> {
+        return this.warehouseRepository.find({
+          where: { WarehouseApproval: warehouseApproval.Warehouse_Approval_pending },
+          relations: ['user'],
+        });
+      }
+
 
     
   }

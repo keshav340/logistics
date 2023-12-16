@@ -279,6 +279,11 @@ async storagechargeperPalletforuserid(@Args('userId') userId: number): Promise<n
     return this.warehouseService.getTotaloccupiedspaceSum();
   }
 
+  @Query(() => [WareHouse], { name: 'warehousesPendingApproval' })
+  async getWarehousesPendingApproval(): Promise<WareHouse[]> {
+    return this.warehouseService.getWarehousesPendingApproval();
+  }
+
 
 
 
