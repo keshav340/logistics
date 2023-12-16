@@ -283,6 +283,12 @@ async storagechargeperPalletforuserid(@Args('userId') userId: number): Promise<n
   async getWarehousesPendingApproval(): Promise<WareHouse[]> {
     return this.warehouseService.getWarehousesPendingApproval();
   }
+  @Mutation(() => WareHouse, { name: 'setWarehouseStatusToApprovalPending' })
+  async setWarehouseStatusToApprovalPending(
+    @Args('warehouseId', { type: () => Int }) warehouseId: number,
+  ): Promise<WareHouse> {
+    return this.warehouseService.setWarehouseStatusToApprovalPending(warehouseId);
+  }
 
 
 

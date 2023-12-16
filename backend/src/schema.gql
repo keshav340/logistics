@@ -431,6 +431,7 @@ type Mutation {
   sendforreveiwingWarehouse(userid: Int!, warehouseid: Int!): WareHouse!
   reveiwwarehousereject(userid: Int!, warehouseid: Int!, remarks: String!): WareHouse!
   reveiwwarehouseapproved(userid: Int!, warehouseid: Int!, approvedinput: ApprovedWarehouseInput!): WareHouse!
+  setWarehouseStatusToApprovalPending(warehouseId: Int!): WareHouse!
   createTruck(truckData: TruckDTO!): TruckEntity!
   updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
   deleteTruck(id: ID!): Boolean!

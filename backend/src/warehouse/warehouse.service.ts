@@ -588,6 +588,20 @@ async getWarehouseById(id: number): Promise<WareHouse> {
         });
       }
 
+      async setWarehouseStatusToApprovalPending(warehouseId: number): Promise<WareHouse> {
+        const warehouse = await this.warehouseRepository.findOne({
+          where: { id: warehouseId, WarehouseApproval: warehouseApproval.Warehouse_Reveiw_peding },
+          relations: ['user'],
+        });
+    
+        if (!warehouse) {
+          throw new Error('Warehouse not found or not in review pending status.');
+        }
+    
+        warehouse.WarehouseApproval = warehouseApproval.Warehouse_Approval_pending;
+        return this.warehouseRepository.save(warehouse);
+      }
+
 
     
   }
