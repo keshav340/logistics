@@ -50,6 +50,10 @@ export class BookingResolver {
   ): Promise<WareHouse[]> {
     return this.bookingService.searchByUserLocation(userLatitude, userLongitude);
   }
+  @Query(() => [Booking], { name: 'bookingsByUserId' })
+  async bookingsByUserId(@Args('userId', { type: () => Int }) userId: number): Promise<Booking[]> {
+    return this.bookingService.getBookingsByUserId(userId);
+  }
 
   
 }

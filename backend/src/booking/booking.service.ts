@@ -128,6 +128,11 @@ export class BookingService {
     return nearbyWarehouses;
   }
   
- 
+  async getBookingsByUserId(userId: number): Promise<Booking[]> {
+    return this.bookingRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user', 'warehouse'], 
+    });
+  }
 
 }

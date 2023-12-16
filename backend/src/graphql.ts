@@ -606,6 +606,7 @@ export interface IQuery {
     booking(id: number): Booking | Promise<Booking>;
     allBookings(): Booking[] | Promise<Booking[]>;
     searchWarehousesByUserLocation(userLatitude: number, userLongitude: number): WareHouse[] | Promise<WareHouse[]>;
+    bookingsByUserId(userId: number): Booking[] | Promise<Booking[]>;
 }
 
 export interface IMutation {

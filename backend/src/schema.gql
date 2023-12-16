@@ -398,6 +398,7 @@ type Query {
   booking(id: Int!): Booking!
   allBookings: [Booking!]!
   searchWarehousesByUserLocation(userLatitude: Float!, userLongitude: Float!): [WareHouse!]!
+  bookingsByUserId(userId: Int!): [Booking!]!
 }
 
 type Mutation {
