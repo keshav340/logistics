@@ -11,9 +11,16 @@ import { ApprovedWarehouseInput } from './dto/warehouseapproval.input';
 import { temperatureCapacity } from '../enums/temperaturecapacity.enums';
 import { ID } from '@nestjs/graphql';
 import { constants } from 'fs/promises';
+const sgMail = require('@sendgrid/mail')
+import { JwtService } from '@nestjs/jwt';
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
+import { config } from 'dotenv';
+const crypto = require('crypto');
 @Injectable()
 export class WarehouseService {
     constructor(
+      private readonly configService: ConfigService,
     @InjectRepository(WareHouse)
     private warehouseRepository: Repository<WareHouse>,
     @InjectRepository(User)
@@ -600,6 +607,80 @@ async getWarehouseById(id: number): Promise<WareHouse> {
     
         warehouse.WarehouseApproval = warehouseApproval.Warehouse_Approval_pending;
         return this.warehouseRepository.save(warehouse);
+      }
+
+      async sendWarehouseReview(warehouseId: number): Promise<string> {
+        try {
+          // Fetch the warehouse from the service or repository
+          const warehouse = await this.warehouseRepository.findOne({
+            where: { id: warehouseId },
+            relations: ['user'],
+          });
+    
+          // Define the payload for the JWT token
+          const payload = {
+            warehouseId: warehouse.id,
+            userId: warehouse.user.id,
+          };
+    
+          const secretKey = "secret2"; // Use a different secret key for warehouse review
+    
+          const token = jwt.sign(payload, secretKey);
+          const sha256 = crypto.createHash('sha256');
+          sha256.update(token);
+          const hashedToken = sha256.digest('hex');
+    
+          const env = this.configService.get<string>('NODE_ENV');
+          const reviewLink =
+            env == 'production'
+              ? `https://app.globxtrade.co.in/warehouse-review?search=${hashedToken}`
+              : `http://localhost:3002/warehouse-review?search=${hashedToken}`;
+    
+          const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Warehouse Review</title>
+            </head>
+            <body>
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
+                    <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
+                        <h2>Warehouse Review</h2>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p>Hello,</p>
+                        <p>Please click the button below to review your warehouse:</p>
+                        <a href="${reviewLink}" style="display: inline-block; background: #007bff; color: #ffffff; text-align: center; text-decoration: none; padding: 10px 20px; margin: 20px 0; border-radius: 5px;">Access Warehouse Review</a>
+                        <p>If you have any questions, please don't hesitate to contact us.</p>
+                        <p>Thank you!</p>
+                    </div>
+                    <div style="background: #333; color: #ffffff; text-align: center; padding: 10px;">
+                        <p>&copy; ${new Date().getFullYear} Exacoadel</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+          `;
+    
+          const email = warehouse.user.email;
+    
+          sgMail.setApiKey("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");
+    
+          const response = await sgMail.send({
+            to: email,
+            from: 'keshav.sharma@xpressword.com',
+            subject: 'Warehouse Review',
+            html: html,
+          });
+    
+          //warehouse.reviewToken = hashedToken;
+          await this.warehouseRepository.save(warehouse);
+          return hashedToken;
+        } catch (error) {
+          throw new Error('Failed to generate warehouse review token: ' + error.message);
+        }
       }
 
 

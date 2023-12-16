@@ -640,6 +640,7 @@ export interface IMutation {
     reveiwwarehousereject(userid: number, warehouseid: number, remarks: string): WareHouse | Promise<WareHouse>;
     reveiwwarehouseapproved(userid: number, warehouseid: number, approvedinput: ApprovedWarehouseInput): WareHouse | Promise<WareHouse>;
     setWarehouseStatusToApprovalPending(warehouseId: number): WareHouse | Promise<WareHouse>;
+    warehouseReveiw(warehouseId: number): string | Promise<string>;
     createTruck(truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     updateTruck(id: string, truckData: TruckDTO): TruckEntity | Promise<TruckEntity>;
     deleteTruck(id: string): boolean | Promise<boolean>;

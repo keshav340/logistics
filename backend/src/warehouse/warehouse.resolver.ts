@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int,ID} from '@nestjs/graphql';
 import { WareHouse } from './warehouse.entity';
 import { WarehouseInput } from './dto/warehouse.dto';
 import { WarehouseService } from './warehouse.service';
@@ -289,6 +289,11 @@ async storagechargeperPalletforuserid(@Args('userId') userId: number): Promise<n
   ): Promise<WareHouse> {
     return this.warehouseService.setWarehouseStatusToApprovalPending(warehouseId);
   }
+  @Mutation(() => String)
+  async warehouseReveiw(@Args('warehouseId') warehouseId: number): Promise<string> {
+    return this.warehouseService.sendWarehouseReview(warehouseId);
+  }
+  
 
 
 

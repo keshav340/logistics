@@ -51,8 +51,7 @@ export class UserService {
     private readonly kycRepository: Repository<Kyc>,
     
     
-  ) {const env = this.configService.get<string>('DATABASE_NAME')
-  console.log(env)
+  ) {
 }
   async verifyEmailotp(email:string):Promise<void>{
     const user = await this.userRepository.findOne({ where: { email } });
