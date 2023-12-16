@@ -7,8 +7,9 @@ import { MailModule } from 'src/email/email.module';
 import { CompanyContact } from './company.entity';
 import { CorporateAddress } from './corporate.entity';
 import { Kyc } from './kyc.entity';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [TypeOrmModule.forFeature([User,CompanyContact,CorporateAddress,Kyc])],
+  imports: [TypeOrmModule.forFeature([User,CompanyContact,CorporateAddress,Kyc]),ConfigModule],
   providers: [UserService, UserResolver, 
     ],
   exports: [UserService],

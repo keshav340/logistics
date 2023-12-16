@@ -14,9 +14,9 @@ import { AuthModule } from './auth/auth.modules';
 import { WareHouseModule } from './warehouse/warehouse.module';
 import { TruckModule } from './truck/truck.module';
 import { BookingModule } from './booking/booking.module';
-
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,BookingModule,//profileUpdate,
+  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,BookingModule,ConfigModule.forRoot({isGlobal:true}),//profileUpdate,
    
     
   

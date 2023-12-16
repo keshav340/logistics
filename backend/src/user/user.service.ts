@@ -31,13 +31,15 @@ import { CompanyContact } from './company.entity';
 import { CorporateAddress } from './corporate.entity';
 import { Kyc } from './kyc.entity';
 import { KycInput } from './inputdto/kyc.input';
-
+import { ConfigService } from '@nestjs/config';
+import { config } from 'dotenv';
 @Injectable()
 export class UserService {
   private readonly inMemoryCache: Record<string, any> = {};
   
 
   constructor(
+    private readonly configService: ConfigService,
    
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -48,7 +50,10 @@ export class UserService {
     @InjectRepository(Kyc)
     private readonly kycRepository: Repository<Kyc>,
     
-  ) {}
+    
+  ) {const env = this.configService.get<string>('DATABASE_NAME')
+  console.log(env)
+}
   async verifyEmailotp(email:string):Promise<void>{
     const user = await this.userRepository.findOne({ where: { email } });
     if(!user){
@@ -710,12 +715,13 @@ export class UserService {
       console.log("User Data in the Token:");
       const decodedToken = jwt.verify(token, secretKey);
       console.log(decodedToken);
+      const env = this.configService.get<string>('NODE_ENV')
       const reviewLink =
-        process.env.NODE_ENV === 'production'
+        env == 'production'
           ? `https://app.glob/xtrade.co.in/vendor-review-form/${hashedToken}`
           : `http://localhost:3002/vendor-review-form/${hashedToken}`;
-        console.log(process.env.NODE_ENV)
-
+          console.log('DATABASE_HOST:',env);
+          //console.log('DATABASE_PORT:', process.env.DATABASE_PORT);
    
 
       const tokenLink = `www.example.com/${hashedToken}`;
@@ -748,7 +754,7 @@ export class UserService {
     `;
       const email = user.email
       //console.log(tokenLink);
-      sgMail.setApiKey("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")
+      sgMail.setApiKey("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")
       const response = await sgMail.send({
         to: email,
         from: 'keshav.sharma@xpressword.com',
