@@ -670,31 +670,31 @@ export class UserService {
       // Define the payload for the JWT token
       const payload = {
         userID: user.id,
-        userType: user.userType,
-        customerSubType: user.customerSubType,
-        vendorSubType: user.vendorSubType,
-        overseasAgentSubType: user.overseasAgentSubType,
-        email: user.email,
-        companyType: user.companyType,
-        industryType: user.industryType,
-        companyName: user.companyName,
-        state: user.state,
-        city: user.city,
-        pincode: user.pincode,
-        address: user.Adress,
-        country: user.country,
-        companyRegNo: user.company_reg_no,
-        companyPanNo: user.company_pan_no,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        designation: user.Designation,
-        mobileNo: user.mobile,
-        website: user.website,
-        gstNo: user.gst_no,
-        annualTurnover: user.annualTurnover,
-        CorporateAddress: user.corporateAddress,
-        CompanyContact:user.companyContact,
-        Kyc_Details:user.kyc
+        // userType: user.userType,
+        // customerSubType: user.customerSubType,
+        // vendorSubType: user.vendorSubType,
+        // overseasAgentSubType: user.overseasAgentSubType,
+        // email: user.email,
+        // companyType: user.companyType,
+        // industryType: user.industryType,
+        // companyName: user.companyName,
+        // state: user.state,
+        // city: user.city,
+        // pincode: user.pincode,
+        // address: user.Adress,
+        // country: user.country,
+        // companyRegNo: user.company_reg_no,
+        // companyPanNo: user.company_pan_no,
+        // firstName: user.first_name,
+        // lastName: user.last_name,
+        // designation: user.Designation,
+        // mobileNo: user.mobile,
+        // website: user.website,
+        // gstNo: user.gst_no,
+        // annualTurnover: user.annualTurnover,
+        // CorporateAddress: user.corporateAddress,
+        // CompanyContact:user.companyContact,
+        // Kyc_Details:user.kyc
 
       };
 
@@ -710,6 +710,12 @@ export class UserService {
       console.log("User Data in the Token:");
       const decodedToken = jwt.verify(token, secretKey);
       console.log(decodedToken);
+      const reviewLink =
+        process.env.NODE_ENV === 'production'
+          ? `https://app.glob/xtrade.co.in/vendor-review-form/${hashedToken}`
+          : `http://localhost:3002/vendor-review-form/${hashedToken}`;
+        console.log(process.env.NODE_ENV)
+
    
 
       const tokenLink = `www.example.com/${hashedToken}`;
@@ -729,7 +735,7 @@ export class UserService {
               <div style="padding: 20px;">
                   <p>Hello,</p>
                   <p> Please click the button below to review your user profile:</p>
-                  <a href="${tokenLink}" style="display: inline-block; background: #007bff; color: #ffffff; text-align: center; text-decoration: none; padding: 10px 20px; margin: 20px 0; border-radius: 5px;">Access User Review</a>
+                  <a href="${reviewLink}" style="display: inline-block; background: #007bff; color: #ffffff; text-align: center; text-decoration: none; padding: 10px 20px; margin: 20px 0; border-radius: 5px;">Access User Review</a>
                   <p>If you have any questions, please don't hesitate to contact us.</p>
                   <p>Thank you!</p>
               </div>
@@ -742,7 +748,7 @@ export class UserService {
     `;
       const email = user.email
       //console.log(tokenLink);
-      sgMail.setApiKey("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")
+      sgMail.setApiKey("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")
       const response = await sgMail.send({
         to: email,
         from: 'keshav.sharma@xpressword.com',
