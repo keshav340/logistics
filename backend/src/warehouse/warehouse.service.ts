@@ -666,7 +666,7 @@ async getWarehouseById(id: number): Promise<WareHouse> {
     
           const email = warehouse.user.email;
     
-          sgMail.setApiKey("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");
+          sgMail.setApiKey("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");
     
           const response = await sgMail.send({
             to: email,
