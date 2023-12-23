@@ -551,8 +551,35 @@ export interface LoginResponse {
     access_token: string;
 }
 
+export interface City {
+    name: string;
+    countryCode: string;
+}
+
+export interface Port {
+    name: string;
+    code: string;
+    countryCode: string;
+}
+
+export interface OceanFreight {
+    price: number;
+    transitTime: string;
+    shippingLine: string;
+}
+
+export interface Shipment {
+    shipmentId: string;
+    cityFrom: City;
+    cityTo: City;
+    portFrom: Port;
+    portTo: Port;
+    freight: OceanFreight[];
+}
+
 export interface IQuery {
     hello(): string | Promise<string>;
+    getShipments(ST20: number, from: number[], to: number[], currency: string): Shipment[] | Promise<Shipment[]>;
     listInitialRegistrations(): User[] | Promise<User[]>;
     listapprovealuser(): User[] | Promise<User[]>;
     listrejecteduser(): User[] | Promise<User[]>;

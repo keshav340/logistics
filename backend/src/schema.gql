@@ -343,8 +343,35 @@ type LoginResponse {
   access_token: String!
 }
 
+type City {
+  name: String!
+  countryCode: String!
+}
+
+type Port {
+  name: String!
+  code: String!
+  countryCode: String!
+}
+
+type OceanFreight {
+  price: Float!
+  transitTime: String!
+  shippingLine: String!
+}
+
+type Shipment {
+  shipmentId: String!
+  cityFrom: City!
+  cityTo: City!
+  portFrom: Port!
+  portTo: Port!
+  freight: [OceanFreight!]!
+}
+
 type Query {
   hello: String!
+  getShipments(ST20: Float!, from: [Float!]!, to: [Float!]!, currency: String!): [Shipment!]!
   listInitialRegistrations: [User!]!
   listapprovealuser: [User!]!
   listrejecteduser: [User!]!
