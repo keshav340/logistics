@@ -15,9 +15,10 @@ import { WareHouseModule } from './warehouse/warehouse.module';
 import { TruckModule } from './truck/truck.module';
 import { BookingModule } from './booking/booking.module';
 import { ConfigModule } from '@nestjs/config';
-import { ShipmentResolver } from './shipment.resolver';
+//import { ShipmentResolver } from './shipment.resolver';
+import { CodeModule } from './freights/code.module';
 @Module({
-  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,BookingModule,ConfigModule.forRoot({isGlobal:true}),//profileUpdate,
+  imports: [UsersModule,AuthModule,WareHouseModule,TruckModule,BookingModule,CodeModule,ConfigModule.forRoot({isGlobal:true}),//profileUpdate,
    
     
   
@@ -42,7 +43,7 @@ import { ShipmentResolver } from './shipment.resolver';
       autoLoadEntities: true,
     }),
   ],
-  providers: [MyResolver,ShipmentResolver],
+  providers: [MyResolver],
   exports:[]
 })
 export class AppModule {}

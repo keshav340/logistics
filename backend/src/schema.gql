@@ -343,6 +343,13 @@ type LoginResponse {
   access_token: String!
 }
 
+type AirportPortCode {
+  id: ID!
+  code: String
+  latitude: Float
+  longitude: Float
+}
+
 type City {
   name: String!
   countryCode: String!
@@ -371,7 +378,6 @@ type Shipment {
 
 type Query {
   hello: String!
-  getShipments(ST20: Float!, from: [Float!]!, to: [Float!]!, currency: String!): [Shipment!]!
   listInitialRegistrations: [User!]!
   listapprovealuser: [User!]!
   listrejecteduser: [User!]!
@@ -427,6 +433,9 @@ type Query {
   allBookings: [Booking!]!
   searchWarehousesByUserLocation(userLatitude: Float!, userLongitude: Float!): [WareHouse!]!
   bookingsByUserId(userId: Int!): [Booking!]!
+  airportSuggestions(searchTerm: String!): [AirportPortCode!]!
+  getCoordinatesByCode(code: String!): AirportPortCode!
+  getShipmentDetails(fromCode: String!, toCode: String!, st20: Float!, currency: String!): [Shipment!]!
 }
 
 type Mutation {
@@ -466,6 +475,8 @@ type Mutation {
   createBooking(bookingInput: BookingInput!): Booking!
   updateBooking(id: Int!, bookingInput: BookingInput!): Booking!
   deleteBooking(id: Int!): Boolean!
+  createAirport(input: CreateAirportInput!): AirportPortCode!
+  associateCoordinates(code: String!, latitude: Float!, longitude: Float!): AirportPortCode!
 }
 
 input EmailInput {
@@ -696,4 +707,10 @@ input BookingInput {
   specialInstructions: String
   warehouseId: Int
   userId: Int
+}
+
+input CreateAirportInput {
+  code: String!
+  latitude: Float
+  longitude: Float
 }

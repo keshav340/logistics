@@ -404,6 +404,12 @@ export interface BookingInput {
     userId?: Nullable<number>;
 }
 
+export interface CreateAirportInput {
+    code: string;
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
+}
+
 export interface Booking {
     id: string;
     moveInDate?: Nullable<DateTime>;
@@ -551,6 +557,13 @@ export interface LoginResponse {
     access_token: string;
 }
 
+export interface AirportPortCode {
+    id: string;
+    code?: Nullable<string>;
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
+}
+
 export interface City {
     name: string;
     countryCode: string;
@@ -579,7 +592,6 @@ export interface Shipment {
 
 export interface IQuery {
     hello(): string | Promise<string>;
-    getShipments(ST20: number, from: number[], to: number[], currency: string): Shipment[] | Promise<Shipment[]>;
     listInitialRegistrations(): User[] | Promise<User[]>;
     listapprovealuser(): User[] | Promise<User[]>;
     listrejecteduser(): User[] | Promise<User[]>;
@@ -635,6 +647,9 @@ export interface IQuery {
     allBookings(): Booking[] | Promise<Booking[]>;
     searchWarehousesByUserLocation(userLatitude: number, userLongitude: number): WareHouse[] | Promise<WareHouse[]>;
     bookingsByUserId(userId: number): Booking[] | Promise<Booking[]>;
+    airportSuggestions(searchTerm: string): AirportPortCode[] | Promise<AirportPortCode[]>;
+    getCoordinatesByCode(code: string): AirportPortCode | Promise<AirportPortCode>;
+    getShipmentDetails(fromCode: string, toCode: string, st20: number, currency: string): Shipment[] | Promise<Shipment[]>;
 }
 
 export interface IMutation {
@@ -674,6 +689,8 @@ export interface IMutation {
     createBooking(bookingInput: BookingInput): Booking | Promise<Booking>;
     updateBooking(id: number, bookingInput: BookingInput): Booking | Promise<Booking>;
     deleteBooking(id: number): boolean | Promise<boolean>;
+    createAirport(input: CreateAirportInput): AirportPortCode | Promise<AirportPortCode>;
+    associateCoordinates(code: string, latitude: number, longitude: number): AirportPortCode | Promise<AirportPortCode>;
 }
 
 export type DateTime = any;
