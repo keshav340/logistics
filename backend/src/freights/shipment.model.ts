@@ -3,54 +3,58 @@ import { Field, Float, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class City {
-  @Field()
+  
+  @Field({nullable:true})
   name: string;
 
-  @Field()
+  @Field({nullable:true})
   countryCode: string;
 }
 
 @ObjectType()
 export class Port {
-  @Field()
+  @Field({nullable:true})
   name: string;
 
-  @Field()
+  @Field({nullable:true})
   code: string;
 
-  @Field()
+  @Field({nullable:true})
   countryCode: string;
 }
 
 @ObjectType()
 export class OceanFreight {
-  @Field(() => Float)
+  @Field(() => Float,{nullable:true})
   price: number;
 
-  @Field()
+  @Field({nullable:true})
   transitTime: string;
 
-  @Field()
+  @Field({nullable:true})
   shippingLine: string;
 }
 
 @ObjectType()
 export class Shipment {
-  @Field()
+  @Field({nullable:true})
   shipmentId: string;
+  // @Field({nullable:true})
+  // transportationMode: string;
 
-  @Field(() => City)
+
+  @Field(() => City,{nullable:true})
   cityFrom: City;
 
-  @Field(() => City)
+  @Field(() => City,{nullable:true})
   cityTo: City;
 
-  @Field(() => Port)
+  @Field(() => Port,{nullable:true})
   portFrom: Port;
 
-  @Field(() => Port)
+  @Field(() => Port,{nullable:true})
   portTo: Port;
 
-  @Field(() => [OceanFreight])
+  @Field(() => [OceanFreight],{nullable:true})
   freight: OceanFreight[];
 }

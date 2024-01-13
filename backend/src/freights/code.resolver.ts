@@ -1,11 +1,12 @@
 // airport.resolver.ts
 
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Float } from '@nestjs/graphql';
 import { AirportService } from './code.service';
 import { CreateAirportInput } from './code.dto';
 import { CodeEntity } from './code.entity';
 import { City, Port, OceanFreight, Shipment } from './shipment.model';
 import { ShippingMode } from './code.enums';
+import { Shipmentlcl } from './lclmodel';
 @Resolver('Airport')
 export class AirportResolver {
   constructor(private readonly airportService: AirportService) {}
@@ -84,7 +85,7 @@ async getShipmentDetails(
   @Args('st20') st20: number,
   @Args('currency') currency: string,
 ): Promise<Shipment[]> {
-  return this.airportService.getShipmentDetails(
+  return this.airportService.getShipmentDetailsfcl(
     fromshipmentMode,
     fromCountry,
     fromstate,
@@ -97,5 +98,36 @@ async getShipmentDetails(
     currency,
   );
 }
+
+@Query(() => [Shipmentlcl])
+async getShipmentDetailslcl(
+  @Args('fromshipmentMode', { type: () => ShippingMode }) fromshipmentMode: ShippingMode,
+  @Args('fromCountry') fromCountry: string,
+  @Args('fromstate') fromstate: string,
+  @Args('fromname') fromname: string,
+  @Args('toshipmentMode', { type: () => ShippingMode }) toshipmentMode: ShippingMode,
+  @Args('toCountry') toCountry: string,
+  @Args('tostate') tostate: string,
+  @Args('toname') toname: string,
+  //@Args('st20') st20: number,
+  @Args('currency') currency: string,
+  @Args('weight', { type: () => Float }) weight: number,
+  @Args('volume', { type: () => Float }) volume: number,
+): Promise<Shipmentlcl[]> {
+  return this.airportService.getShipmentDetailslcl(
+    fromshipmentMode,
+    fromCountry,
+    fromstate,
+    fromname,
+    toshipmentMode,
+    toCountry,
+    tostate,
+    toname,
+    currency,
+    weight,
+    volume
+  );
+}
+
 
 }

@@ -7,7 +7,8 @@ import { CreateAirportInput } from './code.dto';
 import { GraphQLClient } from 'graphql-request';
 import { Shipment } from './shipment.model';
 import { ShippingMode } from './code.enums';
-
+import { Float } from '@nestjs/graphql';
+import { Shipmentlcl } from './lclmodel';
 @Injectable()
 export class AirportService {
   constructor(
@@ -124,11 +125,10 @@ export class AirportService {
   }
 
   
-
   
 
 
-  async getShipmentDetails(
+  async getShipmentDetailsfcl(
     fromshipmentMode:ShippingMode,
     fromCountry:string,
     fromstate:string,
@@ -152,36 +152,292 @@ export class AirportService {
 
 
     // Implement your FCL query logic here
-    const result = await this.queryFCL(fromname, toname, st20, currency, fromCoordinates, toCoordinates);
-    return result;
+    //const result = await this.queryFCL(fromname, toname, st20, currency, fromCoordinates, toCoordinates);
+    return [
+      {
+        "shipmentId": "19797076",
+        "cityFrom": {
+          "name": "Shanghai Shi, Pudong Xinqu, Ma Ji Lu",
+          "countryCode": "CN"
+        },
+        "cityTo": {
+          "name": "Loop Fwy, Houston, TX 77012, USA",
+          "countryCode": "US"
+        },
+        "portFrom": {
+          "name": "Shanghai",
+          "code": "CNSHA",
+          "countryCode": "CN"
+        },
+        "portTo": {
+          "name": "Houston",
+          "code": "USHOU",
+          "countryCode": "US"
+        },
+        "freight": [
+          {
+            "price": 4213,
+            "transitTime": "41 days",
+            "shippingLine": "Maersk"
+          }
+        ]
+      },
+      {
+        "shipmentId": "19797077",
+        "cityFrom": {
+          "name": "Shanghai Shi, Pudong Xinqu, Ma Ji Lu",
+          "countryCode": "CN"
+        },
+        "cityTo": {
+          "name": "Loop Fwy, Houston, TX 77012, USA",
+          "countryCode": "US"
+        },
+        "portFrom": {
+          "name": "Shanghai",
+          "code": "CNSHA",
+          "countryCode": "CN"
+        },
+        "portTo": {
+          "name": "Houston",
+          "code": "USHOU",
+          "countryCode": "US"
+        },
+        "freight": [
+          {
+            "price": 7409,
+            "transitTime": "28 days",
+            "shippingLine": "Chinese line"
+          }
+        ]
+      },
+      {
+        "shipmentId": "19797078",
+        "cityFrom": {
+          "name": "Shanghai Shi, Pudong Xinqu, Ma Ji Lu",
+          "countryCode": "CN"
+        },
+        "cityTo": {
+          "name": "Loop Fwy, Houston, TX 77012, USA",
+          "countryCode": "US"
+        },
+        "portFrom": {
+          "name": "Shanghai",
+          "code": "CNSHA",
+          "countryCode": "CN"
+        },
+        "portTo": {
+          "name": "Houston",
+          "code": "USHOU",
+          "countryCode": "US"
+        },
+        "freight": [
+          {
+            "price": 4950,
+            "transitTime": "36 days",
+            "shippingLine": "MSC"
+          }
+        ]
+      },
+      {
+        "shipmentId": "19797079",
+        "cityFrom": {
+          "name": "Shanghai Shi, Pudong Xinqu, Ma Ji Lu",
+          "countryCode": "CN"
+        },
+        "cityTo": {
+          "name": "Loop Fwy, Houston, TX 77012, USA",
+          "countryCode": "US"
+        },
+        "portFrom": {
+          "name": "Zhangjiagang",
+          "code": "CNZJG",
+          "countryCode": "CN"
+        },
+        "portTo": {
+          "name": "Memphis",
+          "code": "USMEM",
+          "countryCode": "US"
+        },
+        "freight": [
+          {
+            "price": 11723,
+            "transitTime": "34 days",
+            "shippingLine": "MSC"
+          }
+        ]
+      },
+      {
+        "shipmentId": "19797080",
+        "cityFrom": {
+          "name": "Shanghai Shi, Pudong Xinqu, Ma Ji Lu",
+          "countryCode": "CN"
+        },
+        "cityTo": {
+          "name": "Loop Fwy, Houston, TX 77012, USA",
+          "countryCode": "US"
+        },
+        "portFrom": {
+          "name": "Zhangjiagang",
+          "code": "CNZJG",
+          "countryCode": "CN"
+        },
+        "portTo": {
+          "name": "Memphis",
+          "code": "USMEM",
+          "countryCode": "US"
+        },
+        "freight": [
+          {
+            "price": 11666,
+            "transitTime": "40 days",
+            "shippingLine": "CMA CGM"
+          }
+        ]
+      },
+    
+
+      // Add more shipments if needed
+    ];;
   }
-  private async queryFCL(
-    fromCode: string,
-    toCode: string,
-    st20: number,
+
+
+  async getShipmentDetailslcl(
+    fromshipmentMode: ShippingMode,
+    fromCountry: string,
+    fromstate: string,
+    fromname: string,
+    toshipmentMode: ShippingMode,
+    toCountry: string,
+    tostate: string,
+    toname: string,
     currency: string,
-    fromCoordinates: number[] | undefined,
-    toCoordinates: number[] | undefined,
-  ): Promise<Shipment[]> {
+    weight: number,
+    volume: number
+  ): Promise<Shipmentlcl[]> {
+    // Fetch coordinates for fromCode and toCode
+    const fromCoordinate = await this.findCoordinatesByName(fromname);
+    const toCoordinate = await this.findCoordinatesByName(toname);
+    const fromlatitude = fromCoordinate.latitude;
+    const fromlongitude = toCoordinate.longitude;
+    const fromCoordinates = [fromlatitude, fromlongitude];
+    const tolatitude = toCoordinate.latitude;
+    const tolongitude = toCoordinate.longitude;
+    const toCoordinates = [tolatitude, tolongitude];
+
     
     return [
       {
-        shipmentId: '17714472',
-        cityFrom: { name: 'Shanghai Shi, Pudong Xinqu, Ma Ji Lu', countryCode: 'CN' },
-        cityTo: { name: 'Loop Fwy, Houston, TX 77012, USA', countryCode: 'US' },
-        portFrom: { name: 'Shanghai', code: 'CNSHA', countryCode: 'CN' },
-        portTo: { name: 'Houston', code: 'USHOU', countryCode: 'US' },
-        
-        freight: [{ price: 2959, transitTime: '32 days', shippingLine: 'COSCO' }],
+        "shipmentId": "19803096",
+        "transportationMode": "ocean",
+        "currency": "USD",
+        "cityFrom": {
+          "id": 190621,
+          "name": "Odesa, Odessa Oblast, Ukraine, 65000",
+          "code": "145036",
+          "countryCode": "UA",
+          "lat": 46.482526,
+          "lng": 30.7233095
+        },
+        "cityTo": {
+          "id": 132367,
+          "name": "Shanghai, China",
+          "code": "120740",
+          "countryCode": "CN",
+          "lat": 31.2303904,
+          "lng": 121.4737021
+        },
+        "portFrom": {
+          "id": 23268,
+          "name": "Warszawa",
+          "code": "PLWAS",
+          "countryCode": "PL",
+          "lat": 52.2513888889,
+          "lng": 21.0322222222
+        },
+        "portTo": {
+          "id": 706,
+          "name": "Shanghai",
+          "code": "CNSHA",
+          "countryCode": "CN",
+          "lat": 31.400090576935703,
+          "lng": 121.49711250347931
+        },
+        "oceanFreight": {
+          "shippingLine": null,
+          "logo": "https://www.searates.com/design/images/freight/sealine/0.jpg",
+          "price": 500,
+          "distance": "20929.25 km",
+          "comment": null,
+          "originalPrice": 500,
+          "originalCurrency": "USD",
+          "overdue": false,
+          "co2": 230222,
+          "transitTime": "41 days",
+          "portFeesFrom": [
+            {
+              "abbr": "OTHC",
+              "title": "Original Terminal Handling Charge",
+              "text": "This service covers the cost of handling a container at the origin port or terminal. This service is applicable to all shipments.",
+              "originalPrice": 1100,
+              "originalCurrency": "USD",
+              "price": 1100,
+              "perLot": false
+            },
+            {
+              "abbr": "EXP",
+              "title": "Export service",
+              "text": null,
+              "originalPrice": 275,
+              "originalCurrency": "USD",
+              "price": 275,
+              "perLot": false
+            }
+          ],
+          "portFeesTo": [
+            {
+              "abbr": "DTHC",
+              "title": "Destination Terminal Handling Charge",
+              "text": "This service covers the cost of the handling of a container at the destination port or terminal. This service is applicable to all shipments.",
+              "originalPrice": 1300,
+              "originalCurrency": "USD",
+              "price": 1300,
+              "perLot": false
+            },
+            {
+              "abbr": "IMP",
+              "title": "Import service",
+              "text": null,
+              "originalPrice": 275,
+              "originalCurrency": "USD",
+              "price": 275,
+              "perLot": false
+            }
+          ],
+          "truckFrom": {
+            "price": 5456,
+            "distance": "1078.32 km",
+            "transitTime": "2 days",
+            "originalPrice": 5456,
+            "originalCurrency": "USD",
+            "interpolation": true
+          },
+          "truckTo": {
+            "price": 162,
+            "distance": "18.95 km",
+            "originalPrice": 162,
+            "originalCurrency": "USD",
+            "transitTime": "1 day",
+            "interpolation": false
+          }
+        }
       },
-      // Add more shipments if needed
-    ];
-  }
-
+    ]
+     
   
-  
-
-  
-  
-
+  // ... existing code ...
 }
+}
+  
+  
+
+

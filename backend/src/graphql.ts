@@ -578,29 +578,94 @@ export interface CodeEntity {
 }
 
 export interface City {
-    name: string;
-    countryCode: string;
+    name?: Nullable<string>;
+    countryCode?: Nullable<string>;
 }
 
 export interface Port {
-    name: string;
-    code: string;
-    countryCode: string;
+    name?: Nullable<string>;
+    code?: Nullable<string>;
+    countryCode?: Nullable<string>;
 }
 
 export interface OceanFreight {
-    price: number;
-    transitTime: string;
-    shippingLine: string;
+    price?: Nullable<number>;
+    transitTime?: Nullable<string>;
+    shippingLine?: Nullable<string>;
 }
 
 export interface Shipment {
-    shipmentId: string;
-    cityFrom: City;
-    cityTo: City;
-    portFrom: Port;
-    portTo: Port;
-    freight: OceanFreight[];
+    shipmentId?: Nullable<string>;
+    cityFrom?: Nullable<City>;
+    cityTo?: Nullable<City>;
+    portFrom?: Nullable<Port>;
+    portTo?: Nullable<Port>;
+    freight?: Nullable<OceanFreight[]>;
+}
+
+export interface City1 {
+    id?: Nullable<number>;
+    code?: Nullable<string>;
+    lat?: Nullable<number>;
+    lng?: Nullable<number>;
+    name?: Nullable<string>;
+    countryCode?: Nullable<string>;
+}
+
+export interface PortFee {
+    abbr: string;
+    title: string;
+    text?: Nullable<string>;
+    originalPrice: number;
+    originalCurrency: string;
+    price: number;
+    perLot: boolean;
+}
+
+export interface Truck {
+    price: number;
+    distance: string;
+    transitTime: string;
+    originalPrice: number;
+    originalCurrency: string;
+    interpolation?: Nullable<boolean>;
+}
+
+export interface OceanFreight1 {
+    shippingLine?: Nullable<string>;
+    logo?: Nullable<string>;
+    price?: Nullable<number>;
+    distance?: Nullable<string>;
+    comment?: Nullable<string>;
+    originalPrice?: Nullable<number>;
+    originalCurrency?: Nullable<string>;
+    overdue?: Nullable<boolean>;
+    co2?: Nullable<number>;
+    transitTime?: Nullable<string>;
+    portFeesFrom?: Nullable<PortFee[]>;
+    portFeesTo?: Nullable<PortFee[]>;
+    truckFrom?: Nullable<Truck>;
+    truckTo?: Nullable<Truck>;
+}
+
+export interface Port1 {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    code?: Nullable<string>;
+    countryCode?: Nullable<string>;
+    lat?: Nullable<number>;
+    lng?: Nullable<number>;
+}
+
+export interface Shipmentlcl {
+    shipmentId?: Nullable<string>;
+    transportationMode?: Nullable<string>;
+    currency?: Nullable<string>;
+    cityFrom?: Nullable<City1>;
+    cityTo?: Nullable<City1>;
+    portFrom?: Nullable<Port1>;
+    portTo?: Nullable<Port1>;
+    oceanFreight?: Nullable<OceanFreight1>;
 }
 
 export interface IQuery {
@@ -667,6 +732,7 @@ export interface IQuery {
     getCoordinatesByCode(code: string): CodeEntity | Promise<CodeEntity>;
     getCoordinatesByName(name: string): CodeEntity | Promise<CodeEntity>;
     getShipmentDetails(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, st20: number, currency: string): Shipment[] | Promise<Shipment[]>;
+    getShipmentDetailslcl(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, volume: number): Shipmentlcl[] | Promise<Shipmentlcl[]>;
 }
 
 export interface IMutation {

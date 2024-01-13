@@ -361,29 +361,94 @@ enum ShippingMode {
 }
 
 type City {
-  name: String!
-  countryCode: String!
+  name: String
+  countryCode: String
 }
 
 type Port {
-  name: String!
-  code: String!
-  countryCode: String!
+  name: String
+  code: String
+  countryCode: String
 }
 
 type OceanFreight {
-  price: Float!
-  transitTime: String!
-  shippingLine: String!
+  price: Float
+  transitTime: String
+  shippingLine: String
 }
 
 type Shipment {
-  shipmentId: String!
-  cityFrom: City!
-  cityTo: City!
-  portFrom: Port!
-  portTo: Port!
-  freight: [OceanFreight!]!
+  shipmentId: String
+  cityFrom: City
+  cityTo: City
+  portFrom: Port
+  portTo: Port
+  freight: [OceanFreight!]
+}
+
+type City1 {
+  id: Float
+  code: String
+  lat: Float
+  lng: Float
+  name: String
+  countryCode: String
+}
+
+type PortFee {
+  abbr: String!
+  title: String!
+  text: String
+  originalPrice: Float!
+  originalCurrency: String!
+  price: Float!
+  perLot: Boolean!
+}
+
+type Truck {
+  price: Float!
+  distance: String!
+  transitTime: String!
+  originalPrice: Float!
+  originalCurrency: String!
+  interpolation: Boolean
+}
+
+type OceanFreight1 {
+  shippingLine: String
+  logo: String
+  price: Float
+  distance: String
+  comment: String
+  originalPrice: Float
+  originalCurrency: String
+  overdue: Boolean
+  co2: Float
+  transitTime: String
+  portFeesFrom: [PortFee!]
+  portFeesTo: [PortFee!]
+  truckFrom: Truck
+  truckTo: Truck
+}
+
+type Port1 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Shipmentlcl {
+  shipmentId: String
+  transportationMode: String
+  currency: String
+  cityFrom: City1
+  cityTo: City1
+  portFrom: Port1
+  portTo: Port1
+  oceanFreight: OceanFreight1
 }
 
 type Query {
@@ -450,6 +515,7 @@ type Query {
   getCoordinatesByCode(code: String!): CodeEntity!
   getCoordinatesByName(name: String!): CodeEntity!
   getShipmentDetails(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, st20: Float!, currency: String!): [Shipment!]!
+  getShipmentDetailslcl(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, volume: Float!): [Shipmentlcl!]!
 }
 
 type Mutation {
