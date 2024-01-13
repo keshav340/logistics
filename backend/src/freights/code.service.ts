@@ -6,6 +6,7 @@ import { CodeEntity } from './code.entity';
 import { CreateAirportInput } from './code.dto';
 import { GraphQLClient } from 'graphql-request';
 import { Shipment } from './shipment.model';
+import { ShippingMode } from './code.enums';
 
 @Injectable()
 export class AirportService {
@@ -17,9 +18,34 @@ export class AirportService {
   ) {}
 
   async createAirportorport(input: CreateAirportInput): Promise<CodeEntity> {
+    
     const object = this.codeRepository.create(input);
+    const existingAirport = await this.codeRepository.findOne({ where: { name: input.name} });
+
+    if (existingAirport) {
+     
+      throw new Error(` already exists`);
+    }
     return this.codeRepository.save(object);
   }
+
+  async updateAirportDetails(name: string, input: CreateAirportInput): Promise<CodeEntity | undefined> {
+    const airport = await this.codeRepository.findOne({ where: { name } });
+  
+    if (airport) {
+      // Update the airport details with the new input
+      airport.code = input.code;
+      airport.name = input.name;
+      airport.Country = input.Country;
+      airport.State = input.State;
+      airport.shippingMode = input.ShipmentMode
+      // Save the updated airport object
+      return this.codeRepository.save(airport);
+    }
+  
+    return airport // Return undefined if the airport with the given code is not found
+  }
+  
   async findSuggestionsbycode(searchTerm: string): Promise<CodeEntity[]> {
     // Adjust the query to filter results based on the partial input
     return this.codeRepository
@@ -64,6 +90,18 @@ export class AirportService {
 
     return undefined;
   }
+  async associateCoordinatesbyid(id:number, latitude: number, longitude: number): Promise<CodeEntity | undefined> {
+    const airport = await this.codeRepository.findOne({where:{id:id}});
+    console.log(airport)
+
+    if (airport) {
+      airport.latitude = latitude;
+      airport.longitude = longitude;
+      return this.codeRepository.save(airport);
+    }
+
+    return airport;
+  }
 
   async getCoordinatesByCode(code: string): Promise<{ latitude: number; longitude: number } | undefined> {
     const airport = await this.codeRepository.findOne({ where: { code } });
@@ -75,16 +113,36 @@ export class AirportService {
     return undefined;
   }
 
+  async findCoordinatesByName(name: string): Promise<{ latitude: number; longitude: number } | undefined> {
+    const airport = await this.codeRepository.findOne({ where: { name } });
+
+    if (airport) {
+      return { latitude: airport.latitude, longitude: airport.longitude };
+    }
+
+    return undefined;
+  }
+
+  
+
+  
+
 
   async getShipmentDetails(
-    fromCode: string,
-    toCode: string,
+    fromshipmentMode:ShippingMode,
+    fromCountry:string,
+    fromstate:string,
+    fromname:string,
+    toshipmentMode:ShippingMode,
+    toCountry:string,
+    tostate:string,
+    toname:string,
     st20: number,
     currency: string,
   ): Promise<Shipment[]> {
     // Fetch coordinates for fromCode and toCode
-    const fromCoordinate = await this.getCoordinatesByCode(fromCode);
-    const toCoordinate = await this.getCoordinatesByCode(toCode);
+    const fromCoordinate = await this.findCoordinatesByName(fromname);
+    const toCoordinate = await this.findCoordinatesByName(toname);
     const fromlatitude = fromCoordinate.latitude;
     const fromlongitude = toCoordinate.longitude;
     const fromCoordinates = [fromlatitude, fromlongitude];
@@ -94,7 +152,7 @@ export class AirportService {
 
 
     // Implement your FCL query logic here
-    const result = await this.queryFCL(fromCode, toCode, st20, currency, fromCoordinates, toCoordinates);
+    const result = await this.queryFCL(fromname, toname, st20, currency, fromCoordinates, toCoordinates);
     return result;
   }
   private async queryFCL(

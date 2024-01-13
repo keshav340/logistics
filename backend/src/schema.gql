@@ -448,7 +448,8 @@ type Query {
   SuggestionsState(searchTerm: String!): [CodeEntity!]!
   Suggestionsname(searchTerm: String!): [CodeEntity!]!
   getCoordinatesByCode(code: String!): CodeEntity!
-  getShipmentDetails(fromCode: String!, toCode: String!, st20: Float!, currency: String!): [Shipment!]!
+  getCoordinatesByName(name: String!): CodeEntity!
+  getShipmentDetails(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, st20: Float!, currency: String!): [Shipment!]!
 }
 
 type Mutation {
@@ -489,7 +490,9 @@ type Mutation {
   updateBooking(id: Int!, bookingInput: BookingInput!): Booking!
   deleteBooking(id: Int!): Boolean!
   createAirport(input: CreateAirportInput!): CodeEntity!
+  updateAirport(input: CreateAirportInput!, name: String!): CodeEntity!
   associateCoordinates(code: String!, latitude: Float!, longitude: Float!): CodeEntity!
+  associateCoordinatesbyid(id: Float!, latitude: Float!, longitude: Float!): CodeEntity!
 }
 
 input EmailInput {

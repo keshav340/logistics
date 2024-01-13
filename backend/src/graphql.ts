@@ -665,7 +665,8 @@ export interface IQuery {
     SuggestionsState(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
     Suggestionsname(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
     getCoordinatesByCode(code: string): CodeEntity | Promise<CodeEntity>;
-    getShipmentDetails(fromCode: string, toCode: string, st20: number, currency: string): Shipment[] | Promise<Shipment[]>;
+    getCoordinatesByName(name: string): CodeEntity | Promise<CodeEntity>;
+    getShipmentDetails(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, st20: number, currency: string): Shipment[] | Promise<Shipment[]>;
 }
 
 export interface IMutation {
@@ -706,7 +707,9 @@ export interface IMutation {
     updateBooking(id: number, bookingInput: BookingInput): Booking | Promise<Booking>;
     deleteBooking(id: number): boolean | Promise<boolean>;
     createAirport(input: CreateAirportInput): CodeEntity | Promise<CodeEntity>;
+    updateAirport(input: CreateAirportInput, name: string): CodeEntity | Promise<CodeEntity>;
     associateCoordinates(code: string, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
+    associateCoordinatesbyid(id: number, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
 }
 
 export type DateTime = any;
