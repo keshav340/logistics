@@ -174,6 +174,11 @@ export enum Approved_users {
     Reverted_user = "Reverted_user"
 }
 
+export enum ShippingMode {
+    Port = "Port",
+    Airport = "Airport"
+}
+
 export interface EmailInput {
     email: string;
     otp: string;
@@ -405,9 +410,13 @@ export interface BookingInput {
 }
 
 export interface CreateAirportInput {
-    code: string;
+    code?: Nullable<string>;
     latitude?: Nullable<number>;
     longitude?: Nullable<number>;
+    Country?: Nullable<string>;
+    State?: Nullable<string>;
+    name?: Nullable<string>;
+    ShipmentMode?: Nullable<ShippingMode>;
 }
 
 export interface Booking {
@@ -557,8 +566,12 @@ export interface LoginResponse {
     access_token: string;
 }
 
-export interface AirportPortCode {
+export interface CodeEntity {
     id: string;
+    Country?: Nullable<string>;
+    State?: Nullable<string>;
+    shippingMode?: Nullable<ShippingMode>;
+    name?: Nullable<string>;
     code?: Nullable<string>;
     latitude?: Nullable<number>;
     longitude?: Nullable<number>;
@@ -647,8 +660,11 @@ export interface IQuery {
     allBookings(): Booking[] | Promise<Booking[]>;
     searchWarehousesByUserLocation(userLatitude: number, userLongitude: number): WareHouse[] | Promise<WareHouse[]>;
     bookingsByUserId(userId: number): Booking[] | Promise<Booking[]>;
-    airportSuggestions(searchTerm: string): AirportPortCode[] | Promise<AirportPortCode[]>;
-    getCoordinatesByCode(code: string): AirportPortCode | Promise<AirportPortCode>;
+    Suggestions(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
+    SuggestionsCountry(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
+    SuggestionsState(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
+    Suggestionsname(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
+    getCoordinatesByCode(code: string): CodeEntity | Promise<CodeEntity>;
     getShipmentDetails(fromCode: string, toCode: string, st20: number, currency: string): Shipment[] | Promise<Shipment[]>;
 }
 
@@ -689,8 +705,8 @@ export interface IMutation {
     createBooking(bookingInput: BookingInput): Booking | Promise<Booking>;
     updateBooking(id: number, bookingInput: BookingInput): Booking | Promise<Booking>;
     deleteBooking(id: number): boolean | Promise<boolean>;
-    createAirport(input: CreateAirportInput): AirportPortCode | Promise<AirportPortCode>;
-    associateCoordinates(code: string, latitude: number, longitude: number): AirportPortCode | Promise<AirportPortCode>;
+    createAirport(input: CreateAirportInput): CodeEntity | Promise<CodeEntity>;
+    associateCoordinates(code: string, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
 }
 
 export type DateTime = any;

@@ -343,11 +343,21 @@ type LoginResponse {
   access_token: String!
 }
 
-type AirportPortCode {
+type CodeEntity {
   id: ID!
+  Country: String
+  State: String
+  shippingMode: ShippingMode
+  name: String
   code: String
   latitude: Float
   longitude: Float
+}
+
+"""Mode of shipping operation"""
+enum ShippingMode {
+  Port
+  Airport
 }
 
 type City {
@@ -433,8 +443,11 @@ type Query {
   allBookings: [Booking!]!
   searchWarehousesByUserLocation(userLatitude: Float!, userLongitude: Float!): [WareHouse!]!
   bookingsByUserId(userId: Int!): [Booking!]!
-  airportSuggestions(searchTerm: String!): [AirportPortCode!]!
-  getCoordinatesByCode(code: String!): AirportPortCode!
+  Suggestions(searchTerm: String!): [CodeEntity!]!
+  SuggestionsCountry(searchTerm: String!): [CodeEntity!]!
+  SuggestionsState(searchTerm: String!): [CodeEntity!]!
+  Suggestionsname(searchTerm: String!): [CodeEntity!]!
+  getCoordinatesByCode(code: String!): CodeEntity!
   getShipmentDetails(fromCode: String!, toCode: String!, st20: Float!, currency: String!): [Shipment!]!
 }
 
@@ -475,8 +488,8 @@ type Mutation {
   createBooking(bookingInput: BookingInput!): Booking!
   updateBooking(id: Int!, bookingInput: BookingInput!): Booking!
   deleteBooking(id: Int!): Boolean!
-  createAirport(input: CreateAirportInput!): AirportPortCode!
-  associateCoordinates(code: String!, latitude: Float!, longitude: Float!): AirportPortCode!
+  createAirport(input: CreateAirportInput!): CodeEntity!
+  associateCoordinates(code: String!, latitude: Float!, longitude: Float!): CodeEntity!
 }
 
 input EmailInput {
@@ -710,7 +723,11 @@ input BookingInput {
 }
 
 input CreateAirportInput {
-  code: String!
+  code: String
   latitude: Float
   longitude: Float
+  Country: String
+  State: String
+  name: String
+  ShipmentMode: ShippingMode
 }

@@ -3,31 +3,49 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { AirportService } from './code.service';
 import { CreateAirportInput } from './code.dto';
-import { AirportPortCode } from './code.entity';
+import { CodeEntity } from './code.entity';
 import { City, Port, OceanFreight, Shipment } from './shipment.model';
 @Resolver('Airport')
 export class AirportResolver {
   constructor(private readonly airportService: AirportService) {}
 
-  @Query(returns => [AirportPortCode])
-  async airportSuggestions(@Args('searchTerm') searchTerm: string) {
-    return this.airportService.findSuggestions(searchTerm);
+  @Query(returns => [CodeEntity])
+  async Suggestions(@Args('searchTerm') searchTerm: string) {
+    return this.airportService.findSuggestionsbycode(searchTerm);
    }
 
-  @Mutation(returns => AirportPortCode)
+   @Query(returns => [CodeEntity])
+   async SuggestionsCountry(@Args('searchTerm') searchTerm: string) {
+     return this.airportService.findSuggestionsByCountry(searchTerm);
+    }
+
+    @Query(returns => [CodeEntity])
+    async SuggestionsState(@Args('searchTerm') searchTerm: string) {
+      return this.airportService.findSuggestionsByState(searchTerm);
+    }
+
+    @Query(returns => [CodeEntity])
+    async Suggestionsname(@Args('searchTerm') searchTerm: string) {
+      return this.airportService.findSuggestionsByName(searchTerm);
+    }
+
+
+   
+
+  @Mutation(returns => CodeEntity)
   async createAirport(@Args('input') input: CreateAirportInput) {
-    return this.airportService.createAirport(input);
+    return this.airportService.createAirportorport(input);
   }
-  @Mutation(returns=>AirportPortCode)
+  @Mutation(returns=>CodeEntity)
   async associateCoordinates(
     @Args('code') code: string,
     @Args('latitude') latitude: number,
     @Args('longitude') longitude: number,
-  ): Promise<AirportPortCode | undefined> {
+  ): Promise<CodeEntity | undefined> {
     return this.airportService.associateCoordinates(code, latitude, longitude);
   }
 
-  @Query(returns => AirportPortCode) 
+  @Query(returns => CodeEntity) 
   async getCoordinatesByCode(@Args('code') code: string): Promise<{ latitude: number; longitude: number } | undefined> {
     return this.airportService.getCoordinatesByCode(code);
   }
