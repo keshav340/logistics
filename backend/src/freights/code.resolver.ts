@@ -84,6 +84,7 @@ async getShipmentDetails(
   @Args('toname') toname: string,
   @Args('st20') st20: number,
   @Args('currency') currency: string,
+  @Args('date') date: string
 ): Promise<Shipment[]> {
   return this.airportService.getShipmentDetailsfcl(
     fromshipmentMode,
@@ -96,6 +97,7 @@ async getShipmentDetails(
     toname,
     st20,
     currency,
+    date
   );
 }
 
@@ -113,6 +115,7 @@ async getShipmentDetailslcl(
   @Args('currency') currency: string,
   @Args('weight', { type: () => Float }) weight: number,
   @Args('volume', { type: () => Float }) volume: number,
+  @Args('date') date: string,
 ): Promise<Shipmentlcl[]> {
   return this.airportService.getShipmentDetailslcl(
     fromshipmentMode,
@@ -125,7 +128,8 @@ async getShipmentDetailslcl(
     toname,
     currency,
     weight,
-    volume
+    volume,
+    date
   );
 }
 

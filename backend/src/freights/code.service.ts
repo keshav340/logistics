@@ -139,6 +139,7 @@ export class AirportService {
     toname:string,
     st20: number,
     currency: string,
+    data:string
   ): Promise<Shipment[]> {
     // Fetch coordinates for fromCode and toCode
     const fromCoordinate = await this.findCoordinatesByName(fromname);
@@ -312,7 +313,8 @@ export class AirportService {
     toname: string,
     currency: string,
     weight: number,
-    volume: number
+    volume: number,
+    date : string
   ): Promise<Shipmentlcl[]> {
     // Fetch coordinates for fromCode and toCode
     const fromCoordinate = await this.findCoordinatesByName(fromname);
