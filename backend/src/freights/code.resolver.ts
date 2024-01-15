@@ -82,7 +82,13 @@ async getShipmentDetails(
   @Args('toCountry') toCountry: string,
   @Args('tostate') tostate: string,
   @Args('toname') toname: string,
-  @Args('st20') st20: number,
+  @Args('ST20') ST20: number,
+  @Args('ST40') ST40: number,
+  @Args('REF20') REF20: number,
+  @Args('REF40') REF40: number,
+  @Args('HQ40') HQ40: number,
+  @Args('HQ45') HQ45: number,
+  
   @Args('currency') currency: string,
   @Args('date') date: string
 ): Promise<Shipment[]> {
@@ -95,7 +101,12 @@ async getShipmentDetails(
     toCountry,
     tostate,
     toname,
-    st20,
+    ST20,
+    ST40,
+    REF20,
+    REF40,
+    HQ40,
+    HQ45,
     currency,
     date
   );

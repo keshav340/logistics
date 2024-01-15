@@ -137,7 +137,12 @@ export class AirportService {
     toCountry:string,
     tostate:string,
     toname:string,
-    st20: number,
+    ST20: number,
+    ST40: number,
+    REF20: number,
+    REF40: number,
+    HQ40: number,
+    HQ45: number,
     currency: string,
     data:string
   ): Promise<Shipment[]> {

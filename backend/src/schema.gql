@@ -514,7 +514,7 @@ type Query {
   Suggestionsname(searchTerm: String!): [CodeEntity!]!
   getCoordinatesByCode(code: String!): CodeEntity!
   getCoordinatesByName(name: String!): CodeEntity!
-  getShipmentDetails(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, st20: Float!, currency: String!, date: String!): [Shipment!]!
+  getShipmentDetails(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, ST20: Float!, ST40: Float!, REF20: Float!, REF40: Float!, HQ40: Float!, HQ45: Float!, currency: String!, date: String!): [Shipment!]!
   getShipmentDetailslcl(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, volume: Float!, date: String!): [Shipmentlcl!]!
 }
 

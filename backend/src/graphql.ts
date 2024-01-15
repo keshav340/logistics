@@ -731,7 +731,7 @@ export interface IQuery {
     Suggestionsname(searchTerm: string): CodeEntity[] | Promise<CodeEntity[]>;
     getCoordinatesByCode(code: string): CodeEntity | Promise<CodeEntity>;
     getCoordinatesByName(name: string): CodeEntity | Promise<CodeEntity>;
-    getShipmentDetails(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, st20: number, currency: string, date: string): Shipment[] | Promise<Shipment[]>;
+    getShipmentDetails(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, ST20: number, ST40: number, REF20: number, REF40: number, HQ40: number, HQ45: number, currency: string, date: string): Shipment[] | Promise<Shipment[]>;
     getShipmentDetailslcl(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, volume: number, date: string): Shipmentlcl[] | Promise<Shipmentlcl[]>;
 }
 
