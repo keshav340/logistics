@@ -9,6 +9,8 @@ import { Shipment } from './shipment.model';
 import { ShippingMode } from './code.enums';
 import { Float } from '@nestjs/graphql';
 import { Shipmentlcl } from './lclmodel';
+import { Shipmentbulk } from './bulkmodel';
+import {Shipmentair} from './airmodel'
 @Injectable()
 export class AirportService {
   constructor(
@@ -440,9 +442,296 @@ export class AirportService {
       },
     ]
      
-  
-  // ... existing code ...
 }
+
+
+async getShipmentDetailsbulk(
+  fromshipmentMode: ShippingMode,
+  fromCountry: string,
+  fromstate: string,
+  fromname: string,
+  toshipmentMode: ShippingMode,
+  toCountry: string,
+  tostate: string,
+  toname: string,
+  currency: string,
+  weight: number,
+  date : string
+): Promise<Shipmentbulk[]> {
+  // Fetch coordinates for fromCode and toCode
+  const fromCoordinate = await this.findCoordinatesByName(fromname);
+  const toCoordinate = await this.findCoordinatesByName(toname);
+  const fromlatitude = fromCoordinate.latitude;
+  const fromlongitude = toCoordinate.longitude;
+  const fromCoordinates = [fromlatitude, fromlongitude];
+  const tolatitude = toCoordinate.latitude;
+  const tolongitude = toCoordinate.longitude;
+  const toCoordinates = [tolatitude, tolongitude];
+
+  
+  return  [
+    {
+      "shipmentId": "19943518",
+      "transportationMode": "ocean",
+      "currency": "USD",
+      "cityFrom": {
+        "id": 123767,
+        "name": "Chornomorsk, Odessa Oblast, Ukraine, 68000",
+        "code": "ChIJd-c0sBXJx0ARbhq6cu6LjPk",
+        "countryCode": "UA",
+        "lat": 46.2952236,
+        "lng": 30.6480855
+      },
+      "cityTo": {
+        "id": 121106,
+        "name": "Wenzhou, Zhejiang, China",
+        "code": "ChIJsbCLCTDyRTQRHFq0WBMcNbI",
+        "countryCode": "CN",
+        "lat": 27.993828,
+        "lng": 120.699361
+      },
+      "portFrom": {
+        "id": 409,
+        "name": "Chornomorsk",
+        "code": "UAILK",
+        "countryCode": "UA",
+        "lat": 46.337529876646,
+        "lng": 30.677839053341877
+      },
+      "portTo": {
+        "id": 766,
+        "name": "Wenzhou",
+        "code": "CNWNZ",
+        "countryCode": "CN",
+        "lat": 28.035151778552024,
+        "lng": 120.66563259467864
+      },
+      "oceanFreight": {
+        "shippingLine": null,
+        "logo": "https://www.searates.com/design/images/freight/sealine/0.jpg",
+        "price": 475000,
+        "comment": null,
+        "distance": "14663.14 km",
+        "originalPrice": 475000,
+        "originalCurrency": "USD",
+        "transitTime": "30 days",
+        "validTo": "2024-01-29",
+        "co2": 3225890800,
+        "overdue": false,
+        "railFrom": {
+          "price": 8052.75,
+          "distance": "5.37 km",
+          "transitTime": "1",
+          "interpolation": true
+        },
+        "railTo": {
+          "price": 8137.5,
+          "distance": "6.5 km",
+          "transitTime": "1",
+          "interpolation": true
+        }
+      }
+    },
+    {
+      "shipmentId": "19943519",
+      "transportationMode": "ocean",
+      "currency": "USD",
+      "cityFrom": {
+        "id": 123767,
+        "name": "Chornomorsk, Odessa Oblast, Ukraine, 68000",
+        "code": "ChIJd-c0sBXJx0ARbhq6cu6LjPk",
+        "countryCode": "UA",
+        "lat": 46.2952236,
+        "lng": 30.6480855
+      },
+      "cityTo": {
+        "id": 121106,
+        "name": "Wenzhou, Zhejiang, China",
+        "code": "ChIJsbCLCTDyRTQRHFq0WBMcNbI",
+        "countryCode": "CN",
+        "lat": 27.993828,
+        "lng": 120.699361
+      },
+      "portFrom": {
+        "id": 304,
+        "name": "Odesa",
+        "code": "UAODS",
+        "countryCode": "UA",
+        "lat": 46.49999958643309,
+        "lng": 30.730773019409476
+      },
+      "portTo": {
+        "id": 766,
+        "name": "Wenzhou",
+        "code": "CNWNZ",
+        "countryCode": "CN",
+        "lat": 28.035151778552024,
+        "lng": 120.66563259467864
+      },
+      "oceanFreight": {
+        "shippingLine": null,
+        "logo": "https://www.searates.com/design/images/freight/sealine/0.jpg",
+        "price": 475000,
+        "comment": null,
+        "distance": "14792.14 km",
+        "originalPrice": 475000,
+        "originalCurrency": "USD",
+        "transitTime": "30 days",
+        "validTo": "2024-01-29",
+        "co2": 3254270800,
+        "overdue": false,
+        "railFrom": {
+          "price": 9808.5,
+          "distance": "28.78 km",
+          "transitTime": "1",
+          "interpolation": true
+        },
+        "railTo": {
+          "price": 8137.5,
+          "distance": "6.5 km",
+          "transitTime": "1",
+          "interpolation": true
+        }
+      }
+    }
+  ]
+   
+}
+
+async getShipmentDetailsair(
+  fromshipmentMode: ShippingMode,
+  fromCountry: string,
+  fromstate: string,
+  fromname: string,
+  toshipmentMode: ShippingMode,
+  toCountry: string,
+  tostate: string,
+  toname: string,
+  currency: string,
+  weight: number,
+  date : string
+): Promise<Shipmentair[]> {
+  // Fetch coordinates for fromCode and toCode
+  const fromCoordinate = await this.findCoordinatesByName(fromname);
+  const toCoordinate = await this.findCoordinatesByName(toname);
+  const fromlatitude = fromCoordinate.latitude;
+  const fromlongitude = toCoordinate.longitude;
+  const fromCoordinates = [fromlatitude, fromlongitude];
+  const tolatitude = toCoordinate.latitude;
+  const tolongitude = toCoordinate.longitude;
+  const toCoordinates = [tolatitude, tolongitude];
+
+  
+  return  [
+    {
+      "shipmentId": "19945303",
+      "transportationMode": "air",
+      "currency": "USD",
+      "cityFrom": {
+        "id": 132367,
+        "name": "Shanghai, China",
+        "code": "120740",
+        "countryCode": "CN",
+        "lat": 31.2303904,
+        "lng": 121.4737021
+      },
+      "cityTo": {
+        "id": 190621,
+        "name": "Odesa, Odessa Oblast, Ukraine, 65000",
+        "code": "145036",
+        "countryCode": "UA",
+        "lat": 46.482526,
+        "lng": 30.7233095
+      },
+      "portFrom": {
+        "id": 3406,
+        "name": "Pudong",
+        "code": "PVG",
+        "countryCode": "CN",
+        "lat": 31.143378,
+        "lng": 121.805214
+      },
+      "portTo": {
+        "id": 1657,
+        "name": "Henri Coanda",
+        "code": "OTP",
+        "countryCode": "RO",
+        "lat": 44.572161,
+        "lng": 26.102178
+      },
+      "airFreight": {
+        "shippingLine": "Lufthansa",
+        "logo": "https://www.searates.com/design/images/airlines/37.jpg",
+        "price": 295.52,
+        "originalPrice": 295.52,
+        "originalCurrency": "USD",
+        "distance": "8050.49 km",
+        "transitTime": "1 days",
+        "validTo": "2023-12-31",
+        "overdue": true,
+        "portFeesFrom": [
+          {
+            "abbr": "OTHC",
+            "title": "Original Terminal Handling Charge",
+            "originalPrice": 22.5,
+            "originalCurrency": "USD",
+            "text": "This service covers the cost of handling a container at the origin port or terminal. This service is applicable to all shipments.",
+            "price": 22.5,
+            "perLot": false
+          },
+          {
+            "abbr": "EXP",
+            "title": "Export service",
+            "originalPrice": 175,
+            "originalCurrency": "USD",
+            "text": null,
+            "price": 175,
+            "perLot": false
+          }
+        ],
+        "portFeesTo": [
+          {
+            "abbr": "DTHC",
+            "title": "Destination Terminal Handling Charge",
+            "originalPrice": 22.5,
+            "originalCurrency": "USD",
+            "text": "This service covers the cost of the handling of a container at the destination port or terminal. This service is applicable to all shipments.",
+            "price": 22.5,
+            "perLot": false
+          },
+          {
+            "abbr": "IMP",
+            "title": "Import service",
+            "originalPrice": 175,
+            "originalCurrency": "USD",
+            "text": null,
+            "price": 175,
+            "perLot": false
+          }
+        ],
+        "truckFrom": {
+          "price": 767,
+          "distance": "32.98 km",
+          "transitTime": "1 day",
+          "originalPrice": 767,
+          "originalCurrency": "USD",
+          "interpolation": true
+        },
+        "truckTo": {
+          "price": 250.72,
+          "distance": "417.86 km",
+          "originalPrice": 250.72,
+          "originalCurrency": "USD",
+          "transitTime": "1 days",
+          "interpolation": true
+        }
+      }
+    },
+  ]
+}
+
+ 
+
 }
   
   

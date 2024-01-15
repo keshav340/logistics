@@ -1,166 +1,175 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
+@ObjectType()
+export class Truck4 {
+  @Field(() => Float, { nullable: true })
+  price: number;
+
+  @Field({ nullable: true })
+  distance: string;
+
+  @Field({ nullable: true })
+  transitTime: string;
+
+  @Field(() => Float, { nullable: true })
+  originalPrice: number;
+
+  @Field({ nullable: true })
+  originalCurrency: string;
+
+  @Field({ nullable: true })
+  interpolation: boolean;
+}
 
 @ObjectType()
-class Coordinates {
-  @Field(() => Float)
+export class City4 {
+  @Field({ nullable: true })
+  id: number;
+
+  @Field({ nullable: true })
+  name: string;
+
+  @Field({ nullable: true })
+  code: string;
+
+  @Field({ nullable: true })
+  countryCode: string;
+
+  @Field(() => Float, { nullable: true })
   lat: number;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   lng: number;
 }
 
 @ObjectType()
-class City {
-  @Field(() => Float)
+export class Port4 {
+  @Field({ nullable: true })
   id: number;
 
-  @Field()
+  @Field({ nullable: true })
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   code: string;
 
-  @Field()
+  @Field({ nullable: true })
   countryCode: string;
 
-  @Field(() => Coordinates)
-  coordinates: Coordinates;
+  @Field(() => Float, { nullable: true })
+  lat: number;
+
+  @Field(() => Float, { nullable: true })
+  lng: number;
 }
 
 @ObjectType()
-class Port {
-  @Field()
-  name: string;
-
-  @Field()
-  code: string;
-
-  @Field()
-  countryCode: string;
-
-  @Field(() => Coordinates)
-  coordinates: Coordinates;
-}
-
-@ObjectType()
-class PortFee {
-  @Field()
-  abbr: string;
-
-  @Field()
-  title: string;
-
-  @Field({ nullable: true })
-  text?: string;
-
-  @Field(() => Float)
-  originalPrice: number;
-
-  @Field()
-  originalCurrency: string;
-
-  @Field(() => Float)
-  price: number;
-
-  @Field()
-  perLot: boolean;
-}
-
-@ObjectType()
-class Truck {
-  @Field(() => Float)
-  price: number;
-
-  @Field()
-  distance: string;
-
-  @Field()
-  transitTime: string;
-
-  @Field(() => Float)
-  originalPrice: number;
-
-  @Field()
-  originalCurrency: string;
-
-  @Field({ nullable: true })
-  interpolation?: boolean;
-}
-
-@ObjectType()
-class AirFreight {
+export class AirFreight4 {
   @Field({ nullable: true })
   shippingLine: string;
 
-  @Field()
+  @Field({ nullable: true })
   logo: string;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   price: number;
 
-  @Field()
+//   @Field({ nullable: true })
+//   comment: string;
+
+  @Field({ nullable: true })
   distance: string;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   originalPrice: number;
 
-  @Field()
+  @Field({ nullable: true })
   originalCurrency: string;
 
-  @Field()
+  @Field({ nullable: true })
   transitTime: string;
 
   @Field({ nullable: true })
-  validTo?: string;
+  validTo: string;
 
-  @Field()
+  @Field({ nullable: true })
   overdue: boolean;
 
-  @Field(() => [PortFee])
-  portFeesFrom: PortFee[];
+  @Field(() => [PortFees], { nullable: true })
+  portFeesFrom: PortFees[];
 
-  @Field(() => [PortFee])
-  portFeesTo: PortFee[];
+  @Field(() => [PortFees], { nullable: true })
+  portFeesTo: PortFees[];
 
-  @Field(() => Truck)
-  truckFrom: Truck;
+  @Field(() => Truck4, { nullable: true })
+  truckFrom: Truck4;
 
-  @Field(() => Truck)
-  truckTo: Truck;
+  @Field(() => Truck4, { nullable: true })
+  truckTo: Truck4;
 }
 
 @ObjectType()
-class Shipment {
-  @Field()
+export class PortFees {
+  @Field({ nullable: true })
+  abbr: string;
+
+  @Field({ nullable: true })
+  title: string;
+
+  @Field(() => Float, { nullable: true })
+  originalPrice: number;
+
+  @Field({ nullable: true })
+  originalCurrency: string;
+
+  @Field({ nullable: true })
+  text: string;
+
+  @Field(() => Float, { nullable: true })
+  price: number;
+
+  @Field({ nullable: true })
+  perLot: boolean;
+}
+
+
+@ObjectType()
+export class Shipmentair {
+  @Field({ nullable: true })
   shipmentId: string;
 
-  @Field()
+  @Field({ nullable: true })
   transportationMode: string;
 
-  @Field()
+  @Field({ nullable: true })
   currency: string;
 
-  @Field(() => City)
-  cityFrom: City;
+  @Field(() => City4, { nullable: true })
+  cityFrom: City4;
 
-  @Field(() => City)
-  cityTo: City;
+  @Field(() => City4, { nullable: true })
+  cityTo: City4;
 
-  @Field(() => Port)
-  portFrom: Port;
+  @Field(() => Port4, { nullable: true })
+  portFrom: Port4;
 
-  @Field(() => Port)
-  portTo: Port;
+  @Field(() => Port4, { nullable: true })
+  portTo: Port4;
 
-  @Field(() => AirFreight)
-  airFreight: AirFreight;
+  @Field(() => AirFreight4, { nullable: true })
+  airFreight: AirFreight4;
 }
 
 @ObjectType()
-class ShipmentResponse {
-  @Field(() => [Shipment])
-  shipment: Shipment[];
+export class Default4 {
+  @Field(() => [String], { nullable: true })
+  services: string[];
+}
 
-  @Field(() => [String])
-  default: string[];
+@ObjectType()
+export class ShipmentData {
+  @Field(() => [Shipmentair], { nullable: true })
+  shipment: Shipmentair[];
+
+  @Field(() => Default4, { nullable: true })
+  default: Default4;
 }

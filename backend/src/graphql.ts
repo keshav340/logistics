@@ -668,6 +668,130 @@ export interface Shipmentlcl {
     oceanFreight?: Nullable<OceanFreight1>;
 }
 
+export interface City2 {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    code?: Nullable<string>;
+    countryCode?: Nullable<string>;
+    lat?: Nullable<number>;
+    lng?: Nullable<number>;
+}
+
+export interface Port2 {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    code?: Nullable<string>;
+    countryCode?: Nullable<string>;
+    lat?: Nullable<number>;
+    lng?: Nullable<number>;
+}
+
+export interface Rail {
+    price?: Nullable<number>;
+    distance?: Nullable<string>;
+    transitTime?: Nullable<string>;
+    interpolation?: Nullable<boolean>;
+}
+
+export interface OceanFreight2 {
+    shippingLine?: Nullable<string>;
+    logo?: Nullable<string>;
+    price?: Nullable<number>;
+    comment?: Nullable<string>;
+    distance?: Nullable<string>;
+    originalPrice?: Nullable<number>;
+    originalCurrency?: Nullable<string>;
+    transitTime?: Nullable<string>;
+    validTo?: Nullable<string>;
+    co2?: Nullable<number>;
+    overdue?: Nullable<boolean>;
+    railFrom?: Nullable<Rail>;
+    railTo?: Nullable<Rail>;
+}
+
+export interface Shipmentbulk {
+    shipmentId?: Nullable<string>;
+    transportationMode?: Nullable<string>;
+    currency?: Nullable<string>;
+    cityFrom?: Nullable<City2>;
+    cityTo?: Nullable<City2>;
+    portFrom?: Nullable<Port2>;
+    portTo?: Nullable<Port2>;
+    oceanFreight?: Nullable<OceanFreight2>;
+}
+
+export interface Default {
+    services?: Nullable<string[]>;
+}
+
+export interface Truck4 {
+    price?: Nullable<number>;
+    distance?: Nullable<string>;
+    transitTime?: Nullable<string>;
+    originalPrice?: Nullable<number>;
+    originalCurrency?: Nullable<string>;
+    interpolation?: Nullable<boolean>;
+}
+
+export interface City4 {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    code?: Nullable<string>;
+    countryCode?: Nullable<string>;
+    lat?: Nullable<number>;
+    lng?: Nullable<number>;
+}
+
+export interface Port4 {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    code?: Nullable<string>;
+    countryCode?: Nullable<string>;
+    lat?: Nullable<number>;
+    lng?: Nullable<number>;
+}
+
+export interface AirFreight4 {
+    shippingLine?: Nullable<string>;
+    logo?: Nullable<string>;
+    price?: Nullable<number>;
+    distance?: Nullable<string>;
+    originalPrice?: Nullable<number>;
+    originalCurrency?: Nullable<string>;
+    transitTime?: Nullable<string>;
+    validTo?: Nullable<string>;
+    overdue?: Nullable<boolean>;
+    portFeesFrom?: Nullable<PortFees[]>;
+    portFeesTo?: Nullable<PortFees[]>;
+    truckFrom?: Nullable<Truck4>;
+    truckTo?: Nullable<Truck4>;
+}
+
+export interface PortFees {
+    abbr?: Nullable<string>;
+    title?: Nullable<string>;
+    originalPrice?: Nullable<number>;
+    originalCurrency?: Nullable<string>;
+    text?: Nullable<string>;
+    price?: Nullable<number>;
+    perLot?: Nullable<boolean>;
+}
+
+export interface Shipmentair {
+    shipmentId?: Nullable<string>;
+    transportationMode?: Nullable<string>;
+    currency?: Nullable<string>;
+    cityFrom?: Nullable<City4>;
+    cityTo?: Nullable<City4>;
+    portFrom?: Nullable<Port4>;
+    portTo?: Nullable<Port4>;
+    airFreight?: Nullable<AirFreight4>;
+}
+
+export interface Default4 {
+    services?: Nullable<string[]>;
+}
+
 export interface IQuery {
     hello(): string | Promise<string>;
     listInitialRegistrations(): User[] | Promise<User[]>;
@@ -733,6 +857,8 @@ export interface IQuery {
     getCoordinatesByName(name: string): CodeEntity | Promise<CodeEntity>;
     getShipmentDetails(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, ST20: number, ST40: number, REF20: number, REF40: number, HQ40: number, HQ45: number, currency: string, date: string): Shipment[] | Promise<Shipment[]>;
     getShipmentDetailslcl(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, volume: number, date: string): Shipmentlcl[] | Promise<Shipmentlcl[]>;
+    getShipmentDetailsbulk(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, date: string): Shipmentbulk[] | Promise<Shipmentbulk[]>;
+    getShipmentDetailsair(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, date: string): Shipmentair[] | Promise<Shipmentair[]>;
 }
 
 export interface IMutation {

@@ -451,6 +451,130 @@ type Shipmentlcl {
   oceanFreight: OceanFreight1
 }
 
+type City2 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Port2 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Rail {
+  price: Float
+  distance: String
+  transitTime: String
+  interpolation: Boolean
+}
+
+type OceanFreight2 {
+  shippingLine: String
+  logo: String
+  price: Float
+  comment: String
+  distance: String
+  originalPrice: Float
+  originalCurrency: String
+  transitTime: String
+  validTo: String
+  co2: Float
+  overdue: Boolean
+  railFrom: Rail
+  railTo: Rail
+}
+
+type Shipmentbulk {
+  shipmentId: String
+  transportationMode: String
+  currency: String
+  cityFrom: City2
+  cityTo: City2
+  portFrom: Port2
+  portTo: Port2
+  oceanFreight: OceanFreight2
+}
+
+type Default {
+  services: [String!]
+}
+
+type Truck4 {
+  price: Float
+  distance: String
+  transitTime: String
+  originalPrice: Float
+  originalCurrency: String
+  interpolation: Boolean
+}
+
+type City4 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Port4 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type AirFreight4 {
+  shippingLine: String
+  logo: String
+  price: Float
+  distance: String
+  originalPrice: Float
+  originalCurrency: String
+  transitTime: String
+  validTo: String
+  overdue: Boolean
+  portFeesFrom: [PortFees!]
+  portFeesTo: [PortFees!]
+  truckFrom: Truck4
+  truckTo: Truck4
+}
+
+type PortFees {
+  abbr: String
+  title: String
+  originalPrice: Float
+  originalCurrency: String
+  text: String
+  price: Float
+  perLot: Boolean
+}
+
+type Shipmentair {
+  shipmentId: String
+  transportationMode: String
+  currency: String
+  cityFrom: City4
+  cityTo: City4
+  portFrom: Port4
+  portTo: Port4
+  airFreight: AirFreight4
+}
+
+type Default4 {
+  services: [String!]
+}
+
 type Query {
   hello: String!
   listInitialRegistrations: [User!]!
@@ -516,6 +640,8 @@ type Query {
   getCoordinatesByName(name: String!): CodeEntity!
   getShipmentDetails(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, ST20: Float!, ST40: Float!, REF20: Float!, REF40: Float!, HQ40: Float!, HQ45: Float!, currency: String!, date: String!): [Shipment!]!
   getShipmentDetailslcl(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, volume: Float!, date: String!): [Shipmentlcl!]!
+  getShipmentDetailsbulk(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentbulk!]!
+  getShipmentDetailsair(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentair!]!
 }
 
 type Mutation {

@@ -7,6 +7,8 @@ import { CodeEntity } from './code.entity';
 import { City, Port, OceanFreight, Shipment } from './shipment.model';
 import { ShippingMode } from './code.enums';
 import { Shipmentlcl } from './lclmodel';
+import { Shipmentbulk } from './bulkmodel';
+import { Shipmentair } from './airmodel';
 @Resolver('Airport')
 export class AirportResolver {
   constructor(private readonly airportService: AirportService) {}
@@ -140,6 +142,70 @@ async getShipmentDetailslcl(
     currency,
     weight,
     volume,
+    date
+  );
+}
+
+@Query(() => [Shipmentbulk])
+async getShipmentDetailsbulk(
+  @Args('fromshipmentMode', { type: () => ShippingMode }) fromshipmentMode: ShippingMode,
+  @Args('fromCountry') fromCountry: string,
+  @Args('fromstate') fromstate: string,
+  @Args('fromname') fromname: string,
+  @Args('toshipmentMode', { type: () => ShippingMode }) toshipmentMode: ShippingMode,
+  @Args('toCountry') toCountry: string,
+  @Args('tostate') tostate: string,
+  @Args('toname') toname: string,
+  //@Args('st20') st20: number,
+  @Args('currency') currency: string,
+  @Args('weight', { type: () => Float }) weight: number,
+  //@Args('volume', { type: () => Float }) volume: number,
+  @Args('date') date: string,
+): Promise<Shipmentbulk[]> {
+  return this.airportService.getShipmentDetailsbulk(
+    fromshipmentMode,
+    fromCountry,
+    fromstate,
+    fromname,
+    toshipmentMode,
+    toCountry,
+    tostate,
+    toname,
+    currency,
+    weight,
+    date
+  );
+}
+
+
+
+@Query(() => [Shipmentair])
+async getShipmentDetailsair(
+  @Args('fromshipmentMode', { type: () => ShippingMode }) fromshipmentMode: ShippingMode,
+  @Args('fromCountry') fromCountry: string,
+  @Args('fromstate') fromstate: string,
+  @Args('fromname') fromname: string,
+  @Args('toshipmentMode', { type: () => ShippingMode }) toshipmentMode: ShippingMode,
+  @Args('toCountry') toCountry: string,
+  @Args('tostate') tostate: string,
+  @Args('toname') toname: string,
+  //@Args('st20') st20: number,
+  @Args('currency') currency: string,
+  @Args('weight', { type: () => Float }) weight: number,
+  //@Args('volume', { type: () => Float }) volume: number,
+  @Args('date') date: string,
+): Promise<Shipmentair[]> {
+  return this.airportService.getShipmentDetailsair(
+    fromshipmentMode,
+    fromCountry,
+    fromstate,
+    fromname,
+    toshipmentMode,
+    toCountry,
+    tostate,
+    toname,
+    currency,
+    weight,
     date
   );
 }
