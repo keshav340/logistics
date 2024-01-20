@@ -11,12 +11,16 @@ import { Float } from '@nestjs/graphql';
 import { Shipmentlcl } from './lclmodel';
 import { Shipmentbulk } from './bulkmodel';
 import {Shipmentair} from './airmodel'
+import { Bookingshipping } from './booking.entity';
+import { CreateBookingshippingInput } from './bookingshipping.input';
 @Injectable()
 export class AirportService {
   constructor(
 
     @InjectRepository(CodeEntity)
-    private readonly codeRepository: Repository<CodeEntity>
+    private readonly codeRepository: Repository<CodeEntity>,
+    @InjectRepository(Bookingshipping)
+    private readonly bookingshippingRepository: Repository<Bookingshipping>
     
   ) {}
 
@@ -729,6 +733,16 @@ async getShipmentDetailsair(
     },
   ]
 }
+
+async createbooking(input: CreateBookingshippingInput): Promise<Bookingshipping> {
+  const booking = this.bookingshippingRepository.create(input);
+  return await this.bookingshippingRepository.save(booking);
+}
+
+async findAllbooking(): Promise<Bookingshipping[]> {
+  return await this.bookingshippingRepository.find();
+}
+
 
  
 

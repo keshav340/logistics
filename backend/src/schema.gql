@@ -360,6 +360,16 @@ enum ShippingMode {
   Airport
 }
 
+type Bookingshipping {
+  id: ID!
+  departure: String
+  arrival: String
+  readytoload: String
+  typeofdelivery: String
+  cargo_details: String
+  price: String
+}
+
 type City {
   name: String
   countryCode: String
@@ -642,6 +652,7 @@ type Query {
   getShipmentDetailslcl(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, volume: Float!, date: String!): [Shipmentlcl!]!
   getShipmentDetailsbulk(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentbulk!]!
   getShipmentDetailsair(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentair!]!
+  bookingshippings: [Bookingshipping!]!
 }
 
 type Mutation {
@@ -685,6 +696,7 @@ type Mutation {
   updateAirport(input: CreateAirportInput!, name: String!): CodeEntity!
   associateCoordinates(code: String!, latitude: Float!, longitude: Float!): CodeEntity!
   associateCoordinatesbyid(id: Float!, latitude: Float!, longitude: Float!): CodeEntity!
+  createBookingshipping(input: CreateBookingshippingInput!): Bookingshipping!
 }
 
 input EmailInput {
@@ -925,4 +937,13 @@ input CreateAirportInput {
   State: String
   name: String
   ShipmentMode: ShippingMode
+}
+
+input CreateBookingshippingInput {
+  departure: String
+  arrival: String
+  readytoload: String
+  typeofdelivery: String
+  cargo_details: String
+  price: String
 }

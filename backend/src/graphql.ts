@@ -419,6 +419,15 @@ export interface CreateAirportInput {
     ShipmentMode?: Nullable<ShippingMode>;
 }
 
+export interface CreateBookingshippingInput {
+    departure?: Nullable<string>;
+    arrival?: Nullable<string>;
+    readytoload?: Nullable<string>;
+    typeofdelivery?: Nullable<string>;
+    cargo_details?: Nullable<string>;
+    price?: Nullable<string>;
+}
+
 export interface Booking {
     id: string;
     moveInDate?: Nullable<DateTime>;
@@ -575,6 +584,16 @@ export interface CodeEntity {
     code?: Nullable<string>;
     latitude?: Nullable<number>;
     longitude?: Nullable<number>;
+}
+
+export interface Bookingshipping {
+    id: string;
+    departure?: Nullable<string>;
+    arrival?: Nullable<string>;
+    readytoload?: Nullable<string>;
+    typeofdelivery?: Nullable<string>;
+    cargo_details?: Nullable<string>;
+    price?: Nullable<string>;
 }
 
 export interface City {
@@ -859,6 +878,7 @@ export interface IQuery {
     getShipmentDetailslcl(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, volume: number, date: string): Shipmentlcl[] | Promise<Shipmentlcl[]>;
     getShipmentDetailsbulk(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, date: string): Shipmentbulk[] | Promise<Shipmentbulk[]>;
     getShipmentDetailsair(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, date: string): Shipmentair[] | Promise<Shipmentair[]>;
+    bookingshippings(): Bookingshipping[] | Promise<Bookingshipping[]>;
 }
 
 export interface IMutation {
@@ -902,6 +922,7 @@ export interface IMutation {
     updateAirport(input: CreateAirportInput, name: string): CodeEntity | Promise<CodeEntity>;
     associateCoordinates(code: string, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
     associateCoordinatesbyid(id: number, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
+    createBookingshipping(input: CreateBookingshippingInput): Bookingshipping | Promise<Bookingshipping>;
 }
 
 export type DateTime = any;

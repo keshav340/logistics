@@ -9,6 +9,8 @@ import { ShippingMode } from './code.enums';
 import { Shipmentlcl } from './lclmodel';
 import { Shipmentbulk } from './bulkmodel';
 import { Shipmentair } from './airmodel';
+import { Bookingshipping } from './booking.entity';
+import { CreateBookingshippingInput } from './bookingshipping.input';
 @Resolver('Airport')
 export class AirportResolver {
   constructor(private readonly airportService: AirportService) {}
@@ -209,6 +211,17 @@ async getShipmentDetailsair(
     date
   );
 }
+@Mutation(() => Bookingshipping)
+async createBookingshipping(
+  @Args('input') input:CreateBookingshippingInput,
+): Promise<Bookingshipping> {
+  return this.airportService.createbooking(input)
+}
 
+
+@Query(() => [Bookingshipping])
+async bookingshippings(): Promise<Bookingshipping[]> {
+  return this.airportService.findAllbooking();
+}
 
 }
