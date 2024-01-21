@@ -11,6 +11,8 @@ import { Shipmentbulk } from './bulkmodel';
 import { Shipmentair } from './airmodel';
 import { Bookingshipping } from './booking.entity';
 import { CreateBookingshippingInput } from './bookingshipping.input';
+import { BookingshippingContactinfo } from './bookingcontact.entity';
+import { BookingshippingContactinfoInput } from './bookingcontact.input';
 @Resolver('Airport')
 export class AirportResolver {
   constructor(private readonly airportService: AirportService) {}
@@ -222,6 +224,15 @@ async createBookingshipping(
 @Query(() => [Bookingshipping])
 async bookingshippings(): Promise<Bookingshipping[]> {
   return this.airportService.findAllbooking();
+}
+
+@Mutation(()=>BookingshippingContactinfo)
+async createbookingcontact(@Args('input') input: BookingshippingContactinfoInput):Promise<BookingshippingContactinfo>{
+  return this.airportService.createbookingcontact(input);
+}
+@Query(()=>BookingshippingContactinfo)
+async allcreatebookingcontact():Promise<BookingshippingContactinfo[]>{
+  return this.airportService.allcreatebookingcontact();
 }
 
 }

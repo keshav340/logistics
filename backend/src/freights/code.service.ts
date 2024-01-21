@@ -13,9 +13,13 @@ import { Shipmentbulk } from './bulkmodel';
 import {Shipmentair} from './airmodel'
 import { Bookingshipping } from './booking.entity';
 import { CreateBookingshippingInput } from './bookingshipping.input';
+import { BookingshippingContactinfoInput } from './bookingcontact.input';
+import { BookingshippingContactinfo } from './bookingcontact.entity';
 @Injectable()
 export class AirportService {
   constructor(
+    @InjectRepository(BookingshippingContactinfo)
+    private readonly bookingshippingcontactrepository:Repository<BookingshippingContactinfo>,
 
     @InjectRepository(CodeEntity)
     private readonly codeRepository: Repository<CodeEntity>,
@@ -743,8 +747,14 @@ async findAllbooking(): Promise<Bookingshipping[]> {
   return await this.bookingshippingRepository.find();
 }
 
-
+async createbookingcontact(input:BookingshippingContactinfoInput):Promise<BookingshippingContactinfo>{
+   const contactbooking = this.bookingshippingcontactrepository.create(input);
+   return await this.bookingshippingcontactrepository.save(contactbooking);
+}
  
+async allcreatebookingcontact(): Promise<BookingshippingContactinfo[]>{
+  return await this.bookingshippingcontactrepository.find();
+}
 
 }
   

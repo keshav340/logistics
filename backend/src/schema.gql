@@ -370,6 +370,15 @@ type Bookingshipping {
   price: String
 }
 
+type BookingshippingContactinfo {
+  id: ID!
+  firstname: String
+  lastname: String
+  phoneno: String
+  email: String
+  description: String
+}
+
 type City {
   name: String
   countryCode: String
@@ -653,6 +662,7 @@ type Query {
   getShipmentDetailsbulk(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentbulk!]!
   getShipmentDetailsair(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentair!]!
   bookingshippings: [Bookingshipping!]!
+  allcreatebookingcontact: BookingshippingContactinfo!
 }
 
 type Mutation {
@@ -697,6 +707,7 @@ type Mutation {
   associateCoordinates(code: String!, latitude: Float!, longitude: Float!): CodeEntity!
   associateCoordinatesbyid(id: Float!, latitude: Float!, longitude: Float!): CodeEntity!
   createBookingshipping(input: CreateBookingshippingInput!): Bookingshipping!
+  createbookingcontact(input: BookingshippingContactinfoInput!): BookingshippingContactinfo!
 }
 
 input EmailInput {
@@ -946,4 +957,12 @@ input CreateBookingshippingInput {
   typeofdelivery: String
   cargo_details: String
   price: String
+}
+
+input BookingshippingContactinfoInput {
+  firstname: String
+  lastname: String
+  phoneno: String
+  email: String
+  description: String
 }

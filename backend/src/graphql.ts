@@ -428,6 +428,14 @@ export interface CreateBookingshippingInput {
     price?: Nullable<string>;
 }
 
+export interface BookingshippingContactinfoInput {
+    firstname?: Nullable<string>;
+    lastname?: Nullable<string>;
+    phoneno?: Nullable<string>;
+    email?: Nullable<string>;
+    description?: Nullable<string>;
+}
+
 export interface Booking {
     id: string;
     moveInDate?: Nullable<DateTime>;
@@ -594,6 +602,15 @@ export interface Bookingshipping {
     typeofdelivery?: Nullable<string>;
     cargo_details?: Nullable<string>;
     price?: Nullable<string>;
+}
+
+export interface BookingshippingContactinfo {
+    id: string;
+    firstname?: Nullable<string>;
+    lastname?: Nullable<string>;
+    phoneno?: Nullable<string>;
+    email?: Nullable<string>;
+    description?: Nullable<string>;
 }
 
 export interface City {
@@ -879,6 +896,7 @@ export interface IQuery {
     getShipmentDetailsbulk(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, date: string): Shipmentbulk[] | Promise<Shipmentbulk[]>;
     getShipmentDetailsair(fromshipmentMode: ShippingMode, fromCountry: string, fromstate: string, fromname: string, toshipmentMode: ShippingMode, toCountry: string, tostate: string, toname: string, currency: string, weight: number, date: string): Shipmentair[] | Promise<Shipmentair[]>;
     bookingshippings(): Bookingshipping[] | Promise<Bookingshipping[]>;
+    allcreatebookingcontact(): BookingshippingContactinfo | Promise<BookingshippingContactinfo>;
 }
 
 export interface IMutation {
@@ -923,6 +941,7 @@ export interface IMutation {
     associateCoordinates(code: string, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
     associateCoordinatesbyid(id: number, latitude: number, longitude: number): CodeEntity | Promise<CodeEntity>;
     createBookingshipping(input: CreateBookingshippingInput): Bookingshipping | Promise<Bookingshipping>;
+    createbookingcontact(input: BookingshippingContactinfoInput): BookingshippingContactinfo | Promise<BookingshippingContactinfo>;
 }
 
 export type DateTime = any;
