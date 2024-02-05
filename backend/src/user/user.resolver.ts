@@ -151,8 +151,18 @@ async verifyEmail(@Args('token') token: string,
   @Mutation(()=>User)
   async sendtoreveiwuser(
     @Args('userId') userId: number,
+    @Args('remarks') remarks: string
   ): Promise<User>{
-    return this.userService.sendtoreveiweduser(userId);
+    return this.userService.sendtoreveiweduser(userId,remarks);
+  }
+  @Query(() => User)
+  async getRevertedUser(@Args('userid', { type: () => Int }) userid: number): Promise<User> {
+    try {
+      const revertedUser = await this.userService.getallreverteduser(userid);
+      return revertedUser;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
   
   

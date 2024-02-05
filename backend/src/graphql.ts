@@ -836,6 +836,7 @@ export interface IQuery {
     listreveiweduser(): User[] | Promise<User[]>;
     listAllOtps(): string[] | Promise<string[]>;
     getOtpByEmail(email: string): Nullable<string> | Promise<Nullable<string>>;
+    getRevertedUser(userid: number): User | Promise<User>;
     listNonApprovedUsers(userType: string, CustomerSubType?: Nullable<string>, VendorSubType?: Nullable<string>, OverseasAgentSubType?: Nullable<string>): User[] | Promise<User[]>;
     getUserById(userId: number): User | Promise<User>;
     getFinalRegisteredUserById(userId: number): User | Promise<User>;
@@ -907,7 +908,7 @@ export interface IMutation {
     initialRegistration(userInput: SelectUserTypeAndSubtypeInput, emailInput: EmailInput): User | Promise<User>;
     savePassword(passwordInput: Password, userId: number): User | Promise<User>;
     adminRegister(Admin: Admin): User | Promise<User>;
-    sendtoreveiwuser(userId: number): User | Promise<User>;
+    sendtoreveiwuser(userId: number, remarks: string): User | Promise<User>;
     finalreg(input: Finalreg, userId: number, userInput: UpdateUsertype, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
     approvereveiwedUser(userId: number, input: Updateapproved, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;
     approveUser(userId: number, input: Updateapproved, compcontact: CompanyContactDto, corpad: CorporateAddressDto, kycin: KycInput): User | Promise<User>;

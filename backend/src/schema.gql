@@ -602,6 +602,7 @@ type Query {
   listreveiweduser: [User!]!
   listAllOtps: [String!]!
   getOtpByEmail(email: String!): String
+  getRevertedUser(userid: Int!): User!
   listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
   getUserById(userId: Int!): User!
   getFinalRegisteredUserById(userId: Int!): User!
@@ -673,7 +674,7 @@ type Mutation {
   initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
   savePassword(passwordInput: Password!, userId: Float!): User!
   adminRegister(Admin: Admin!): User!
-  sendtoreveiwuser(userId: Float!): User!
+  sendtoreveiwuser(userId: Float!, remarks: String!): User!
   finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
   approvereveiwedUser(userId: Int!, input: Updateapproved!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
   approveUser(userId: Int!, input: Updateapproved!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!

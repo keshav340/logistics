@@ -271,9 +271,10 @@ export class UserService {
     }
     
   }
-  async sendtoreveiweduser(userId:number): Promise<User> {
+  async sendtoreveiweduser(userId:number,remarks:string): Promise<User> {
     const user = await this.userRepository.findOne({where:{id:userId}})
     user.isapproved = ApprovedUser.REVEIW_PENDING
+    user.remarks = remarks;
     await this.userRepository.save(user);
     return user;
   }
@@ -657,6 +658,14 @@ export class UserService {
       throw new Error('User not found');
     }
     return user;
+  }
+  async getallreverteduser(userid:number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userid, isapproved: ApprovedUser.REVEIW_PENDING} });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      return user;
+
   }
 
   async getFinalRegisteredUserById(userId: number): Promise<User> {
