@@ -516,7 +516,7 @@ async getShipmentDetailsbulk(
       },
       "oceanFreight": {
         "shippingLine": null,
-        "logo": "https://www.searates.com/design/images/freight/sealine/0.jpg",
+        "logo": "https://drive.google.com/file/d/1GlNyzDTbLPzZTb3qTzjOLqGkp7JjOgbh/view?usp=sharing",
         "price": 475000,
         "comment": null,
         "distance": "14663.14 km",
@@ -578,7 +578,7 @@ async getShipmentDetailsbulk(
       },
       "oceanFreight": {
         "shippingLine": null,
-        "logo": "https://www.searates.com/design/images/freight/sealine/0.jpg",
+        "logo": "https://drive.google.com/file/d/1bgSbrkbEYk1nyQJxM_MhZaZUn6IbDdvB/view?usp=drive_link",
         "price": 475000,
         "comment": null,
         "distance": "14792.14 km",
