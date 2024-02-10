@@ -734,8 +734,8 @@ export class UserService {
       const env = this.configService.get<string>('NODE_ENV')
       const reviewLink =
         env == 'production'
-          ? `https://app.glob/xtrade.co.in/vendor-review-form/${hashedToken}`
-          : `http://localhost:3002/vendor-review-form/${hashedToken}`;
+          ? `https://app.glob/xtrade.co.in/vendor-review-form/?token=${token}`
+          : `http://localhost:3002/vendor-review-form/?token=${token}`;
           console.log('DATABASE_HOST:',env);
           //console.log('DATABASE_PORT:', process.env.DATABASE_PORT);
    
