@@ -266,4 +266,11 @@ async verifyEmail(@Args('token') token: string,
 
     return user;
   }
+
+  @Query(() => [User], { name: 'getAllRevertedUsers' })
+  async getAllRevertedUsers(): Promise<User[]> {
+    return this.userService.getAllRevertedUsers();
+  }
+
+
 }

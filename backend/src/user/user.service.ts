@@ -660,13 +660,21 @@ export class UserService {
     return user;
   }
   async getallreverteduser(userid:number): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id: userid, isapproved: ApprovedUser.REVEIW_PENDING} });
+    const user = await this.userRepository.findOne({ where: { id: userid, isapproved: ApprovedUser.Reverted_user} });
       if (!user) {
         throw new Error('User not found');
       }
       return user;
 
   }
+  async getAllRevertedUsers(): Promise<User[]> {
+    const users = await this.userRepository.find({ where: { isapproved: ApprovedUser.Reverted_user } });
+    if (!users || users.length === 0) {
+        throw new Error('No users found');
+    }
+    return users;
+}
+
 
   async getFinalRegisteredUserById(userId: number): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id: userId,isapproved:ApprovedUser.Approval_pending } });
